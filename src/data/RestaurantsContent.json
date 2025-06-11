@@ -1,0 +1,26 @@
+[
+{
+    "name" : "מסעדה 1",
+    "location": "",
+    "deliveryTime": "",
+    "deliveryPrice": "",
+    "rating": "",
+    "priceRange": ""
+},
+{
+    "name" : "מסעדה 2",
+    "location": "",
+    "deliveryTime": "",
+    "deliveryPrice": "",
+    "rating": "",
+    "priceRange": ""
+},
+{
+    "name" : "מסעדה 3",
+    "location": "",
+    "deliveryTime": "",
+    "deliveryPrice": "",
+    "rating": "",
+    "priceRange": ""
+}
+]
