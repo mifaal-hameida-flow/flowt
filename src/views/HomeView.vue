@@ -3,7 +3,7 @@ import RestaurantCard from '../components/RestaurantCard.vue';
 import { ref } from 'vue';
 import RestaurantsContent from '../data/RestaurantsContent.json';
 import popupGuideContent from '../data/popupGuideContent.json';
-import popupGuide from '../components/popupGuide.vue';
+import popupGuide from 'src/components/popupGuide.vue';
 import BottomBar from '../components/BottomBar.vue';
 
 const step = ref(0);
