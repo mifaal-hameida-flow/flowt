@@ -3,9 +3,9 @@ import { ref } from 'vue'
 
 const bottomBarData = ref([
   { text: "מומלץ עבורך", src: "src/assets/media/bottombar/like.png", active: false },
-  { text: "מסעדות", src: "src/assets/media/bottombar/restaurant.png", active: false },
+  { text: "מסעדות", src: "src/assets/media/bottombar/restaurant.png", active: true },
   { text: "חיפוש", src: "src/assets/media/bottombar/loupe.png", active: false },
-  { text: "אזור אישי", src: "src/assets/media/bottombar/user.png", active: true },
+  { text: "אזור אישי", src: "src/assets/media/bottombar/user.png", active: false },
 ])
 </script>
 <!-- src\assets\media\bottombar\restaurant.png -->
