@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 const props = defineProps({
-  currentStepIndex: Number
-})
-const currentStep = popupGuideContent[props.currentStepIndex];
-const firstCard = currentStep.cards[0];
+  stepInfo: Object
+}) 
+const firstCard = props.stepInfo.cards[0];
 </script>
 
 <template>
