@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import popupGuideContent from 'src/data/popupGuideContent.json';
+import popupGuideContent from '../data/popupGuideContent.json';
 const currentStepIndex = ref(0);
 const currentStep = popupGuideContent[currentStepIndex.value];
 

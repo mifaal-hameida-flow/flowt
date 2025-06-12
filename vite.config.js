@@ -6,5 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: '/flowt/', // 👈 Add this line – must match your repo name
   plugins: [vue(), tailwindcss()],
+   build: {
+    rollupOptions: {
+      external: ['../data/popupGuideContent.json']
+    }
+  }
 })
 
