@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import popupGuideContent from '../data/popupGuideContent.json';
-const currentStepIndex = ref(0);
-const currentStep = popupGuideContent[currentStepIndex.value];
-
-// We'll just grab the first card of the first step
+const props = defineProps({
+  currentStepIndex: Number
+})
+const currentStep = popupGuideContent[props.currentStepIndex];
 const firstCard = currentStep.cards[0];
 </script>
 
