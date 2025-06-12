@@ -19,7 +19,7 @@ const step = ref(0);
             :restaurantName="restaurant.name"
             />
         <popupGuide
-            :stepInfo="popupGuideContent[step]"
+            :stepInfo="PopupGuideContent[step]"
              />
         <BottomBar/>
     </div>
