@@ -22,9 +22,9 @@ const step = ref(0);
                 />
         </div>
        
-        <!-- <popupGuide
+        <popupGuide
             :stepInfo="PopupGuideContent[step]"
-             /> -->
+             />
         <TopBar/>     
         <BottomBar/>
     </div>
