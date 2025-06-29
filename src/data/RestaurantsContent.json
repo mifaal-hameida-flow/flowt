@@ -1,42 +1,47 @@
 [
-{
-    "name" : "מסעדה 1",
-    "location": "",
-    "deliveryTime": "",
-    "deliveryPrice": "",
-    "rating": "",
-    "priceRange": ""
-},
-{
-    "name" : "מסעדה 2",
-    "location": "",
-    "deliveryTime": "",
-    "deliveryPrice": "",
-    "rating": "",
-    "priceRange": ""
-},
-{
-    "name" : "מסעדה 3",
-    "location": "",
-    "deliveryTime": "",
-    "deliveryPrice": "",
-    "rating": "",
-    "priceRange": ""
-},
-{
-    "name" : "מסעדה 4",
-    "location": "",
-    "deliveryTime": "",
-    "deliveryPrice": "",
-    "rating": "",
-    "priceRange": ""
-},
-{
-    "name" : "מסעדה 5",
-    "location": "",
-    "deliveryTime": "",
-    "deliveryPrice": "",
-    "rating": "",
-    "priceRange": ""
-}
+  {
+    "name": "סושי טאקאה",
+    "location": "תל אביב",
+    "deliveryTime": 25,
+    "deliveryPrice": "₪10.00",
+    "rating": 4.6,
+    "priceRange": "₪₪",
+    "src": "src/assets/media/restaurant cards/asian.avif"
+  },
+  {
+    "name": "מאפיית מיכאל",
+    "location": "רמת גן",
+    "deliveryTime": 20,
+    "deliveryPrice": "חינם",
+    "rating": 4.3,
+    "priceRange": "₪",
+    "src": "src/assets/media/restaurant cards/bakery.avif"
+  },
+  {
+    "name": "בורגר בר",
+    "location": "פתח תקווה",
+    "deliveryTime": 35,
+    "deliveryPrice": "₪12.00",
+    "rating": 4.5,
+    "priceRange": "₪₪₪",
+    "src": "src/assets/media/restaurant cards/burgers.avif"
+  },
+  {
+    "name": "KFC גבעתיים",
+    "location": "גבעתיים",
+    "deliveryTime": 30,
+    "deliveryPrice": "₪8.00",
+    "rating": 4.0,
+    "priceRange": "₪₪",
+    "src": "src/assets/media/restaurant cards/kfc.jpeg"
+  },
+  {
+    "name": "חומוס אשכרה",
+    "location": "חולון",
+    "deliveryTime": 22,
+    "deliveryPrice": "חינם",
+    "rating": 4.4,
+    "priceRange": "₪",
+    "src": "src/assets/media/restaurant cards/middle-eastern.avif"
+  }
 ]

@@ -15,7 +15,7 @@ import TopBar from '../components/TopBar.vue';
             <RestaurantCard
                 v-for="(restaurant, index) in RestaurantsContent"
                 :key="index"
-                :restaurantName="restaurant.name"
+                :restaurantInfo="restaurant"
                 />
         </div>
         <TopBar/>     
