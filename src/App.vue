@@ -84,6 +84,7 @@ onMounted(() => {
   <div v-else>
     <HomeView/>
     <popupGuide
+      v-if="!showLoader"
       :stepInfo="PopupGuideContent[step]"
       :initial-card="cardNumber"
       @next-step="nextStep"

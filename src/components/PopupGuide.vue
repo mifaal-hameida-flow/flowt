@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed} from 'vue';
 
 // Props
 const props = defineProps({
@@ -21,9 +21,6 @@ const nameRegex = /^[A-Za-zא-ת\s]+$/;
 const isDev = import.meta.env.DEV;
 // Load saved name
 onMounted(() => {
-//   if (isDev) {
-//     localStorage.removeItem('userName'); 
-//   }
   const savedName = localStorage.getItem('userName');
   if (savedName) {
     userName.value = savedName;
@@ -82,9 +79,11 @@ const handleCard = (event) => {
     </button>
   </div>
   <div v-if="firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
+  :key="`${stepInfo.step}-${cardNumber}`"
   :class="{ 'fade-enter': firstCard.id === 1 }">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-6 rounded-xl shadow-lg text-center"
-     :class="{ 'animate-zoom': firstCard.id === 1 }">
+    :key="`${stepInfo.step}-${cardNumber}`" 
+    :class="{ 'animate-zoom': firstCard.id === 1 }">
       
       <p v-if="firstCard.preTitle" class="mb-3">{{ firstCard.preTitle }}</p>
       <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#009DE0] font-title">{{ firstCard.title }}</h2>

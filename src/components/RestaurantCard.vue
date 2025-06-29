@@ -6,7 +6,7 @@ const props = defineProps({
 
 <template>
     <div class="flex w-screen justify-center">
-        <div class="bg-white rounded-xl shadow-lg text-center w-64 h-18 m-2 text-black flex items-center justify-center text-lg">
+        <div class="bg-white rounded-xl shadow-lg text-center w-80 h-24 m-2 text-black flex items-center justify-center text-lg">
             {{ restaurantName }}
         </div>
     </div>

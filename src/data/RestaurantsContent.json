@@ -22,5 +22,21 @@
     "deliveryPrice": "",
     "rating": "",
     "priceRange": ""
+},
+{
+    "name" : "מסעדה 4",
+    "location": "",
+    "deliveryTime": "",
+    "deliveryPrice": "",
+    "rating": "",
+    "priceRange": ""
+},
+{
+    "name" : "מסעדה 5",
+    "location": "",
+    "deliveryTime": "",
+    "deliveryPrice": "",
+    "rating": "",
+    "priceRange": ""
 }
 ]
