@@ -3,7 +3,7 @@
 <template>
   <div class="absolute top-0 right-0 z-52 w-screen h-screen bg-[#00BEE5] flex flex-col items-center justify-start pt-8">
     <!-- Your image -->
-    <img src="../assets/media/loader/flowt2.jpeg" class="w-3/4 max-w-xs mb-6" />
+    <img src="../assets/media/loader/flowt2.jpeg" class="w-full max-w-xs mb-6" />
 
     <!-- Spinner + Text -->
     <div class="flex flex-col items-center text-white">

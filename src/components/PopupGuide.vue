@@ -3,10 +3,11 @@ import { ref, onMounted, computed } from 'vue';
 
 // Props
 const props = defineProps({
-  stepInfo: Object
+  stepInfo: Object,
+  initialCard: Number
 });
-const cardNumber = ref(0);
-const emit = defineEmits(['next-step']);
+const cardNumber = ref(props.initialCard || 0);
+const emit = defineEmits(['next-step', 'card-number']);
 const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
 
 
@@ -20,10 +21,9 @@ const nameRegex = /^[A-Za-zא-ת\s]+$/;
 const isDev = import.meta.env.DEV;
 // Load saved name
 onMounted(() => {
-  if (isDev) {
-    localStorage.removeItem('userName'); // dev-only clear
-  }
-
+//   if (isDev) {
+//     localStorage.removeItem('userName'); 
+//   }
   const savedName = localStorage.getItem('userName');
   if (savedName) {
     userName.value = savedName;
@@ -49,7 +49,6 @@ const confirmName = () => {
   }
 };
 
-
 // Clear input
 const clearInput = () => {
   userName.value = '';
@@ -68,6 +67,7 @@ const handleCard = (event) => {
  } else {
     cardNumber.value--;
  }
+ emit('card-number', cardNumber.value);
 };
 
 </script>
