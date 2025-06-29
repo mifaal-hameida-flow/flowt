@@ -81,8 +81,10 @@ const handleCard = (event) => {
         איפוס שם (dev)
     </button>
   </div>
-  <div v-if="firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center">
-    <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-6 rounded-xl shadow-lg text-center">
+  <div v-if="firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
+  :class="{ 'fade-enter': firstCard.id === 1 }">
+    <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-6 rounded-xl shadow-lg text-center"
+     :class="{ 'animate-zoom': firstCard.id === 1 }">
       
       <p v-if="firstCard.preTitle" class="mb-3">{{ firstCard.preTitle }}</p>
       <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#009DE0] font-title">{{ firstCard.title }}</h2>
@@ -145,15 +147,24 @@ const handleCard = (event) => {
                 </div>
             </div>
         </div>
+        <!-- buttons container -->
+        <div class="w-full flex justify-between items-center">
+            <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
+                <img @click="handleCard" class="mr-2 h-8 w-8 object-contain" src="../assets/media/buttons/next-arrow.png" alt="next button"/>
+            </div>
 
-        <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
-            <img @click="handleCard" class="mr-2 h-8 w-8 object-contain" src="../assets/media/buttons/next-arrow.png" alt="next button"/>
-        </div>
+            <div class="w-full flex justify-start" v-if="firstCard.buttonBack">
+                <img @click="handleCard" class="mr-2 h-8 w-8 object-contain" src="../assets/media/buttons/back-arrow.png" alt="back button"/>
+            </div>
 
-        <div class="w-full flex justify-start" v-if="firstCard.buttonBack">
-            <img @click="handleCard" class="mr-2 h-8 w-8 object-contain" src="../assets/media/buttons/back-arrow.png" alt="back button"/>
-        </div>
-
+            <div class="w-full flex justify-end" v-if="firstCard.buttonTask && stepInfo.step !== 0">
+                <span @click="nextStep" class="px-2 py-1 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2">
+                    <p class="text-sm text-[#009DE0]">{{ firstCard.buttonTask.msg }}</p>
+                    <img :src="firstCard.buttonTask.src" alt="task image" class="mr-1 h-6 w-6 object-contain" />
+                </span>
+            </div>
+         </div>
+        
     </div>
   </div>
 </template>
@@ -163,5 +174,32 @@ const handleCard = (event) => {
 input:focus {
   border: 1px solid #009DE0;
   outline: none;
+}
+
+.fade-enter {
+  animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Zoom-in animation for the card */
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-zoom {
+  animation: zoomIn 0.4s ease-out;
 }
 </style>

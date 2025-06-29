@@ -9,17 +9,16 @@ const step = ref(0);
 
 const nextStep = () => {
   step.value++;
-  console.log(step.value)
 }
 
 </script>
 
 <template>
   <HomeView/>
-<popupGuide
-  :stepInfo="PopupGuideContent[step]"
-  @next-step="nextStep"
-/>
+  <popupGuide
+    :stepInfo="PopupGuideContent[step]"
+    @next-step="nextStep"
+  />
 
 </template>
 

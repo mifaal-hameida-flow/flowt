@@ -36,7 +36,10 @@
           "גללו למטה ובחרו מסעדה שמעניינת אתכם. ", 
           "תוך כדי נבין מה הנתונים שמרכיבים את התצוגה הזאת"
         ],
-        "buttonTask": true,
+        "buttonTask": {
+          "src" : "src/assets/media/buttons/click.png",
+          "msg" : "יאללה נבחר!"
+        },
         "buttonBack": true
       }
     ]
