@@ -12,7 +12,10 @@
           "אז מה נשאר? לבחור מסעדה ולהתחיל לגלות."
         ],
         "input": true,
-        "buttonTask": true
+        "buttonTask": {
+          "src" : "src/assets/media/buttons/delivery-man.png",
+          "msg" : "יאללה נזמין!"
+        }
       }
     ]
   },

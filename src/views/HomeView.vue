@@ -2,12 +2,9 @@
 import RestaurantCard from '../components/RestaurantCard.vue';
 import { ref } from 'vue';
 import RestaurantsContent from '../data/RestaurantsContent.json';
-import PopupGuideContent from '../data/PopupGuideContent.json';
-import PopupGuide from '../components/PopupGuide.vue';
 import BottomBar from '../components/BottomBar.vue';
 import TopBar from '../components/TopBar.vue';
 
-const step = ref(0);
 </script>
 
 <template>
@@ -21,10 +18,6 @@ const step = ref(0);
                 :restaurantName="restaurant.name"
                 />
         </div>
-       
-        <popupGuide
-            :stepInfo="PopupGuideContent[step]"
-             />
         <TopBar/>     
         <BottomBar/>
     </div>

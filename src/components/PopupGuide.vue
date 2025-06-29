@@ -1,11 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 // Props
 const props = defineProps({
   stepInfo: Object
 });
-const firstCard = props.stepInfo.cards[0];
+const cardNumber = ref(0);
+const emit = defineEmits(['next-step']);
+const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
+
 
 // State
 const userName = ref('');
@@ -54,6 +57,19 @@ const clearInput = () => {
   showGreeting.value = false;
   localStorage.removeItem('userName');
 };
+
+const nextStep = () => {
+    emit('next-step');
+};
+
+const handleCard = (event) => {
+ if (event.currentTarget.alt.includes("next")) {
+    cardNumber.value++;
+ } else {
+    cardNumber.value--;
+ }
+};
+
 </script>
 <template>
     <!-- Always visible in dev -->
@@ -75,48 +91,69 @@ const clearInput = () => {
         <p>{{ paragraph }}</p>
       </div>
 
-      <!-- Greeting instead of input -->
-      <div v-if="showGreeting" class="text-green-700 font-bold mt-2">
-        בתיאבון, {{ userName }}!
-      </div>
+      <!-- only relevant for the first step -->
+       <div v-if="stepInfo.step === 0" class="w-full flex flex-col items-center">
+                <!-- Button with text and image -->
+            <div v-if="firstCard.buttonTask && showGreeting"
+                class="px-4 py-2 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2"
+                @click="nextStep"
+                >
+                    <p class="text-s text-[#009DE0]">{{ firstCard.buttonTask.msg }}</p>
+                    <img :src="firstCard.buttonTask.src" alt="task image" class="mr-2 h-8 w-8 object-contain" />
+            </div>
+                <!-- Greeting -->
+            <div v-if="showGreeting"
+            class="text-black font-bold mt-2 self-start text-left w-full max-w-xs">
+            בתיאבון, {{ userName }}!
+            </div>
 
-      <!-- Input Field -->
-      <div v-else-if="!showGreeting" class="relative w-full max-w-xs">
-        <input
-          class="bg-white p-1 pl-2 pr-6 w-full text-sm rounded-sm border"
-          :class="{
-            'border-green-500': isValid,
-            'border-red-500': userName && !isValid
-          }"
-          v-if="firstCard.input"
-          v-model="userName"
-          placeholder="הכניסו את שמכם..."
-          @input="handleInput"
-        />
-        <!-- Confirmation Button -->
-        <button
-        v-if="isValid && !showGreeting"
-        @click="confirmName"
-        class="mt-2 bg-[#009DE0] text-white px-4 py-1 rounded text-sm"
-        >
-        אישור
-        </button>
+            <!-- Input Field -->
+            <div v-else-if="!showGreeting" class="relative w-full max-w-xs">
+                <input
+                class="bg-white p-1 pl-2 pr-6 w-full text-sm rounded-sm border"
+                :class="{
+                    'border-green-500': isValid,
+                    'border-red-500': userName && !isValid
+                }"
+                v-if="firstCard.input"
+                v-model="userName"
+                placeholder="הכניסו את שמכם..."
+                @input="handleInput"
+                />
+                <!-- Confirmation Button -->
+                <button
+                v-if="isValid && !showGreeting"
+                @click="confirmName"
+                class="mt-2 bg-[#009DE0] text-white px-4 py-1 rounded text-sm"
+                >
+                אישור
+                </button>
 
-        <!-- X Clear Button -->
-        <button
-          v-if="userName"
-          @click="clearInput"
-          class="absolute right-1 top-1 text-gray-500 hover:text-red-500 text-sm"
-        >
-          ✕
-        </button>
+                <!-- X Clear Button -->
+                <button
+                v-if="userName"
+                @click="clearInput"
+                class="absolute right-1 top-1 text-gray-500 hover:text-red-500 text-sm"
+                >
+                ✕
+                </button>
 
-        <!-- Validation Message -->
-        <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
-          <span v-if="isValid" class="text-green-600">✔️ שם תקין</span>
-          <span v-else class="text-red-600">❌ שם לא תקין</span>
+                <!-- Validation Message -->
+                <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
+                    <span v-if="isValid" class="text-green-600">✔️ שם תקין</span>
+                    <span v-else class="text-red-600">❌ שם לא תקין</span>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
+            <img @click="handleCard" class="mr-2 h-8 w-8 object-contain" src="../assets/media/buttons/next-arrow.png" alt="next button"/>
+        </div>
+
+        <div class="w-full flex justify-start" v-if="firstCard.buttonBack">
+            <img @click="handleCard" class="mr-2 h-8 w-8 object-contain" src="../assets/media/buttons/back-arrow.png" alt="back button"/>
+        </div>
+
     </div>
   </div>
 </template>
