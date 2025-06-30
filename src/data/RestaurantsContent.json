@@ -6,7 +6,7 @@
     "deliveryPrice": "₪10.00",
     "rating": 4.6,
     "priceRange": "₪₪",
-    "src": "./media/restaurantcards/asian.avif"
+    "src": "././media/restaurantcards/asian.avif"
   },
   {
     "name": "מאפיית מיכאל",
@@ -15,7 +15,7 @@
     "deliveryPrice": "חינם",
     "rating": 4.3,
     "priceRange": "₪",
-    "src": "./media/restaurantcards/bakery.avif"
+    "src": "././media/restaurantcards/bakery.avif"
   },
   {
     "name": "בורגר בר",
@@ -24,7 +24,7 @@
     "deliveryPrice": "₪12.00",
     "rating": 4.5,
     "priceRange": "₪₪₪",
-    "src": "./media/restaurantcards/burgers.avif"
+    "src": "././media/restaurantcards/burgers.avif"
   },
   {
     "name": "KFC גבעתיים",
@@ -33,7 +33,7 @@
     "deliveryPrice": "₪8.00",
     "rating": 4.0,
     "priceRange": "₪₪",
-    "src": "./media/restaurantcards/kfc.jpeg"
+    "src": "././media/restaurantcards/kfc.jpeg"
   },
   {
     "name": "חומוס אשכרה",
@@ -42,6 +42,6 @@
     "deliveryPrice": "חינם",
     "rating": 4.4,
     "priceRange": "₪",
-    "src": "./media/restaurantcards/middle-eastern.avif"
+    "src": "././media/restaurantcards/middle-eastern.avif"
   }
 ]
