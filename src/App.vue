@@ -34,6 +34,7 @@ const closePopup = () => {
 const clearProgress = () => {
   localStorage.removeItem('currentStep');
   localStorage.removeItem('userName');
+  localStorage.removeItem('chosenRestaurant');
   step.value = 0;
   showRecoveryPopup.value = false;
   setTimeout(() => {
@@ -44,12 +45,17 @@ const clearProgress = () => {
 const continueProgress = () => {
   const savedStep = localStorage.getItem('currentStep');
   const savedCard = localStorage.getItem('cardNumber');
+  const savedRestaurant = localStorage.getItem('chosenRestaurant');
 
   if (savedStep !== null) {
     step.value = parseInt(savedStep, 10);
   }
   if (savedCard !== null) {
     cardNumber.value = parseInt(savedCard, 10);
+  }
+    if (savedRestaurant !== null) {
+    const parsedRestaurant = JSON.parse(savedRestaurant);
+    selectedRestaurant.value = parsedRestaurant;
   }
 
   showRecoveryPopup.value = false;
@@ -60,6 +66,7 @@ const continueProgress = () => {
 
 const handleRestaurantSelection = (restaurant) => {
   selectedRestaurant.value = restaurant;
+  localStorage.setItem('chosenRestaurant', JSON.stringify(selectedRestaurant.value));
   nextStep();
 };
 
@@ -103,7 +110,7 @@ onMounted(() => {
   
   <div v-if="!showLoader">
     <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection"/>
-    <RestaurantDetailsView v-else-if="currentViewComponent"/>
+    <RestaurantDetailsView v-else-if="currentViewComponent" :restaurantInfo="selectedRestaurant"/>
     <PopupGuide
       v-if="showPopup"
       :key="step"

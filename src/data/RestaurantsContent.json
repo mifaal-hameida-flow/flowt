@@ -6,7 +6,12 @@
     "deliveryPrice": "₪10.00",
     "rating": 4.6,
     "priceRange": "₪₪",
-    "src": "././media/restaurantcards/asian.avif"
+    "src": "././media/restaurantcards/asian.avif",
+    "menu" : {
+      "firstCourses" : ["bla", "bla", "bla"],
+      "mainCourses" : ["bla", "bla", "bla"],
+      "desserts" :["bla", "bla", "bla"]
+    }
   },
   {
     "name": "מאפיית מיכאל",
@@ -15,7 +20,12 @@
     "deliveryPrice": "חינם",
     "rating": 4.3,
     "priceRange": "₪",
-    "src": "././media/restaurantcards/bakery.avif"
+    "src": "././media/restaurantcards/bakery.avif",
+    "menu" : {
+      "firstCourses" : ["bla", "bla", "bla"],
+      "mainCourses" : ["bla", "bla", "bla"],
+      "desserts" :["bla", "bla", "bla"]
+    }
   },
   {
     "name": "בורגר בר",
@@ -24,7 +34,12 @@
     "deliveryPrice": "₪12.00",
     "rating": 4.5,
     "priceRange": "₪₪₪",
-    "src": "././media/restaurantcards/burgers.avif"
+    "src": "././media/restaurantcards/burgers.avif",
+    "menu" : {
+      "firstCourses" : ["bla", "bla", "bla"],
+      "mainCourses" : ["bla", "bla", "bla"],
+      "desserts" :["bla", "bla", "bla"]
+    }
   },
   {
     "name": "KFC גבעתיים",
@@ -33,7 +48,12 @@
     "deliveryPrice": "₪8.00",
     "rating": 4.0,
     "priceRange": "₪₪",
-    "src": "././media/restaurantcards/kfc.jpeg"
+    "src": "././media/restaurantcards/kfc.jpeg",
+    "menu" : {
+      "firstCourses" : ["bla", "bla", "bla"],
+      "mainCourses" : ["bla", "bla", "bla"],
+      "desserts" :["bla", "bla", "bla"]
+    }
   },
   {
     "name": "חומוס אשכרה",
@@ -42,6 +62,11 @@
     "deliveryPrice": "חינם",
     "rating": 4.4,
     "priceRange": "₪",
-    "src": "././media/restaurantcards/middle-eastern.avif"
+    "src": "././media/restaurantcards/middle-eastern.avif",
+    "menu" : {
+      "firstCourses" : ["bla", "bla", "bla"],
+      "mainCourses" : ["bla", "bla", "bla"],
+      "desserts" :["bla", "bla", "bla"]
+    }
   }
 ]
