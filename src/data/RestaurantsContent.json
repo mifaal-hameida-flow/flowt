@@ -36,7 +36,11 @@
     "priceRange": "₪₪₪",
     "src": "././media/restaurantcards/burgers.avif",
     "menu" : {
-      "firstCourses" : ["bla", "bla", "bla"],
+      "firstCourses" : [
+        {"name" : "המבורגר קצבים", "price" : 54},
+        {"name" : "המבורגר צמחוני", "price" : 44},
+        {"name" : "המבורגר מושחת רצח", "price" : 90}
+      ],
       "mainCourses" : ["bla", "bla", "bla"],
       "desserts" :["bla", "bla", "bla"]
     }
@@ -48,7 +52,7 @@
     "deliveryPrice": "₪8.00",
     "rating": 4.0,
     "priceRange": "₪₪",
-    "src": "././media/restaurantcards/kfc.jpeg",
+    "src": "././media/restaurantcards/kfc.avif",
     "menu" : {
       "firstCourses" : ["bla", "bla", "bla"],
       "mainCourses" : ["bla", "bla", "bla"],
