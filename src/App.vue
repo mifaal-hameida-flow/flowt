@@ -4,12 +4,16 @@ import PopupGuide from './components/PopupGuide.vue';
 import PopupGuideContent from './data/PopupGuideContent.json';
 import HomeView from './views/HomeView.vue';
 import Loader from './components/Loader.vue';
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, computed} from 'vue';
+import RestaurantDetailsView from './views/RestaurantDetailsView.vue';
+import DishDetails from './views/DishDetails.vue';
 
 const step = ref(0);
 const showLoader = ref(true);
 const showRecoveryPopup = ref(false);
 const cardNumber = ref(0);
+const selectedRestaurant = ref(null);
+const showPopup = ref(true);
 
 const updateCardNumber = (newNumber) => {
   cardNumber.value = newNumber;
@@ -18,7 +22,13 @@ const updateCardNumber = (newNumber) => {
 
 const nextStep = () => {
   step.value++;
+  showPopup.value = true;
+  updateCardNumber(0); // reset card
   localStorage.setItem('currentStep', step.value); // Save step
+}
+
+const closePopup = () => {
+   showPopup.value = false;
 }
 
 const clearProgress = () => {
@@ -48,6 +58,16 @@ const continueProgress = () => {
   }, 4000);
 };
 
+const handleRestaurantSelection = (restaurant) => {
+  selectedRestaurant.value = restaurant;
+  nextStep();
+};
+
+const currentViewComponent = computed(() => {
+  if (step.value === 2) return RestaurantDetailsView;
+  if (step.value >= 3) return DishDetails;
+  return HomeView;
+});
 
 onMounted(() => {
   const savedStep = localStorage.getItem('currentStep');
@@ -81,13 +101,16 @@ onMounted(() => {
     </div>
   </div>
   
-  <div v-else-if="!showLoader">
-    <HomeView/>
-    <popupGuide
-      v-if="!showLoader"
+  <div v-if="!showLoader">
+    <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection"/>
+    <RestaurantDetailsView v-else-if="currentViewComponent"/>
+    <PopupGuide
+      v-if="showPopup"
+      :key="step"
       :stepInfo="PopupGuideContent[step]"
       :initial-card="cardNumber"
       @next-step="nextStep"
+      @close-popup="closePopup"
       @card-number="updateCardNumber"
     />
   </div>

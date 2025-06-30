@@ -4,7 +4,7 @@ import RestaurantsContent from '../data/RestaurantsContent.json';
 import BottomBar from '../components/BottomBar.vue';
 import TopBar from '../components/TopBar.vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-
+const emit = defineEmits(['restaurant-selected']);
 const isScrolled = ref(false);
 
 
@@ -19,6 +19,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
 });
+
+const selectRestaurant = (restaurant) => {
+  emit('restaurant-selected', restaurant);
+}
 </script>
 
 <template>
@@ -30,6 +34,7 @@ onBeforeUnmount(() => {
                 v-for="(restaurant, index) in RestaurantsContent"
                 :key="index"
                 :restaurantInfo="restaurant"
+                @click="selectRestaurant(restaurant)"
                 />
         </div>
         <TopBar :scrolled="isScrolled"/>     

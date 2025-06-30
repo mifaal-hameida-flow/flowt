@@ -6,11 +6,10 @@ const props = defineProps({
   stepInfo: Object,
   initialCard: Number
 });
+
 const cardNumber = ref(props.initialCard || 0);
-const emit = defineEmits(['next-step', 'card-number']);
+const emit = defineEmits(['next-step', 'close-popup', 'card-number']);
 const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
-
-
 // State
 const userName = ref('');
 const isValid = ref(false);
@@ -54,8 +53,13 @@ const clearInput = () => {
   localStorage.removeItem('userName');
 };
 
-const nextStep = () => {
+const handleTaskClick = () => {
+  // Only auto-advance on step 0
+  if (props.stepInfo.step === 0) {
     emit('next-step');
+  } else {
+    emit('close-popup');
+  }
 };
 
 const handleCard = (event) => {
@@ -97,7 +101,7 @@ const handleCard = (event) => {
                 <!-- Button with text and image -->
             <div v-if="firstCard.buttonTask && showGreeting"
                 class="px-4 py-2 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2"
-                @click="nextStep"
+                @click="handleTaskClick"
                 >
                     <p class="text-s text-[#009DE0]">{{ firstCard.buttonTask.msg }}</p>
                     <img :src="firstCard.buttonTask.src" alt="task image" class="mr-2 h-8 w-8 object-contain" />
@@ -157,7 +161,7 @@ const handleCard = (event) => {
             </div>
 
             <div class="w-full flex justify-end" v-if="firstCard.buttonTask && stepInfo.step !== 0">
-                <span @click="nextStep" class="px-2 py-1 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2">
+                <span @click="handleTaskClick" class="px-2 py-1 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2">
                     <p class="text-sm text-[#009DE0]">{{ firstCard.buttonTask.msg }}</p>
                     <img :src="firstCard.buttonTask.src" alt="task image" class="mr-1 h-6 w-6 object-contain" />
                 </span>
