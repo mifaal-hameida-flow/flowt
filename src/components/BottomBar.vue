@@ -1,14 +1,19 @@
 <script setup>
 import { ref } from 'vue'
+import likeIcon from '../assets/media/bottombar/like.png'
+import restaurantIcon from '../assets/media/bottombar/restaurant.png'
+import loupeIcon from '../assets/media/bottombar/loupe.png'
+import userIcon from '../assets/media/bottombar/user.png'
+
 
 const bottomBarData = ref([
-  { text: "מומלץ עבורך", src: "src/assets/media/bottombar/like.png", active: false },
-  { text: "מסעדות", src: "src/assets/media/bottombar/restaurant.png", active: true },
-  { text: "חיפוש", src: "src/assets/media/bottombar/loupe.png", active: false },
-  { text: "אזור אישי", src: "src/assets/media/bottombar/user.png", active: false },
+  { text: "מומלץ עבורך", src: likeIcon, active: false },
+  { text: "מסעדות", src: restaurantIcon, active: true },
+  { text: "חיפוש", src: loupeIcon, active: false },
+  { text: "אזור אישי", src: userIcon, active: false },
 ])
+
 </script>
-<!-- src\assets\media\bottombar\restaurant.png -->
 
 <template>
   <div class="bg-white shadow-top flex justify-around p-4 fixed bottom-0 w-full z-50">

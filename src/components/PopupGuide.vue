@@ -81,7 +81,7 @@ const handleCard = (event) => {
   <div v-if="firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
   :key="`${stepInfo.step}-${cardNumber}`"
   :class="{ 'fade-enter': firstCard.id === 1 }">
-    <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-6 rounded-xl shadow-lg text-center"
+    <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-4 rounded-xl shadow-lg text-center"
     :key="`${stepInfo.step}-${cardNumber}`" 
     :class="{ 'animate-zoom': firstCard.id === 1 }">
       
@@ -149,11 +149,11 @@ const handleCard = (event) => {
         <!-- buttons container -->
         <div class="w-full flex justify-between items-center">
             <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
-                <img @click="handleCard" class="mr-2 h-8 w-8 object-contain" src="../assets/media/buttons/next-arrow.png" alt="next button"/>
+                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="../assets/media/buttons/next-arrow.png" alt="next button"/>
             </div>
 
             <div class="w-full flex justify-start" v-if="firstCard.buttonBack">
-                <img @click="handleCard" class="mr-2 h-8 w-8 object-contain" src="../assets/media/buttons/back-arrow.png" alt="back button"/>
+                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="../assets/media/buttons/back-arrow.png" alt="back button"/>
             </div>
 
             <div class="w-full flex justify-end" v-if="firstCard.buttonTask && stepInfo.step !== 0">
