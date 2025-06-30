@@ -1,8 +1,12 @@
 <script setup>
+defineProps({ scrolled: Boolean });
 </script>
-
+ 
 <template>
-    <div class="flex justify-between fixed top-0 mt-2 bg-white w-full z-50">
+    <div  :class="[
+      'flex justify-between fixed top-0 py-1 bg-white w-full z-50 transition-shadow',
+      scrolled ? 'shadow-md' : ''
+    ]">
         <div class="flex space-x-1 items-center">
             <div class="icon-bg mr-2">
                 <img class="w-6 h-6" src="../assets/media/topbar/map-location.png" />

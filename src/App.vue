@@ -81,7 +81,7 @@ onMounted(() => {
     </div>
   </div>
   
-  <div v-else>
+  <div v-else-if="!showLoader">
     <HomeView/>
     <popupGuide
       v-if="!showLoader"

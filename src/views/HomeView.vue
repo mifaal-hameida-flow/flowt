@@ -1,10 +1,24 @@
 <script setup>
 import RestaurantCard from '../components/RestaurantCard.vue';
-import { ref } from 'vue';
 import RestaurantsContent from '../data/RestaurantsContent.json';
 import BottomBar from '../components/BottomBar.vue';
 import TopBar from '../components/TopBar.vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
+const isScrolled = ref(false);
+
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 10;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
@@ -18,7 +32,7 @@ import TopBar from '../components/TopBar.vue';
                 :restaurantInfo="restaurant"
                 />
         </div>
-        <TopBar/>     
+        <TopBar :scrolled="isScrolled"/>     
         <BottomBar/>
     </div>
 </template>
