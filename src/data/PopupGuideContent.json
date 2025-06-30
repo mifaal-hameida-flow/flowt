@@ -13,7 +13,7 @@
         ],
         "input": true,
         "buttonTask": {
-          "src" : "src/assets/media/buttons/delivery-man.png",
+          "src" : "public/media/buttons/delivery-man.png",
           "msg" : "יאללה נזמין!"
         }
       }
@@ -37,7 +37,7 @@
           "תוך כדי נבין מה הנתונים שמרכיבים את התצוגה הזאת"
         ],
         "buttonTask": {
-          "src" : "src/assets/media/buttons/click.png",
+          "src" : "public/media/buttons/click.png",
           "msg" : "יאללה נבחר!"
         },
         "buttonBack": true
