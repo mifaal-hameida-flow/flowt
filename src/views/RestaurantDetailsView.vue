@@ -1,10 +1,14 @@
 <script setup>
 import DishCard from '../components/DishCard.vue';
 import { Truck, Star } from 'lucide-vue-next'; 
+import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
+import { ref } from 'vue';
+
 const props = defineProps({
   restaurantInfo: Object
 });
 
+const lock = ref(true);
 const translateSection = (section) => {
   const map = {
     firstCourses: "מנות ראשונות",
@@ -16,7 +20,12 @@ const translateSection = (section) => {
 
 </script>
 <template>
-  <div class="min-h-screen bg-white">
+
+  <div v-if="lock" class="absolute flex items-center justify-center top-0 w-screen h-screen">
+      <DotLottieVue style="height: 850px; width: 850px" autoplay :loop="false" src="https://lottie.host/1610322f-bc11-40b6-854d-2239a01f0699/niGnJbbie4.lottie"/>
+  </div>
+
+  <div v-else class="min-h-screen bg-white">
     <!-- Header Image -->
     <div class="relative flex-col justify-center items-center">
         <svg class="absolute w-0 h-0">

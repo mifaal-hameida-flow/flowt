@@ -39,6 +39,7 @@ const selectRestaurant = (restaurant) => {
         </div>
         <TopBar :scrolled="isScrolled"/>     
         <BottomBar/>
+
     </div>
 </template>
 
