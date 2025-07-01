@@ -9,7 +9,7 @@
         <h3 class="text-base font-semibold text-gray-900 leading-tight">
           {{ dish.name }}
         </h3>
-        <p class="text-sm text-gray-500 mt-1 line-clamp-2">
+        <p class="text-sm text-gray-500 mt-1 line-clamp-2 break-words overflow-hidden text-ellipsis">
           {{ dish.description }}
         </p>
       </div>
@@ -18,12 +18,12 @@
       </p>
     </div>
 
-    <div class="h-full flex items-center justify-center h-full p-2">
+    <div class="flex items-center justify-center h-full p-2">
           <!-- תמונה -->
       <img
         :src="dish.image"
         :alt="dish.name"
-        class="w-26 h-26 object-cover rounded-xl flex-shrink-0 align-center"
+        class="w-28 h-28 object-cover rounded-xl flex-shrink-0 align-center"
       />
     </div>
   </div>
