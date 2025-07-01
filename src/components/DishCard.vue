@@ -4,9 +4,9 @@
     dir="rtl"
   >
     <!-- טקסט -->
-    <div class="flex flex-col justify-between p-4 flex-grow text-right">
+    <div class="flex flex-col justify-between p-4 flex-grow min-w-0 text-right">
       <div>
-        <h3 class="text-base font-semibold text-gray-900 leading-tight">
+        <h3 class="text-base font-semibold text-gray-900 leading-tight truncate">
           {{ dish.name }}
         </h3>
         <p class="text-sm text-gray-500 mt-1 line-clamp-2 break-words overflow-hidden text-ellipsis">
@@ -18,7 +18,7 @@
       </p>
     </div>
 
-    <div class="flex items-center justify-center h-full p-2">
+    <div class="flex items-center justify-center h-full p-2 flex-shrink-0 ">
           <!-- תמונה -->
       <img
         :src="dish.image"
