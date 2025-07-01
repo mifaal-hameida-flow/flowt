@@ -1,48 +1,159 @@
 [
   {
-    "name": "סושי טאקאה",
+    "name": "אוקינוואה",
     "location": "תל אביב",
     "deliveryTime": 25,
     "deliveryPrice": "₪10.00",
     "rating": 4.6,
     "priceRange": "₪₪",
+    "logo" : "././media/restaurantlogos/asian.jpg",
     "src": "././media/restaurantcards/asian.avif",
     "menu" : {
-      "firstCourses" : ["bla", "bla", "bla"],
-      "mainCourses" : ["bla", "bla", "bla"],
-      "desserts" :["bla", "bla", "bla"]
+      "firstCourses" :[
+        {
+          "name": "אדממה",
+          "price": 22,
+          "description": "אדממה מאודה עם מלח ים",
+          "image": "././media/dishes/edemame.jpg"
+        },
+        {
+          "name": "מרק מיסו",
+          "price": 18,
+          "description": "מרק מיסו יפני מסורתי עם טופו ואצות",
+          "image": "././media/dishes/misosoup.jpg"
+        }
+      ],
+      "mainCourses" : [
+        {
+          "name": "מגש סושי",
+          "price": 65,
+          "description": "מבחר רולים טריים וטעימים",
+          "image": "././media/dishes/sushi.jpg"
+        },
+        {
+          "name": "ראמן שויו",
+          "price": 52,
+          "description": "אטריות ראמן בציר סויה עם עוף וביצה",
+          "image": "././media/dishes/ramen.jpg"
+        }
+      ],
+      "desserts" :[
+        {
+          "name": "גלידת מוצ’י",
+          "price": 28,
+          "description": "כדורי מוצ’י ממולאים בגלידה בטעמים שונים",
+          "image": "././media/dishes/mochi.jpg"
+        },
+        {
+          "name": "דוריאקי",
+          "price": 24,
+          "description": "פנקייק יפני ממולא בממרח שעועית אדומה",
+          "image": "././media/dishes/dorayaki.jpg"
+        }
+      ]
     }
   },
   {
-    "name": "מאפיית מיכאל",
+    "name": "בליקר בייקרי",
     "location": "רמת גן",
     "deliveryTime": 20,
     "deliveryPrice": "חינם",
     "rating": 4.3,
     "priceRange": "₪",
+    "logo" : "././media/restaurantlogos/bakery.jpeg",
     "src": "././media/restaurantcards/bakery.avif",
-    "menu" : {
-      "firstCourses" : ["bla", "bla", "bla"],
-      "mainCourses" : ["bla", "bla", "bla"],
-      "desserts" :["bla", "bla", "bla"]
-    }
+   "menu": {
+    "firstCourses": [
+      {
+        "name": "סלט קפרזה",
+        "price": 32,
+        "description": "עגבניות שרי, מוצרלה טרייה ובזיליקום עם בלסמי מצומצם",
+        "image": "././media/dishes/caprese.jpg"
+      },
+      {
+        "name": "מרק בצל וטוסט",
+        "price": 28,
+        "description": "מרק בצל צרפתי עם טוסט גבינה צהובה",
+        "image": "././media/dishes/onionsoup.jpeg"
+      }
+    ],
+    "mainCourses": [
+      {
+        "name": "כריך סלמון מעושן",
+        "price": 48,
+        "description": "לחם דגנים, גבינת שמנת, סלמון מעושן, בצל סגול ועלי רוקט",
+        "image": "././media/dishes/smokedsalmon.jpg"
+      },
+      {
+        "name": "שקשוקה קלאסית",
+        "price": 42,
+        "description": "רוטב עגבניות ביתי, ביצים, פטרוזיליה ולחם טרי בצד",
+        "image": "././media/dishes/shakshuka.jpeg"
+      }
+    ],
+    "desserts": [
+      {
+        "name": "קרואסון שוקולד",
+        "price": 18,
+        "description": "קרואסון חמאה פריך עם מילוי שוקולד עשיר",
+        "image": "././media/dishes/chococroissant.jpg"
+      },
+      {
+        "name": "עוגת גבינה אפויה",
+        "price": 26,
+        "description": "עוגת גבינה קלאסית עם תחתית ביסקוויטים",
+        "image": "././media/dishes/cheesecake.jpeg"
+      }
+    ]
+  }
   },
   {
-    "name": "בורגר בר",
+    "name": "בורגר סלון",
     "location": "פתח תקווה",
     "deliveryTime": 35,
     "deliveryPrice": "₪12.00",
     "rating": 4.5,
     "priceRange": "₪₪₪",
+    "logo" : "././media/restaurantlogos/burger.jpeg",
     "src": "././media/restaurantcards/burgers.avif",
     "menu" : {
       "firstCourses" : [
-        {"name" : "המבורגר קצבים", "price" : 54},
-        {"name" : "המבורגר צמחוני", "price" : 44},
-        {"name" : "המבורגר מושחת רצח", "price" : 90}
+         {
+        "name": "כנפיים צ'ילי",
+        "price": 52,
+        "description": "כנפיים מושחתות בטירוף ברוטב חמאה וצ'ילי חריף",
+        "image": "././media/dishes/hotwings.jpg"
+       }
       ],
-      "mainCourses" : ["bla", "bla", "bla"],
-      "desserts" :["bla", "bla", "bla"]
+      "mainCourses": [
+      {
+        "name": "צ'יזבורגר קלאסי",
+        "price": 58,
+        "description": "המבורגר 200 גרם, גבינה צהובה, חסה, עגבנייה, מלפפון חמוץ ורטבים",
+        "image": "././media/dishes/cheeseburger.avif"
+      },
+      {
+        "name": "בורגר צמחוני",
+        "price": 64,
+        "description": "המבורגר עם קציצה צמחונית מקינואה ושעועית עם איולי חרדל ושבבי בצל מקורמל",
+        "image": "././media/dishes/vegiburger.jpg"
+      }
+    ],
+    "desserts": [
+      {
+        "name": "שייק שוקולד",
+        "price": 24,
+        "description": "שייק שוקולד עשיר עם קצפת וסירופ שוקולד",
+        "image": "././media/dishes/milkshake.jpg"
+      },
+      {
+        "name": "סופלה שוקולד",
+        "price": 29,
+        "description": "עוגת שוקולד חמה עם גלידת וניל בצד",
+        "image": "././media/dishes/chocfondant.jpg"
+      }
+    ]
+
     }
   },
   {
@@ -52,25 +163,105 @@
     "deliveryPrice": "₪8.00",
     "rating": 4.0,
     "priceRange": "₪₪",
-    "src": "././media/restaurantcards/kfc.avif",
+    "logo" : "././media/restaurantlogos/kfc.png",
+    "src": "././media/restaurantcards/kfc.jpeg",
     "menu" : {
-      "firstCourses" : ["bla", "bla", "bla"],
-      "mainCourses" : ["bla", "bla", "bla"],
-      "desserts" :["bla", "bla", "bla"]
+      "firstCourses": [
+        {
+          "name": "כנפיים חריפות",
+          "price": 24,
+          "description": "6 יח' כנפיים בציפוי קריספי פיקנטי",
+          "image": "././media/dishes/spicywings.jpeg"
+        },
+        {
+          "name": "צ'יפס",
+          "price": 16,
+          "description": "מנת צ'יפס קריספי עם תיבול סודי",
+          "image": "././media/dishes/frieskfc.jpeg"
+        }
+      ],
+      "mainCourses": [
+        {
+          "name": "באקט עוף קלאסי",
+          "price": 69,
+          "description": "8 חתיכות עוף מצופה ופריך עם תיבול KFC",
+          "image": "././media/dishes/bucketkfc.jpg"
+        },
+        {
+          "name": "סנדוויץ' זינגר",
+          "price": 39,
+          "description": "חזה עוף קריספי, חסה ומיונז בפיתה חמה",
+          "image": "././media/dishes/zingerkfc.jpeg"
+        }
+      ],
+      "desserts": [
+        {
+          "name": "פאי תפוחים",
+          "price": 12,
+          "description": "פאי פריך במילוי תפוחים וקינמון",
+          "image": "././media/dishes/applepie.jpeg"
+        },
+        {
+          "name": "גלידת וניל",
+          "price": 10,
+          "description": "מנת גלידת וניל רכה בגביע",
+          "image": "././media/dishes/icecream.jpeg"
+        }
+      ]
     }
   },
   {
-    "name": "חומוס אשכרה",
+    "name": "חומוס אליהו",
     "location": "חולון",
     "deliveryTime": 22,
     "deliveryPrice": "חינם",
     "rating": 4.4,
     "priceRange": "₪",
+    "logo" : "././media/restaurantlogos/middle-eastern.jpeg",
     "src": "././media/restaurantcards/middle-eastern.avif",
     "menu" : {
-      "firstCourses" : ["bla", "bla", "bla"],
-      "mainCourses" : ["bla", "bla", "bla"],
-      "desserts" :["bla", "bla", "bla"]
+    "firstCourses": [
+      {
+        "name": "סלט ישראלי",
+        "price": 16,
+        "description": "עגבניות, מלפפונים, פטרוזיליה, בצל ולימון",
+        "image": "././media/dishes/israelisalad.jpg"
+      },
+      {
+        "name": "חמוצים ביתיים",
+        "price": 10,
+        "description": "תערובת חמוצים ישראלית קלאסית",
+        "image": "././media/dishes/pickles.jpeg"
+      }
+    ],
+    "mainCourses": [
+      {
+        "name": "חומוס מסבחה",
+        "price": 28,
+        "description": "חומוס חמים עם גרגרים, טחינה ושמן זית",
+        "image": "././media/dishes/hummus.jpeg"
+      },
+      {
+        "name": "חומוס עם בשר",
+        "price": 38,
+        "description": "חומוס טרי עם בשר טחון חם מעל",
+        "image": "././media/dishes/meathummus.jpeg"
+      }
+    ],
+    "desserts": [
+      {
+        "name": "מלבי",
+        "price": 14,
+        "description": "מלבי עם מי ורדים, קוקוס ובוטנים",
+        "image": "././media/dishes/malabi.jpg"
+      },
+      {
+        "name": "בקלאווה",
+        "price": 18,
+        "description": "מאפה עלים מתוק במילוי אגוזים ודבש",
+        "image": "././media/dishes/baklava.jpeg"
+      }
+    ]
     }
   }
 ]
