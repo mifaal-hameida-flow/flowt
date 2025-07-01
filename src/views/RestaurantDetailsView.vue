@@ -5,7 +5,8 @@ import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
 import { ref } from 'vue';
 
 const props = defineProps({
-  restaurantInfo: Object
+  restaurantInfo: Object,
+  stepNumber: Number
 });
 
 const lock = ref(true);
@@ -21,7 +22,7 @@ const translateSection = (section) => {
 </script>
 <template>
 
-  <div v-if="lock" class="absolute flex items-center justify-center top-0 w-screen h-screen">
+  <div v-if="props.stepNumber < 3" class="absolute flex items-center justify-center top-0 w-screen h-screen">
       <DotLottieVue style="height: 850px; width: 850px" autoplay :loop="false" src="https://lottie.host/1610322f-bc11-40b6-854d-2239a01f0699/niGnJbbie4.lottie"/>
   </div>
 

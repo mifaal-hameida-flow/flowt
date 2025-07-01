@@ -55,7 +55,7 @@ const clearInput = () => {
 
 const handleTaskClick = () => {
   // Only auto-advance on step 0
-  if (props.stepInfo.step === 0) {
+  if (props.stepInfo.step === 0 || props.stepInfo.step === 2) {
     emit('next-step');
   } else {
     emit('close-popup');
@@ -151,13 +151,12 @@ const handleCard = (event) => {
             </div>
         </div>
         <!-- buttons container -->
-        <div class="w-full flex justify-between items-center">
-            <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
-                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="/media/buttons/next-arrow.png" alt="next button"/>
-            </div>
-
+        <div class="w-full flex items-center">
             <div class="w-full flex justify-start" v-if="firstCard.buttonBack">
                 <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="/media/buttons/back-arrow.png" alt="back button"/>
+            </div>
+            <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
+                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="/media/buttons/next-arrow.png" alt="next button"/>
             </div>
 
             <div class="w-full flex justify-end" v-if="firstCard.buttonTask && stepInfo.step !== 0">

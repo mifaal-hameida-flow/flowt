@@ -71,8 +71,8 @@ const handleRestaurantSelection = (restaurant) => {
 };
 
 const currentViewComponent = computed(() => {
-  if (step.value === 2) return RestaurantDetailsView;
-  if (step.value >= 3) return DishDetails;
+  if (step.value >= 2) return RestaurantDetailsView;
+  if (step.value >= 4) return DishDetails;
   return HomeView;
 });
 
@@ -110,7 +110,7 @@ onMounted(() => {
   
   <div v-if="!showLoader">
     <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection"/>
-    <RestaurantDetailsView v-else-if="currentViewComponent" :restaurantInfo="selectedRestaurant"/>
+    <RestaurantDetailsView v-else-if="currentViewComponent" :restaurantInfo="selectedRestaurant" :stepNumber="step"/>
     <PopupGuide
       v-if="showPopup"
       :key="step"
