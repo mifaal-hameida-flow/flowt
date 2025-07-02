@@ -4,7 +4,8 @@ import { ref, onMounted, computed} from 'vue';
 // Props
 const props = defineProps({
   stepInfo: Object,
-  initialCard: Number
+  initialCard: Number,
+  restaurantInfo: Object
 });
 
 const cardNumber = ref(props.initialCard || 0);
@@ -18,6 +19,16 @@ const showGreeting = ref(false);
 const nameRegex = /^[A-Za-zא-ת\s]+$/;
 
 const isDev = import.meta.env.DEV;
+const isObject = (val) => val && typeof val === 'object';
+
+// optionally remove deeply nested values
+const filteredFields = computed(() => {
+  const clone = {}
+  for (const key in props.restaurantInfo) {
+    clone[key] = props.restaurantInfo[key]
+  }
+  return clone
+})
 // Load saved name
 onMounted(() => {
   const savedName = localStorage.getItem('userName');
@@ -91,6 +102,30 @@ const handleCard = (event) => {
       
       <p v-if="firstCard.preTitle" class="mb-3">{{ firstCard.preTitle }}</p>
       <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#009DE0] font-title">{{ firstCard.title }}</h2>
+
+      <div v-if="firstCard.table" class="w-full overflow-auto max-w-full mb-2">
+        <table class="info-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(value, key) in filteredFields" :key="key">
+              <td>{{ key }}</td>
+              <td>
+                <span v-if="!isObject(value)">
+                  {{ value }}
+                </span>
+                <span v-else>
+                  [Nested Object]
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div v-for="(paragraph, idx) in firstCard.message" :key="idx" class="mb-3">
         <p>{{ paragraph }}</p>
@@ -204,4 +239,25 @@ input:focus {
 .animate-zoom {
   animation: zoomIn 0.4s ease-out;
 }
+
+.info-table {
+  border-collapse: collapse;
+  width: 100%; /* Changed from 70% */
+  min-width: 300px; /* Ensures table doesn’t shrink too much */
+  max-width: 100%;
+  font-size: x-small;
+}
+
+.info-table th,
+.info-table td {
+  border: 1px solid #aaa;
+  padding: 8px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.info-table th {
+  background-color: #f0f0f0;
+}
+
 </style>

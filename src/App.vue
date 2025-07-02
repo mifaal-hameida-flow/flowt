@@ -116,6 +116,7 @@ onMounted(() => {
       :key="step"
       :stepInfo="PopupGuideContent[step]"
       :initial-card="cardNumber"
+      :restaurantInfo="selectedRestaurant"
       @next-step="nextStep"
       @close-popup="closePopup"
       @card-number="updateCardNumber"
