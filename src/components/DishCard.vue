@@ -1,5 +1,44 @@
+<script setup>
+import { popupState } from '../stores/popup';
+
+const props = defineProps({
+  dish: {
+    type: Object,
+    required: true
+  },
+  step: Number
+});
+
+const handleMenuItem = () => {
+  console.log("sending to popup, step:", props.step);
+
+  if (props.step === 3) {
+    popupState.manualCard = {
+      step: -1,
+      cards: [ 
+        {
+          id: 'manual-1',
+          title: 'רגע!',
+          message: ['אופס! נראה שתצטרכו ללחוץ על כפתור ההמלצות 🫣'],
+          buttonTask: {
+            msg: 'הבנתי',
+            src: '/media/buttons/checkmark.png'
+          }
+        }
+      ]
+    };
+    popupState.isVisible = true;
+
+    console.log('manualCard set:', popupState.manualCard);
+  }
+}
+
+
+</script>
+
 <template>
   <div
+    @click="handleMenuItem"
     class="flex items-center bg-white rounded-xl overflow-hidden shadow-md transition duration-300 w-full"
     dir="rtl"
   >
@@ -29,11 +68,3 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  dish: {
-    type: Object,
-    required: true
-  }
-});
-</script>

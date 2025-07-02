@@ -1,4 +1,5 @@
 <script setup>
+import { popupState } from '../stores/popup';
 </script>
 <template>
   <div class="absolute top-0 right-0 z-52 w-screen h-screen bg-[#00BEE5] flex flex-col items-center justify-start pt-8">

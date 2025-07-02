@@ -24,11 +24,12 @@ const nextStep = () => {
   step.value++;
   showPopup.value = true;
   updateCardNumber(0); // reset card
-  localStorage.setItem('currentStep', step.value); // Save step
+  localStorage.setItem('currentStep', step); // Save step
 }
 
 const closePopup = () => {
    showPopup.value = false;
+   console.log(`closing step: ${step.value}`)
 }
 
 const clearProgress = () => {
@@ -109,8 +110,8 @@ onMounted(() => {
   </div>
   
   <div v-if="!showLoader">
-    <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection"/>
-    <RestaurantDetailsView v-else-if="currentViewComponent" :restaurantInfo="selectedRestaurant" :stepNumber="step"/>
+    <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection" :stepNumber="step"/>
+    <RestaurantDetailsView v-else-if="currentViewComponent === RestaurantDetailsView" :restaurantInfo="selectedRestaurant" :stepNumber="step" :popupShowing="showPopup"/>
     <PopupGuide
       v-if="showPopup"
       :key="step"

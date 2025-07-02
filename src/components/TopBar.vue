@@ -1,5 +1,7 @@
 <script setup>
-defineProps({ scrolled: Boolean });
+import { vTooltip } from 'floating-vue';
+import { popupState } from '../stores/popup';
+defineProps({ scrolled: Boolean});
 </script>
  
 <template>
@@ -8,12 +10,12 @@ defineProps({ scrolled: Boolean });
       scrolled ? 'shadow-md' : ''
     ]">
         <div class="flex space-x-1 items-center">
-            <div class="icon-bg mr-2">
+            <div class="icon-bg mr-2" v-tooltip="{ content: 'לא זמין בשלב זה של הלומדה', triggers: ['click'], delay: { show: 0, hide: 3000 } }">
                 <img class="w-6 h-6" src="../assets/media/topbar/map-location.png" />
             </div>
             <p>המיקום שלי</p>
         </div>
-        <div class="icon-bg ml-2" >
+        <div class="icon-bg ml-2" v-tooltip="{ content: 'לא זמין בשלב זה של הלומדה', triggers: ['click'], delay: { show: 0, hide: 3000 } }">
             <img class="w-6 h-6" src="../assets/media/topbar/filter.png"/>
         </div>
     </div>

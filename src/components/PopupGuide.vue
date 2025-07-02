@@ -1,5 +1,10 @@
 <script setup>
-import { ref, onMounted, computed} from 'vue';
+import { ref, onMounted, computed, watch} from 'vue';
+import { popupState } from '../stores/popup';
+
+
+console.log('PopupGuide loaded');
+console.log('Initial popupState:', popupState);
 
 // Props
 const props = defineProps({
@@ -10,7 +15,22 @@ const props = defineProps({
 
 const cardNumber = ref(props.initialCard || 0);
 const emit = defineEmits(['next-step', 'close-popup', 'card-number']);
-const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
+// const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
+const firstCard = computed(() => {
+  if (popupState.manualCard) return popupState.manualCard;     // 👈 override with manual
+  return props.stepInfo?.cards?.[cardNumber.value];
+});
+
+console.log(firstCard.value)
+
+watch(() => popupState.manualCard, (newVal) => {
+  if (newVal) {
+    console.log('PopupGuide: manualCard received:', newVal);
+  } else {
+    console.log('PopupGuide: manualCard cleared');
+  }
+});
+
 // State
 const userName = ref('');
 const isValid = ref(false);
@@ -70,6 +90,9 @@ const handleTaskClick = () => {
     emit('next-step');
   } else {
     emit('close-popup');
+    if (props.stepInfo.step === 3 && popupState.manualCard) {
+      handleManualClose();
+    }
   }
 };
 
@@ -80,6 +103,11 @@ const handleCard = (event) => {
     cardNumber.value--;
  }
  emit('card-number', cardNumber.value);
+};
+
+const handleManualClose = () => {
+  popupState.isVisible = false;
+  popupState.manualCard = null;
 };
 
 </script>
@@ -93,7 +121,7 @@ const handleCard = (event) => {
         איפוס שם (dev)
     </button>
   </div>
-  <div v-if="firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
+  <div v-if="popupState.isVisible || firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
   :key="`${stepInfo.step}-${cardNumber}`"
   :class="{ 'fade-enter': firstCard.id === 1 }">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-4 rounded-xl shadow-lg text-center"
@@ -251,7 +279,7 @@ input:focus {
 .info-table th,
 .info-table td {
   border: 1px solid #aaa;
-  padding: 8px;
+  padding: 5px;
   text-align: center;
   word-break: break-word;
 }

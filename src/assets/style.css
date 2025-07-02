@@ -15,8 +15,6 @@
   direction: rtl;
 }
 
-
-
 @theme {
    --font-title: 'Heebo' !important;
   --animate-zoomIn: zoomIn 1s ease-out forwards;

@@ -13,6 +13,7 @@
   "dependencies": {
     "@lottiefiles/dotlottie-vue": "^0.7.2",
     "@tailwindcss/vite": "^4.1.8",
+    "floating-vue": "^5.2.2",
     "lucide-vue-next": "^0.525.0",
     "pinia": "^3.0.3",
     "vue": "^3.5.13",

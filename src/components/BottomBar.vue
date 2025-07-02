@@ -1,10 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 import likeIcon from '../assets/media/bottombar/like.png'
 import restaurantIcon from '../assets/media/bottombar/restaurant.png'
 import loupeIcon from '../assets/media/bottombar/loupe.png'
 import userIcon from '../assets/media/bottombar/user.png'
+import { vTooltip } from 'floating-vue';
+import { popupState } from '../stores/popup';
 
+const props = defineProps({ step: Number, showTooltip: Boolean});
 
 const bottomBarData = ref([
   { text: "מומלץ עבורך", src: likeIcon, active: false },
@@ -16,8 +19,11 @@ const bottomBarData = ref([
 </script>
 
 <template>
-  <div class="bg-white shadow-top flex justify-around p-4 fixed bottom-0 w-full z-50">
-    <div v-for="(icon, index) in bottomBarData" :key="index" class="flex flex-col items-center">
+  <div class="bg-white shadow-top flex justify-around p-4 sticky bottom-0 w-full z-50">
+    <div v-for="(icon, index) in bottomBarData" :key="index" class="flex flex-col items-center" v-tooltip="props.step === 3 && index === 0 && showTooltip
+        ? { content: 'השמועה אומרת שאהבת חומוס...', shown: true, triggers: [] }
+        : null"
+        :class="step === 3 && index === 0 ? 'animate-pulse' : ''">
       <img :src="icon.src" :class="['w-8 h-8 mb-1', icon.active && 'active']" />
       <div :class="['text-[0.85rem]', icon.active && 'active']">{{ icon.text }}</div>
     </div>

@@ -2,14 +2,36 @@
 import DishCard from '../components/DishCard.vue';
 import { Truck, Star } from 'lucide-vue-next'; 
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import BottomBar from '../components/BottomBar.vue';
+import { popupState } from '../stores/popup';
 
 const props = defineProps({
   restaurantInfo: Object,
-  stepNumber: Number
+  stepNumber: Number,
+  popupShowing: Boolean
 });
 
-const lock = ref(true);
+const showBottomBar = ref(false);
+const showTooltip = ref(false);
+
+watch(
+  () => props.popupShowing,
+  (newVal) => {
+    if (props.stepNumber === 3 && !newVal) {
+      setTimeout(() => {
+        showBottomBar.value = true;
+      }, 800); // Delay before showing BottomBar
+    }
+  },
+  { immediate: true }
+);
+
+
+const handleBottomBarEntered = () => {
+  showTooltip.value = true;
+}
+
 const translateSection = (section) => {
   const map = {
     firstCourses: "מנות ראשונות",
@@ -26,7 +48,7 @@ const translateSection = (section) => {
       <DotLottieVue style="height: 850px; width: 850px" autoplay :loop="false" src="https://lottie.host/1610322f-bc11-40b6-854d-2239a01f0699/niGnJbbie4.lottie"/>
   </div>
 
-  <div v-else class="min-h-screen bg-white">
+ <div v-else class="min-h-screen bg-white">
     <!-- Header Image -->
     <div class="relative flex-col justify-center items-center">
         <svg class="absolute w-0 h-0">
@@ -77,7 +99,7 @@ const translateSection = (section) => {
       </div>
     </div>
 
- <div class="px-4 mt-4 space-y-8">
+    <div class="px-4 mt-4 space-y-8">
       <!-- Loop menu keys -->
       <div v-for="(dishes, section) in restaurantInfo.menu" :key="section">
         <h2 class="text-lg font-bold mb-4">
@@ -88,11 +110,32 @@ const translateSection = (section) => {
             v-for="(dish, index) in dishes"
             :key="index"
             :dish="dish"
+            :step="stepNumber"
           />
         </div>
       </div>
     </div>
-
+    <transition name="slide-up" @after-enter="handleBottomBarEntered">
+      <BottomBar
+        v-if="showBottomBar"
+        :step="stepNumber"
+        :show-tooltip="showTooltip"
+      />
+    </transition>
   </div>
 </template>
 
+
+<style scoped>
+.slide-up-enter-active {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+.slide-up-enter-from {
+  transform: translateY(100%);
+  opacity: 0;
+}
+.slide-up-enter-to {
+  transform: translateY(0);
+  opacity: 1;
+}
+</style>
