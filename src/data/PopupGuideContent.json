@@ -103,7 +103,11 @@
         "id": 1,
         "message": [
         ""
-        ]
+        ],
+         "buttonTask": {
+          "src" : "././media/buttons/click.png",
+          "msg" : "יאללה נמשיך!"
+        }
       }
     ]
   }

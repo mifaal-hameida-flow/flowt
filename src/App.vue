@@ -8,6 +8,7 @@ import {ref, onMounted, computed} from 'vue';
 import RestaurantDetailsView from './views/RestaurantDetailsView.vue';
 import DishDetails from './views/DishDetails.vue';
 import { popupState } from './stores/popup';
+import RecommendedView from './views/RecommendedView.vue';
 
 const step = ref(0);
 const showLoader = ref(true);
@@ -71,8 +72,9 @@ const handleRestaurantSelection = (restaurant) => {
 };
 
 const currentViewComponent = computed(() => {
-  if (step.value >= 2) return RestaurantDetailsView;
-  if (step.value >= 4) return DishDetails;
+  if (step.value >= 2 && step.value < 4 ) return RestaurantDetailsView;
+  if (step.value === 4) return RecommendedView;
+  if (step.value >= 5) return DishDetails;
   return HomeView;
 });
 
@@ -110,8 +112,15 @@ onMounted(() => {
   </div>
   
   <div v-if="!showLoader">
-    <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection" :stepNumber="step"/>
-    <RestaurantDetailsView v-else-if="currentViewComponent === RestaurantDetailsView" :restaurantInfo="selectedRestaurant" :stepNumber="step" :popupShowing="showPopup"/>
+    <component :is="currentViewComponent" 
+    @restaurant-selected="handleRestaurantSelection" 
+    @next-step="nextStep"
+    :stepNumber="step"
+    :restaurantInfo="selectedRestaurant" 
+    :popupShowing="showPopup" />
+
+    <!-- <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection" :stepNumber="step"/>
+    <RestaurantDetailsView v-else-if="currentViewComponent === RestaurantDetailsView" :restaurantInfo="selectedRestaurant" :stepNumber="step" :popupShowing="showPopup" @next-step="nextStep"/> -->
     <PopupGuide
       v-if="showPopup || popupState.isVisible"
       :key="step"

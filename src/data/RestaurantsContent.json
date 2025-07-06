@@ -2,6 +2,7 @@
   {
     "name": "אוקינוואה",
     "location": "תל אביב",
+    "type": "אסיאתי",
     "deliveryTime": 25,
     "deliveryPrice": "₪10.00",
     "rating": 4.6,
@@ -56,6 +57,7 @@
   {
     "name": "בליקר בייקרי",
     "location": "רמת גן",
+    "type": "מאפים וארוחות בוקר",
     "deliveryTime": 20,
     "deliveryPrice": "חינם",
     "rating": 4.3,
@@ -110,6 +112,7 @@
   {
     "name": "בורגר סלון",
     "location": "פתח תקווה",
+    "type": "המבורגר",
     "deliveryTime": 35,
     "deliveryPrice": "₪12.00",
     "rating": 4.5,
@@ -159,6 +162,7 @@
   {
     "name": "KFC גבעתיים",
     "location": "גבעתיים",
+    "type": "מזון מהיר",
     "deliveryTime": 30,
     "deliveryPrice": "₪8.00",
     "rating": 4.0,
@@ -213,6 +217,7 @@
   {
     "name": "חומוס אליהו",
     "location": "חולון",
+    "type": "ישראלי",
     "deliveryTime": 22,
     "deliveryPrice": "חינם",
     "rating": 4.4,

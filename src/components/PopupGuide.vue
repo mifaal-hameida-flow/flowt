@@ -121,9 +121,9 @@ const handleManualClose = () => {
             <tr v-for="(value, key) in filteredFields" :key="key">
               <td>{{ key }}</td>
               <td>
-                <span v-if="!isObject(value)">
-                  {{ value }}
-                </span>
+              <span  v-if="!isObject(value)" :class="{ direction: ['logo', 'src'].includes(key) }">
+                {{ value }}
+              </span>
                 <span v-else>
                   [Nested Object]
                 </span>
@@ -269,5 +269,12 @@ input:focus {
 .info-table th {
   background-color: #f0f0f0;
 }
+.direction {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: plaintext; /* Ensures full LTR rendering */
+  font-family: monospace;  /* Optional: for clearer path display */
+}
+
 
 </style>

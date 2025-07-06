@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import likeIcon from '../assets/media/bottombar/like.png'
 import restaurantIcon from '../assets/media/bottombar/restaurant.png'
 import loupeIcon from '../assets/media/bottombar/loupe.png'
@@ -8,6 +8,7 @@ import { vTooltip } from 'floating-vue';
 import { popupState } from '../stores/popup';
 
 const props = defineProps({ step: Number, showTooltip: Boolean});
+const emit = defineEmits(['next-step']);
 
 const bottomBarData = ref([
   { text: "מומלץ עבורך", src: likeIcon, active: false },
@@ -16,15 +17,84 @@ const bottomBarData = ref([
   { text: "אזור אישי", src: userIcon, active: false },
 ])
 
+const tooltips = ref(bottomBarData.value.map(() => false));
+
+const showTooltipTemporarily = (index) => {
+  tooltips.value[index] = true;
+  setTimeout(() => {
+    tooltips.value[index] = false;
+  }, 3000);
+};
+
+const handleClick = (event, index) => {
+  const label = event.target.innerText || event.target.alt;
+
+  if (props.step === 3) {
+    if (label === "מומלץ עבורך") {
+      bottomBarData.value.forEach(i => i.active = false);
+      bottomBarData.value[0].active = true;
+      emit('next-step')
+    } else {
+      popupState.manualCard = {
+        id: 'manual-1',
+        title: 'אופס!',
+        message: ['אי אפשר ללחוץ על זה עכשיו...🫣', 'כנראה שתצטרכו לנסות את האיטלקי קודם'],
+        buttonTask: {
+          msg: 'הבנתי',
+          src: '././media/buttons/knowledge.png'
+        }
+      };
+      popupState.isVisible = true;
+    }
+  } else {
+    showTooltipTemporarily(index); // 👈 only show on click
+  }
+};
+const getTooltipContent = (index) => {
+  // 🛑 Don't show tooltip on the active icon
+  if (bottomBarData.value[index].active) {
+    return null;
+  }
+
+  if (props.step !== 3 && tooltips.value[index]) {
+    return {
+      content: 'לא זמין בשלב זה בלומדה',
+      shown: true,
+      triggers: [], // prevent hover/focus
+      placement: 'top',
+    };
+  }
+
+  if (props.step === 3 && index === 0 && props.showTooltip) {
+    return {
+      content: 'שמנו לב שאהבת איטלקי... 🍝',
+      shown: true,
+      triggers: [],
+      placement: 'top',
+    };
+  }
+
+  return null;
+};
+
+onMounted(() => {
+  if (props.step === 4) {
+    // Set all inactive
+    bottomBarData.value.forEach(item => item.active = false);
+
+    // Set only 'מומלץ עבורך' (first one) as active
+    bottomBarData.value[0].active = true;
+  }
+});
+
 </script>
 
 <template>
-  <div class="bg-white shadow-top flex justify-around p-4 sticky bottom-0 w-full z-50">
-    <div v-for="(icon, index) in bottomBarData" :key="index" class="flex flex-col items-center" v-tooltip="props.step === 3 && index === 0 && showTooltip
-        ? { content: 'שמנו לב שאהבת איטלקי...', shown: true, triggers: [] }
-        : null"
+  <div class="bg-white shadow-top flex justify-around p-4 sticky bottom-0 w-full z-50 " >
+    <div v-for="(icon, index) in bottomBarData" :key="index" class="flex flex-col items-center bottom-bar-item"  v-tooltip="getTooltipContent(index)"
+        @click="(event) => handleClick(event, index)"
         :class="step === 3 && index === 0 ? 'animate-pulse' : ''">
-      <img :src="icon.src" :class="['w-8 h-8 mb-1', icon.active && 'active']" />
+      <img :src="icon.src" :class="['w-8 h-8 mb-1', icon.active && 'active']" :alt=icon.text />
       <div :class="['text-[0.85rem]', icon.active && 'active']">{{ icon.text }}</div>
     </div>
   </div>

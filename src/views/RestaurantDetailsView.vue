@@ -11,6 +11,7 @@ const props = defineProps({
   stepNumber: Number,
   popupShowing: Boolean
 });
+const emit = defineEmits(['next-step']);
 
 const showBottomBar = ref(false);
 const showTooltip = ref(false);
@@ -39,6 +40,10 @@ const translateSection = (section) => {
     desserts: "קינוחים"
   };
   return map[section] || section;
+}
+
+const nextStep = () => {
+  emit("next-step")
 }
 
 </script>
@@ -78,13 +83,15 @@ const translateSection = (section) => {
     <!-- Restaurant Info -->
     <div class="p-4 text-center">
       <h1 class="text-2xl font-extrabold mt-2">{{ restaurantInfo.name }} | {{ restaurantInfo.location }}</h1>
-
+      
       <div class="flex justify-center flex-wrap gap-1.5 text-sm text-gray-700 mt-4">
         <span>⭐ {{ restaurantInfo.rating }}</span>
         <span class="mx-1 text-gray-400">•</span>
         <span>{{ restaurantInfo.priceRange }}</span>
         <span class="mx-1 text-gray-400">•</span>
         <span>{{ restaurantInfo.deliveryTime }} דקות משלוח</span>
+         <span class="mx-1 text-gray-400">•</span>
+        <span>{{ restaurantInfo.type }}</span>
         <span class="mx-1 text-gray-400">•</span>
         <span class="flex items-center">
           <Truck class="w-4 h-4 text-gray-600 -scale-x-100 pr-1" />
@@ -120,6 +127,7 @@ const translateSection = (section) => {
         v-if="showBottomBar"
         :step="stepNumber"
         :show-tooltip="showTooltip"
+        @next-step="nextStep"
       />
     </transition>
   </div>
