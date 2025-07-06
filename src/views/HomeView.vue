@@ -30,7 +30,7 @@ const selectRestaurant = (restaurant) => {
 const stageTitle = computed(() => {
   const step = props.stepNumber;
 
-  if (step === 1 || step === 2) {
+  if (step <= 2) {
     return { title: 'מסעדות', subtitle: 'כל המסעדות' };
   } else if (step === 4) {
     return { title: 'המלצות', subtitle: 'מומלץ עבורך' };

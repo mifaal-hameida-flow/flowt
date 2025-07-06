@@ -10,29 +10,20 @@ const props = defineProps({
 });
 
 const handleMenuItem = () => {
-  console.log("sending to popup, step:", props.step);
 
   if (props.step === 3) {
     popupState.manualCard = {
-      step: -1,
-      cards: [ 
-        {
           id: 'manual-1',
-          title: 'רגע!',
-          message: ['אופס! נראה שתצטרכו ללחוץ על כפתור ההמלצות 🫣'],
+          title: 'אופס!',
+          message: ['אי אפשר ללחוץ על זה עכשיו...🫣', 'כנראה שתצטרכו לנסות את האיטלקי קודם'],
           buttonTask: {
             msg: 'הבנתי',
-            src: '/media/buttons/checkmark.png'
+            src: '././media/buttons/knowledge.png'
           }
-        }
-      ]
     };
     popupState.isVisible = true;
-
-    console.log('manualCard set:', popupState.manualCard);
   }
 }
-
 
 </script>
 

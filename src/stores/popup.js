@@ -1,4 +1,4 @@
-// src/stores/popupStore.js
+// src/stores/popup.js
 import { reactive } from 'vue';
 
 export const popupState = reactive({

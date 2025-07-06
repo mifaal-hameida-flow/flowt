@@ -21,7 +21,7 @@ const bottomBarData = ref([
 <template>
   <div class="bg-white shadow-top flex justify-around p-4 sticky bottom-0 w-full z-50">
     <div v-for="(icon, index) in bottomBarData" :key="index" class="flex flex-col items-center" v-tooltip="props.step === 3 && index === 0 && showTooltip
-        ? { content: 'השמועה אומרת שאהבת חומוס...', shown: true, triggers: [] }
+        ? { content: 'שמנו לב שאהבת איטלקי...', shown: true, triggers: [] }
         : null"
         :class="step === 3 && index === 0 ? 'animate-pulse' : ''">
       <img :src="icon.src" :class="['w-8 h-8 mb-1', icon.active && 'active']" />

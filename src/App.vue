@@ -7,6 +7,7 @@ import Loader from './components/Loader.vue';
 import {ref, onMounted, computed} from 'vue';
 import RestaurantDetailsView from './views/RestaurantDetailsView.vue';
 import DishDetails from './views/DishDetails.vue';
+import { popupState } from './stores/popup';
 
 const step = ref(0);
 const showLoader = ref(true);
@@ -24,12 +25,11 @@ const nextStep = () => {
   step.value++;
   showPopup.value = true;
   updateCardNumber(0); // reset card
-  localStorage.setItem('currentStep', step); // Save step
+  localStorage.setItem('currentStep', step.value); // Save step
 }
 
 const closePopup = () => {
    showPopup.value = false;
-   console.log(`closing step: ${step.value}`)
 }
 
 const clearProgress = () => {
@@ -47,7 +47,6 @@ const continueProgress = () => {
   const savedStep = localStorage.getItem('currentStep');
   const savedCard = localStorage.getItem('cardNumber');
   const savedRestaurant = localStorage.getItem('chosenRestaurant');
-
   if (savedStep !== null) {
     step.value = parseInt(savedStep, 10);
   }
@@ -80,8 +79,9 @@ const currentViewComponent = computed(() => {
 onMounted(() => {
   const savedStep = localStorage.getItem('currentStep');
   const savedName = localStorage.getItem('userName');
+  const savedRestaurant = localStorage.getItem('userName');
  
-  if (savedStep || savedName) {
+  if (savedStep || savedName || savedRestaurant) {
     showRecoveryPopup.value = true;
   } else {
     setTimeout(() => {
@@ -113,11 +113,12 @@ onMounted(() => {
     <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection" :stepNumber="step"/>
     <RestaurantDetailsView v-else-if="currentViewComponent === RestaurantDetailsView" :restaurantInfo="selectedRestaurant" :stepNumber="step" :popupShowing="showPopup"/>
     <PopupGuide
-      v-if="showPopup"
+      v-if="showPopup || popupState.isVisible"
       :key="step"
       :stepInfo="PopupGuideContent[step]"
       :initial-card="cardNumber"
       :restaurantInfo="selectedRestaurant"
+      :card="popupState.manualCard"
       @next-step="nextStep"
       @close-popup="closePopup"
       @card-number="updateCardNumber"

@@ -2,33 +2,20 @@
 import { ref, onMounted, computed, watch} from 'vue';
 import { popupState } from '../stores/popup';
 
-
-console.log('PopupGuide loaded');
-console.log('Initial popupState:', popupState);
-
 // Props
 const props = defineProps({
   stepInfo: Object,
   initialCard: Number,
-  restaurantInfo: Object
+  restaurantInfo: Object,
+  card: Object
 });
 
 const cardNumber = ref(props.initialCard || 0);
 const emit = defineEmits(['next-step', 'close-popup', 'card-number']);
 // const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
 const firstCard = computed(() => {
-  if (popupState.manualCard) return popupState.manualCard;     // 👈 override with manual
+  if (props.card !== null) return props.card;     // 👈 override with manual
   return props.stepInfo?.cards?.[cardNumber.value];
-});
-
-console.log(firstCard.value)
-
-watch(() => popupState.manualCard, (newVal) => {
-  if (newVal) {
-    console.log('PopupGuide: manualCard received:', newVal);
-  } else {
-    console.log('PopupGuide: manualCard cleared');
-  }
 });
 
 // State
@@ -112,16 +99,7 @@ const handleManualClose = () => {
 
 </script>
 <template>
-    <!-- Always visible in dev -->
-  <div v-if="isDev" class="absolute z-52 w-screen top-0 flex justify-center mt-4">
-    <button
-        @click="clearInput"
-        class="text-xs text-gray-500 underline"
-    >
-        איפוס שם (dev)
-    </button>
-  </div>
-  <div v-if="popupState.isVisible || firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
+  <div v-if="firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
   :key="`${stepInfo.step}-${cardNumber}`"
   :class="{ 'fade-enter': firstCard.id === 1 }">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-4 rounded-xl shadow-lg text-center"
@@ -222,7 +200,11 @@ const handleManualClose = () => {
                 <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="/media/buttons/next-arrow.png" alt="next button"/>
             </div>
 
-            <div class="w-full flex justify-end" v-if="firstCard.buttonTask && stepInfo.step !== 0">
+            <div class="w-full flex"  v-if="firstCard.buttonTask && stepInfo.step !== 0"
+              :class="{
+                'justify-center': firstCard.buttonTask && !firstCard.buttonNext && !firstCard.buttonBack,
+                'justify-end': firstCard.buttonTask && (firstCard.buttonNext || firstCard.buttonBack)
+              }">
                 <span @click="handleTaskClick" class="px-2 py-1 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2">
                     <p class="text-sm text-[#009DE0]">{{ firstCard.buttonTask.msg }}</p>
                     <img :src="firstCard.buttonTask.src" alt="task image" class="mr-1 h-6 w-6 object-contain" />
