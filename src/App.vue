@@ -121,13 +121,15 @@ onMounted(() => {
   </div>
   
   <div v-if="!showLoader">
-    <component :is="currentViewComponent" 
-    @restaurant-selected="handleRestaurantSelection" 
-    @next-step="nextStep"
-    :stepNumber="step"
-    :restaurantInfo="selectedRestaurant" 
-    :popupShowing="showPopup" />
-
+    <Transition name="fade-slide" mode="out-in">
+       <component :is="currentViewComponent" 
+        @restaurant-selected="handleRestaurantSelection" 
+        @next-step="nextStep"
+        :stepNumber="step"
+        :restaurantInfo="selectedRestaurant" 
+        :popupShowing="showPopup" />
+    </Transition>
+   
     <!-- <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection" :stepNumber="step"/>
     <RestaurantDetailsView v-else-if="currentViewComponent === RestaurantDetailsView" :restaurantInfo="selectedRestaurant" :stepNumber="step" :popupShowing="showPopup" @next-step="nextStep"/> -->
     <PopupGuide
@@ -147,3 +149,22 @@ onMounted(() => {
 </template>
 
 
+<style scoped>
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
