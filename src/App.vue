@@ -16,6 +16,7 @@ const showRecoveryPopup = ref(false);
 const cardNumber = ref(0);
 const selectedRestaurant = ref(null);
 const showPopup = ref(true);
+const activeSubView = ref('self-choice');
 
 const updateCardNumber = (newNumber) => {
   cardNumber.value = newNumber;
@@ -74,9 +75,17 @@ const handleRestaurantSelection = (restaurant) => {
 const currentViewComponent = computed(() => {
   if (step.value >= 2 && step.value < 4 ) return RestaurantDetailsView;
   if (step.value === 4) return RecommendedView;
-  if (step.value >= 5) return DishDetails;
+  if (step.value === 5) {
+    return activeSubView.value === 'recommendation' ? RecommendedView : RestaurantDetailsView;
+  }
+  // DishDetails
   return HomeView;
 });
+
+const navigateView = (viewId) => {
+  activeSubView.value = viewId; // 'recommendation' or 'self-choice'
+};
+
 
 onMounted(() => {
   const savedStep = localStorage.getItem('currentStep');
@@ -131,6 +140,7 @@ onMounted(() => {
       @next-step="nextStep"
       @close-popup="closePopup"
       @card-number="updateCardNumber"
+      @view="navigateView"
     />
   </div>
 

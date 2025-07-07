@@ -11,12 +11,29 @@ const props = defineProps({
 });
 
 const cardNumber = ref(props.initialCard || 0);
-const emit = defineEmits(['next-step', 'close-popup', 'card-number']);
+const emit = defineEmits(['next-step', 'close-popup', 'card-number', 'view']);
 // const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
 const firstCard = computed(() => {
   if (props.card !== null) return props.card;     // 👈 override with manual
   return props.stepInfo?.cards?.[cardNumber.value];
 });
+
+const showPopup = ref(false);
+
+watch(firstCard, (newCard) => {
+  if (!newCard) {
+    showPopup.value = false;
+    return;
+  }
+  if (newCard.delay) {
+    showPopup.value = false; // hide immediately
+    setTimeout(() => {
+      showPopup.value = true;
+    }, newCard.delay);
+  } else {
+    showPopup.value = true;
+  }
+}, { immediate: true });
 
 // State
 const userName = ref('');
@@ -97,9 +114,15 @@ const handleManualClose = () => {
   popupState.manualCard = null;
 };
 
+const handleOptionsClick = (button) => {
+  console.log(button.id);
+  emit('view', button.id);
+  emit('next-step');
+}
+
 </script>
 <template>
-  <div v-if="firstCard" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
+  <div v-if="firstCard && showPopup" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
   :key="`${stepInfo.step}-${cardNumber}`"
   :class="{ 'fade-enter': firstCard.id === 1 }">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-4 rounded-xl shadow-lg text-center"
@@ -198,6 +221,13 @@ const handleManualClose = () => {
             </div>
             <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
                 <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="/media/buttons/next-arrow.png" alt="next button"/>
+            </div>
+
+            <div class="w-full flex justify-around" v-if="firstCard.buttonOptions">
+                <span v-for="button in firstCard.buttonOptions" @click="handleOptionsClick(button)" class="px-2 py-1 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2 m-2">
+                    <p class="text-sm text-[#009DE0]">{{ button.msg }}</p>
+                    <img :src="button.src" alt="task image" class="mr-1 h-6 w-6 object-contain" />
+                </span>
             </div>
 
             <div class="w-full flex"  v-if="firstCard.buttonTask && stepInfo.step !== 0"

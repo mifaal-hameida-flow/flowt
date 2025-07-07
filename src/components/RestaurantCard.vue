@@ -8,12 +8,19 @@ const props = defineProps({
 
 const showAutoTooltip = ref(false);
 
+const repeatTooltip = () => {
+  showAutoTooltip.value = false
+  setTimeout(() => {
+    showAutoTooltip.value = true
+  }, 1200) // Delay can be adjusted
+}
+
 onMounted(() => {
   if (props.restaurantInfo.showTooltip) {
     setTimeout(() => {
       showAutoTooltip.value = true;
       // Hide it after 3 seconds
-    }, 1000); // Wait 1 second before showing
+    }, 1200); // Wait 1 second before showing
   }
 });
 </script>
@@ -28,7 +35,8 @@ onMounted(() => {
       html: true
     } : null"
       class="bg-white rounded-2xl shadow-md w-80 m-4 overflow-hidden hover:shadow-lg transition-shadow duration-200"
-    >
+      @click="restaurantInfo.showTooltip && repeatTooltip()"
+      >
 
       <!-- תמונה -->
       <div class="h-40 w-full overflow-hidden relative">

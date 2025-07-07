@@ -101,13 +101,20 @@
    "cards": [
       {
         "id": 1,
+        "delay": 5000,
         "message": [
-        ""
+        "אז מאיפה מזמינים?"
         ],
-         "buttonTask": {
-          "src" : "././media/buttons/click.png",
-          "msg" : "יאללה נמשיך!"
-        }
+         "buttonOptions": [{
+          "id" : "self-choice",
+          "src" : "././media/buttons/think-different.png",
+          "msg" : "המסעדה שבחרתי"
+         },
+        {
+          "id" : "recommendation",
+          "src" : "././media/buttons/recommendation.png",
+          "msg" : "יאללה ננסה את ההמלצה"
+         }]
       }
     ]
   }
