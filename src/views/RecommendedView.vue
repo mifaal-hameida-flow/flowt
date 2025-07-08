@@ -40,8 +40,8 @@ const startIdleTimer = () => {
         title: 'נו למה אתם מחכים?',
         message: ['בחרו מסעדה ואז מנה שתרצו להזמין 🍽️'],
         buttonTask: {
-          msg: 'יאללה!',
-          src: '././media/buttons/knowledge.png'
+          msg: 'יאללה נזמין אוכל',
+          src: '././media/buttons/order.png'
         }
       };
 

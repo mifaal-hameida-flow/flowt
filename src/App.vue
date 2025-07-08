@@ -19,6 +19,7 @@ const showPopup = ref(true);
 const activeSubView = ref(null);
 const startListening = ref(false);
 const userName = ref(false);
+const selectedDish = ref(null);
 
 const stepInfo = computed(() => {
   const info = PopupGuideContent[step.value];
@@ -58,6 +59,8 @@ const continueProgress = () => {
   const savedCard = localStorage.getItem('cardNumber');
   const savedRestaurant = localStorage.getItem('chosenRestaurant');
   const savedView = localStorage.getItem('chosenView');
+  const savedDish = localStorage.getItem('chosenDish');
+
   if (savedStep !== null) {
     step.value = parseInt(savedStep, 10);
   }
@@ -77,6 +80,10 @@ const continueProgress = () => {
     activeSubView.value = savedView;
   }
 
+  if (savedDish !== null) {
+    selectedDish.value = savedDish;
+  }
+
   showRecoveryPopup.value = false;
   setTimeout(() => {
     showLoader.value = false;
@@ -93,12 +100,19 @@ const handleRestaurantSelection = (restaurant) => {
   }
 };
 
+const handleDishSelection = (dish) => {
+  selectedDish.value = dish; // this is an object 
+  localStorage.setItem('chosenDish', JSON.stringify(selectedDish.value));
+  nextStep();
+}
+
 const currentViewComponent = computed(() => {
   if (step.value >= 2 && step.value < 4 ) return RestaurantDetailsView;
   if (step.value === 4) return RecommendedView;
   if (step.value === 5) {
     return activeSubView.value === 'recommendation' ? RecommendedView : RestaurantDetailsView;
   }
+  if (step.value === 6) return DishDetails;
   // DishDetails
   return HomeView;
 });
@@ -125,8 +139,10 @@ onMounted(() => {
   const savedCard = localStorage.getItem('cardNumber');
   const savedRestaurant = localStorage.getItem('chosenRestaurant');
   const savedView = localStorage.getItem('chosenView');
+  const savedDish = localStorage.getItem('chosenDish');
  
-  if (savedStep || savedName || savedRestaurant || savedView || savedCard) {
+  if (savedStep || savedName || savedRestaurant || savedView || savedCard || savedDish
+  ) {
     showRecoveryPopup.value = true;
   } else {
     setTimeout(() => {
@@ -158,9 +174,11 @@ onMounted(() => {
     <Transition name="fade-slide" mode="out-in">
        <component :is="currentViewComponent" 
         @restaurant-selected="handleRestaurantSelection" 
+        @dish-selected="handleDishSelection"
         @next-step="nextStep"
         :stepNumber="step"
         :restaurantInfo="selectedRestaurant" 
+        :dishInfo="selectedDish"
         :popupShowing="showPopup"
         :shouldListen="startListening" />
     </Transition>

@@ -173,7 +173,8 @@ onMounted(() => {
       </div>
 
       <div v-if="firstCard.message" v-for="(paragraph, idx) in firstCard.message" :key="idx" class="mb-3">
-        <p>{{ paragraph }}</p>
+        <!-- <p>{{ paragraph }}</p> -->
+         <p v-html="paragraph"></p>
       </div>
 
       <div
@@ -182,7 +183,8 @@ onMounted(() => {
         :key="idx"
         class="mb-3"
       >
-        <p>{{ paragraph }}</p>
+        <!-- <p>{{ paragraph }}</p> -->
+        <p v-html="paragraph"></p>
       </div>
 
       <!-- only relevant for the first step -->

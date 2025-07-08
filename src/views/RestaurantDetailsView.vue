@@ -12,7 +12,7 @@ const props = defineProps({
   popupShowing: Boolean,
   shouldListen: Boolean,
 });
-const emit = defineEmits(['next-step']);
+const emit = defineEmits(['next-step', 'dish-selected']);
 
 const showBottomBar = ref(false);
 const showTooltip = ref(false);
@@ -46,8 +46,8 @@ const startIdleTimer = () => {
         title: 'נו למה אתם מחכים?',
         message: ['בחרו מנה שתרצו להזמין 🍽️'],
         buttonTask: {
-          msg: 'יאללה!',
-          src: '././media/buttons/knowledge.png'
+          msg: 'יאללה נזמין אוכל',
+          src: '././media/buttons/order.png'
         }
       };
 
@@ -115,6 +115,10 @@ const translateSection = (section) => {
 
 const nextStep = () => {
   emit("next-step")
+}
+
+const handleDishSelection = (dish) => {
+  emit("dish-selected", dish)
 }
 
 </script>
@@ -189,6 +193,7 @@ const nextStep = () => {
             :key="index"
             :dish="dish"
             :step="stepNumber"
+            @click="handleDishSelection(dish)"
           />
         </div>
       </div>
