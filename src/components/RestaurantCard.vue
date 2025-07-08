@@ -26,7 +26,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex justify-center w-full" dir="rtl">
+  <div class="flex justify-center w-full restaurant-card" dir="rtl">
     <div
       v-tooltip="restaurantInfo.showTooltip ? {
       content: 'לפי הנתונים שנאספו עליך נראה<br> שתאהב מאוד את המסעדה הזאת!',
@@ -101,5 +101,6 @@ onMounted(() => {
 .glow {
   animation: glow 1.5s ease-in-out infinite;
 }
+
 
 </style>

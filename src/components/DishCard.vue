@@ -30,7 +30,7 @@ const handleMenuItem = () => {
 <template>
   <div
     @click="handleMenuItem"
-    class="flex items-center bg-white rounded-xl overflow-hidden shadow-md transition duration-300 w-full"
+    class="flex items-center bg-white rounded-xl overflow-hidden shadow-md transition duration-300 w-full dish-card"
     dir="rtl"
   >
     <!-- טקסט -->

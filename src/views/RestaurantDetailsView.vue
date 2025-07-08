@@ -2,19 +2,21 @@
 import DishCard from '../components/DishCard.vue';
 import { Truck, Star } from 'lucide-vue-next'; 
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
-import { ref, watch } from 'vue';
+import { ref, toRef, watch, onUnmounted, onMounted } from 'vue';
 import BottomBar from '../components/BottomBar.vue';
 import { popupState } from '../stores/popup';
 
 const props = defineProps({
   restaurantInfo: Object,
   stepNumber: Number,
-  popupShowing: Boolean
+  popupShowing: Boolean,
+  shouldListen: Boolean,
 });
 const emit = defineEmits(['next-step']);
 
 const showBottomBar = ref(false);
 const showTooltip = ref(false);
+const shouldListen = toRef(props, 'shouldListen');
 
 watch(
   () => props.popupShowing,
@@ -27,6 +29,75 @@ watch(
   },
   { immediate: true }
 );
+
+
+let idleTimeout = null;
+let isListening = false;
+
+// === Idle Timer Logic ===
+const startIdleTimer = () => {
+  clearTimeout(idleTimeout);
+
+  idleTimeout = setTimeout(() => {
+    if (!popupState.isVisible && !props.popupShowing) {
+
+      popupState.manualCard = {
+        id: 'idle-step-5',
+        title: 'נו למה אתם מחכים?',
+        message: ['בחרו מנה שתרצו להזמין 🍽️'],
+        buttonTask: {
+          msg: 'יאללה!',
+          src: '././media/buttons/knowledge.png'
+        }
+      };
+
+      popupState.isVisible = true;
+    } 
+  }, 5000); // adjust as needed
+};
+
+const resetIdleTimer = () => {
+  clearTimeout(idleTimeout);
+
+  if (popupState.isVisible) {
+    popupState.isVisible = false;
+  }
+
+  startIdleTimer();
+};
+
+const listenToUser = () => {
+  if (!isListening) {
+    window.addEventListener('click', resetIdleTimer);
+    isListening = true;
+  }
+
+  startIdleTimer();
+};
+
+const stopListening = () => {
+  clearTimeout(idleTimeout);
+
+  if (isListening) {
+    window.removeEventListener('click', resetIdleTimer);
+    isListening = false;
+  }
+};
+
+
+watch(shouldListen, (val) => {
+  if (val) {
+    listenToUser();
+  } else {
+    stopListening();
+  }
+}, { immediate: true });
+
+
+
+onUnmounted(() => {
+  stopListening();
+});
 
 
 const handleBottomBarEntered = () => {

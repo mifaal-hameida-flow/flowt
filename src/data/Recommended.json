@@ -149,7 +149,7 @@
             "name": "פסטה פפרדלה ראגו",
             "price": 78,
             "description": "רצועות פסטה טריות ברוטב ראגו בקר איטי עם עשבי תיבול",
-            "image": "././media/dishes/ragu.jpg"
+            "image": "././media/dishes/ragu.jpeg"
         },
         {
             "name": "ריזוטו פטריות",
@@ -181,7 +181,7 @@
             "name": "עוגת שוקולד נמסה",
             "price": 34,
             "description": "עוגת שוקולד חמה עם לב נמס וגלידת וניל",
-            "image": "././media/dishes/lava_cake.jpg"
+            "image": "././media/dishes/lava_cake.jpeg"
         }
         ]
     }

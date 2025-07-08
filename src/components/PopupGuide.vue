@@ -7,36 +7,55 @@ const props = defineProps({
   stepInfo: Object,
   initialCard: Number,
   restaurantInfo: Object,
-  card: Object
+  card: Object,
+  name: String,
+  view: String
 });
 
 const cardNumber = ref(props.initialCard || 0);
-const emit = defineEmits(['next-step', 'close-popup', 'card-number', 'view']);
+const emit = defineEmits(['next-step', 'close-popup', 'card-number', 'view', 'username']);
 // const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
 const firstCard = computed(() => {
-  if (props.card !== null) return props.card;     // 👈 override with manual
-  return props.stepInfo?.cards?.[cardNumber.value];
+  if (props.card !== null) return props.card;
+  return props.stepInfo?.cards?.[cardNumber.value ?? 0];  // כאן לוודא שיש default
 });
 
 const showPopup = ref(false);
+const chosenView = computed(() => props.view);
 
-watch(firstCard, (newCard) => {
+const selectedMessages = computed(() => {
+  if (!chosenView.value) {
+    return [];
+  }
+  const currentMessages = firstCard.value?.messageOptions || [];
+  const match = currentMessages.find(item => chosenView.value in item);
+  return match ? match[chosenView.value] : [];
+});
+
+const handlePopupDisplay = (newCard) => {
   if (!newCard) {
     showPopup.value = false;
     return;
   }
+
   if (newCard.delay) {
-    showPopup.value = false; // hide immediately
+    showPopup.value = false; // Hide immediately
     setTimeout(() => {
       showPopup.value = true;
     }, newCard.delay);
   } else {
     showPopup.value = true;
   }
+};
+
+watch(() => props.stepInfo, () => {
+  cardNumber.value = props.initialCard || 0;
+  handlePopupDisplay(props.stepInfo?.cards?.[cardNumber.value]);
 }, { immediate: true });
 
+
 // State
-const userName = ref('');
+const userName = ref(props.name || '');
 const isValid = ref(false);
 const showGreeting = ref(false);
 // Regex: Only Hebrew, English letters, spaces (optional)
@@ -53,14 +72,7 @@ const filteredFields = computed(() => {
   }
   return clone
 })
-// Load saved name
-onMounted(() => {
-  const savedName = localStorage.getItem('userName');
-  if (savedName) {
-    userName.value = savedName;
-    showGreeting.value = true;
-  }
-});
+
 
 // Validate input
 const validateName = (name) => {
@@ -75,7 +87,7 @@ const handleInput = (event) => {
 
 const confirmName = () => {
   if (isValid.value) {
-    localStorage.setItem('userName', userName.value.trim());
+    emit('username', userName.value);
     showGreeting.value = true;
   }
 };
@@ -85,7 +97,6 @@ const clearInput = () => {
   userName.value = '';
   isValid.value = false;
   showGreeting.value = false;
-  localStorage.removeItem('userName');
 };
 
 const handleTaskClick = () => {
@@ -94,7 +105,7 @@ const handleTaskClick = () => {
     emit('next-step');
   } else {
     emit('close-popup');
-    if (props.stepInfo.step === 3 && popupState.manualCard) {
+    if (props.stepInfo.step === 3 && popupState.manualCard || props.stepInfo.step === 5 && popupState.manualCard) {
       handleManualClose();
     }
   }
@@ -115,14 +126,19 @@ const handleManualClose = () => {
 };
 
 const handleOptionsClick = (button) => {
-  console.log(button.id);
   emit('view', button.id);
   emit('next-step');
 }
-
+onMounted(() => {
+  if (props.name) {
+    userName.value = props.name;
+    showGreeting.value = true;
+    isValid.value = true;
+  }
+});
 </script>
 <template>
-  <div v-if="firstCard && showPopup" class="fixed top-0 right-0 z-51 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
+  <div v-if="(showPopup || popupState.isVisible) && stepInfo" class="fixed top-0 right-0 z-60 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
   :key="`${stepInfo.step}-${cardNumber}`"
   :class="{ 'fade-enter': firstCard.id === 1 }">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-4 rounded-xl shadow-lg text-center"
@@ -156,7 +172,16 @@ const handleOptionsClick = (button) => {
         </table>
       </div>
 
-      <div v-for="(paragraph, idx) in firstCard.message" :key="idx" class="mb-3">
+      <div v-if="firstCard.message" v-for="(paragraph, idx) in firstCard.message" :key="idx" class="mb-3">
+        <p>{{ paragraph }}</p>
+      </div>
+
+      <div
+        v-if="selectedMessages.length"
+        v-for="(paragraph, idx) in selectedMessages"
+        :key="idx"
+        class="mb-3"
+      >
         <p>{{ paragraph }}</p>
       </div>
 

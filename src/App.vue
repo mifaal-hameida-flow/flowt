@@ -4,7 +4,7 @@ import PopupGuide from './components/PopupGuide.vue';
 import PopupGuideContent from './data/PopupGuideContent.json';
 import HomeView from './views/HomeView.vue';
 import Loader from './components/Loader.vue';
-import {ref, onMounted, computed} from 'vue';
+import {ref, onMounted, computed, watch} from 'vue';
 import RestaurantDetailsView from './views/RestaurantDetailsView.vue';
 import DishDetails from './views/DishDetails.vue';
 import { popupState } from './stores/popup';
@@ -16,7 +16,14 @@ const showRecoveryPopup = ref(false);
 const cardNumber = ref(0);
 const selectedRestaurant = ref(null);
 const showPopup = ref(true);
-const activeSubView = ref('self-choice');
+const activeSubView = ref(null);
+const startListening = ref(false);
+const userName = ref(false);
+
+const stepInfo = computed(() => {
+  const info = PopupGuideContent[step.value];
+  return info;
+});
 
 const updateCardNumber = (newNumber) => {
   cardNumber.value = newNumber;
@@ -47,8 +54,10 @@ const clearProgress = () => {
 
 const continueProgress = () => {
   const savedStep = localStorage.getItem('currentStep');
+  const savedName = localStorage.getItem('userName');
   const savedCard = localStorage.getItem('cardNumber');
   const savedRestaurant = localStorage.getItem('chosenRestaurant');
+  const savedView = localStorage.getItem('chosenView');
   if (savedStep !== null) {
     step.value = parseInt(savedStep, 10);
   }
@@ -58,6 +67,14 @@ const continueProgress = () => {
     if (savedRestaurant !== null) {
     const parsedRestaurant = JSON.parse(savedRestaurant);
     selectedRestaurant.value = parsedRestaurant;
+  }
+  
+  if (savedName !== null) {
+    userName.value = savedName;
+  }
+
+   if (savedView !== null) {
+    activeSubView.value = savedView;
   }
 
   showRecoveryPopup.value = false;
@@ -69,7 +86,11 @@ const continueProgress = () => {
 const handleRestaurantSelection = (restaurant) => {
   selectedRestaurant.value = restaurant;
   localStorage.setItem('chosenRestaurant', JSON.stringify(selectedRestaurant.value));
-  nextStep();
+  if (step.value !== 5) {
+    nextStep();
+  } else {
+    activeSubView.value= 'selfChoice'
+  }
 };
 
 const currentViewComponent = computed(() => {
@@ -84,15 +105,28 @@ const currentViewComponent = computed(() => {
 
 const navigateView = (viewId) => {
   activeSubView.value = viewId; // 'recommendation' or 'self-choice'
+  localStorage.setItem('chosenView', activeSubView.value);
 };
 
+const saveName = (username) => {
+  userName.value = username; // 'recommendation' or 'self-choice'
+  localStorage.setItem('userName', userName.value);
+}
+
+watch([step, showPopup], ([newStep, popupVisible]) => {
+  if (newStep === 5 && !popupVisible) {
+    startListening.value = true;
+  }
+}, { immediate: true });
 
 onMounted(() => {
   const savedStep = localStorage.getItem('currentStep');
   const savedName = localStorage.getItem('userName');
-  const savedRestaurant = localStorage.getItem('userName');
+  const savedCard = localStorage.getItem('cardNumber');
+  const savedRestaurant = localStorage.getItem('chosenRestaurant');
+  const savedView = localStorage.getItem('chosenView');
  
-  if (savedStep || savedName || savedRestaurant) {
+  if (savedStep || savedName || savedRestaurant || savedView || savedCard) {
     showRecoveryPopup.value = true;
   } else {
     setTimeout(() => {
@@ -127,25 +161,28 @@ onMounted(() => {
         @next-step="nextStep"
         :stepNumber="step"
         :restaurantInfo="selectedRestaurant" 
-        :popupShowing="showPopup" />
+        :popupShowing="showPopup"
+        :shouldListen="startListening" />
     </Transition>
    
     <!-- <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection" :stepNumber="step"/>
     <RestaurantDetailsView v-else-if="currentViewComponent === RestaurantDetailsView" :restaurantInfo="selectedRestaurant" :stepNumber="step" :popupShowing="showPopup" @next-step="nextStep"/> -->
     <PopupGuide
-      v-if="showPopup || popupState.isVisible"
-      :key="step"
-      :stepInfo="PopupGuideContent[step]"
+       v-if="(showPopup || popupState.isVisible) && stepInfo"
+      :key="step" 
+      :stepInfo="stepInfo"
       :initial-card="cardNumber"
       :restaurantInfo="selectedRestaurant"
       :card="popupState.manualCard"
+      :name="userName || null"
+      :view="activeSubView || null"
       @next-step="nextStep"
       @close-popup="closePopup"
       @card-number="updateCardNumber"
       @view="navigateView"
+      @username="saveName"
     />
   </div>
-
 </template>
 
 
