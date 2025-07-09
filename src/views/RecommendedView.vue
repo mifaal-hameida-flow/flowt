@@ -79,7 +79,10 @@ const stopListening = () => {
 };
 
 const selectRestaurant = (restaurant) => {
+  console.log(props.stepNumber)
+  if (props.stepNumber !== 4) {
   emit('restaurant-selected', restaurant);
+  }
 }
 
 watch(shouldListen, (val) => {
@@ -115,7 +118,7 @@ onMounted(() => {
       <div v-for="section in sections" :key="section.key">
         <div class="flex justify-between items-center">
           <h2 class="mr-4 mb-1 text-xl">{{ section.title }}</h2>
-          <div class="bg-blue-100 p-1 rounded-sm text-sm text-[#009DE0] font-bold">גללו להמשך</div>
+          <div class="bg-[#E6F8FA] p-1 px-2 rounded-sm text-xs text-[#48cae4]">גללו להמשך</div>
         </div>
 
         <div class="flex gap-4 overflow-x-auto">

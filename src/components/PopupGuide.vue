@@ -141,12 +141,12 @@ onMounted(() => {
   <div v-if="(showPopup || popupState.isVisible) && stepInfo" class="fixed top-0 right-0 z-60 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
   :key="`${stepInfo.step}-${cardNumber}`"
   :class="{ 'fade-enter': firstCard.id === 1 }">
-    <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#EBF7FD] p-4 rounded-xl shadow-lg text-center"
+    <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#E6F8FA] p-4 rounded-xl shadow-lg text-center"
     :key="`${stepInfo.step}-${cardNumber}`" 
     :class="{ 'animate-zoom': firstCard.id === 1 }">
       
       <p v-if="firstCard.preTitle" class="mb-3">{{ firstCard.preTitle }}</p>
-      <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#009DE0] font-title">{{ firstCard.title }}</h2>
+      <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]">{{ firstCard.title }}</h2>
 
       <div v-if="firstCard.table" class="w-full overflow-auto max-w-full mb-2">
         <table class="info-table">
@@ -194,7 +194,7 @@ onMounted(() => {
                 class="px-4 py-2 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2"
                 @click="handleTaskClick"
                 >
-                    <p class="text-s text-[#009DE0]">{{ firstCard.buttonTask.msg }}</p>
+                    <p class="text-s text-[#48cae4]">{{ firstCard.buttonTask.msg }}</p>
                     <img :src="firstCard.buttonTask.src" alt="task image" class="mr-2 h-8 w-8 object-contain" />
             </div>
                 <!-- Greeting -->
@@ -220,7 +220,7 @@ onMounted(() => {
                 <button
                 v-if="isValid && !showGreeting"
                 @click="confirmName"
-                class="mt-2 bg-[#009DE0] text-white px-4 py-1 rounded text-sm"
+                class="mt-2 bg-[#48cae4] text-white px-4 py-1 rounded text-sm"
                 >
                 אישור
                 </button>
@@ -244,15 +244,15 @@ onMounted(() => {
         <!-- buttons container -->
         <div class="w-full flex items-center">
             <div class="w-full flex justify-start" v-if="firstCard.buttonBack">
-                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="/media/buttons/back-arrow.png" alt="back button"/>
+                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain color-filter" src="/media/buttons/back-arrow.png" alt="back button"/>
             </div>
             <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
-                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain" src="/media/buttons/next-arrow.png" alt="next button"/>
+                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain color-filter" src="/media/buttons/next-arrow.png" alt="next button"/>
             </div>
 
             <div class="w-full flex justify-around" v-if="firstCard.buttonOptions">
                 <span v-for="button in firstCard.buttonOptions" @click="handleOptionsClick(button)" class="px-2 py-1 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2 m-2">
-                    <p class="text-sm text-[#009DE0]">{{ button.msg }}</p>
+                    <p class="text-sm text-[#48cae4]">{{ button.msg }}</p>
                     <img :src="button.src" alt="task image" class="mr-1 h-6 w-6 object-contain" />
                 </span>
             </div>
@@ -263,7 +263,7 @@ onMounted(() => {
                 'justify-end': firstCard.buttonTask && (firstCard.buttonNext || firstCard.buttonBack)
               }">
                 <span @click="handleTaskClick" class="px-2 py-1 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2">
-                    <p class="text-sm text-[#009DE0]">{{ firstCard.buttonTask.msg }}</p>
+                    <p class="text-sm text-[#48cae4]">{{ firstCard.buttonTask.msg }}</p>
                     <img :src="firstCard.buttonTask.src" alt="task image" class="mr-1 h-6 w-6 object-contain" />
                 </span>
             </div>
@@ -276,7 +276,7 @@ onMounted(() => {
 <style scoped>
 
 input:focus {
-  border: 1px solid #009DE0;
+  border: 1px solid #48cae4;
   outline: none;
 }
 
@@ -317,14 +317,14 @@ input:focus {
 
 .info-table th,
 .info-table td {
-  border: 1px solid #aaa;
+  border: 1px solid #8bbcc6;
   padding: 5px;
   text-align: center;
   word-break: break-word;
 }
 
 .info-table th {
-  background-color: #f0f0f0;
+  background-color: #b4e1ee57;
 }
 .direction {
   direction: ltr;
@@ -333,5 +333,8 @@ input:focus {
   font-family: monospace;  /* Optional: for clearer path display */
 }
 
+.color-filter {
+  filter: brightness(116%) hue-rotate(-16deg);
+}
 
 </style>

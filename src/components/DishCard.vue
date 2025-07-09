@@ -43,7 +43,7 @@ const handleMenuItem = () => {
           {{ dish.description }}
         </p>
       </div>
-      <p class="text-sm text-[#009DE0] mt-2">
+      <p class="text-sm text-[#48cae4] mt-2">
         ₪{{ dish.price }}
       </p>
     </div>

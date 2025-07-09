@@ -118,7 +118,9 @@ const nextStep = () => {
 }
 
 const handleDishSelection = (dish) => {
-  emit("dish-selected", dish)
+  if (props.stepNumber !== 3) {
+    emit("dish-selected", dish)
+  }
 }
 
 </script>
@@ -174,8 +176,8 @@ const handleDishSelection = (dish) => {
           </span>
       </div>
       <div class="w-full flex justify-center">
-         <button class="flex items-center align-center text-center mt-2 bg-[#EBF7FD] text-[#009DE0] px-4 py-2 rounded-md text-sm">
-         <Truck class="w-4 h-4 text-[#009DE0] -scale-x-100 pr-1" />
+         <button class="flex items-center align-center text-center mt-2 bg-[#E6F8FA] text-[#48cae4] px-4 py-2 rounded-md text-sm">
+         <Truck class="w-4 h-4 text-[#48cae4] -scale-x-100 pr-1" />
         משלוח משוער {{ restaurantInfo.deliveryTime }} דקות
       </button>
       </div>

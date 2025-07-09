@@ -106,7 +106,7 @@ onMounted(() => {
 }
 
 .active {
-    filter: invert(50%) sepia(72%) saturate(600%) hue-rotate(140deg);
+    filter: invert(50%) sepia(72%) saturate(600%) hue-rotate(145deg);
 }
 
 </style>

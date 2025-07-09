@@ -15,13 +15,25 @@
           "name": "אדממה",
           "price": 22,
           "description": "אדממה מאודה עם מלח ים",
-          "image": "././media/dishes/edemame.jpg"
+          "image": "././media/dishes/edemame.jpg",
+          "preferences": [
+            {
+              "title": "שינויים במנה",
+              "options": ["רגיל", "ללא מלח גס", "מלח גס בצד", "תוספת לימון"]
+            }
+          ]
         },
         {
           "name": "מרק מיסו",
           "price": 18,
           "description": "מרק מיסו יפני מסורתי עם טופו ואצות",
-          "image": "././media/dishes/misosoup.jpg"
+          "image": "././media/dishes/misosoup.jpg",
+          "preferences": [
+            {
+              "title": "שינויים במנה",
+              "options": ["ללא טופו", "ללא אצות", "תוספת ירקות"]
+            }
+          ]
         }
       ],
       "mainCourses" : [
@@ -29,13 +41,67 @@
           "name": "מגש סושי",
           "price": 65,
           "description": "מבחר רולים טריים וטעימים",
-          "image": "././media/dishes/sushi.jpg"
+          "image": "././media/dishes/sushi.jpg",
+           "preferences": [
+            {
+              "title": "בחירת רולים למגש",
+              "subtitle": "ניתן לבחור עד 5 רולים",
+              "options": [
+                "רול סלמון ואבוקדו",
+                "רול טונה פיקנטית",
+                "רול ירקות (צמחוני)",
+                "רול פילדלפיה (סלמון, גבינת שמנת)",
+                "רול טמפורה שרימפס",
+                "רול מנגו ואבוקדו",
+                "רול ספייסי סלמון",
+                "רול אספרגוס ושומשום"
+              ],
+              "numberOfPick": 5
+            },
+            {
+              "title": "רטבים לבחירה",
+              "subtitle": "ניתן לבחור עד 3 רטבים",
+              "options": [
+              "סויה רגילה",
+              "סויה דלת נתרן",
+              "ווסאבי",
+              "טריאקי",
+              "ספייסי מיונז",
+              "ג'ינג'ר כבוש",
+              "צ'ילי מתוק"
+            ],
+            "numberOfPick": 3
+            }
+          ]
         },
         {
           "name": "ראמן שויו",
           "price": 52,
           "description": "אטריות ראמן בציר סויה עם עוף וביצה",
-          "image": "././media/dishes/ramen.jpg"
+          "image": "././media/dishes/ramen.jpg",
+          "preferences": [
+          {
+            "title": "דרגת חריפות",
+            "options": [
+              "ללא חריף",
+              "חריפות קלה",
+              "חריף בינוני",
+              "חריף מאוד"
+            ],
+             "numberOfPick": 1
+          },
+          {
+            "title": "תוספות לבחירה",
+            "options": [
+              "ביצה חצי רכה נוספת",
+              "תוספת עוף",
+              "בצל ירוק",
+              "נורי (אצת ים)",
+              "תירס"
+            ],
+            "numberOfPick": 5,
+            "addedPrice": 7 }
+          ]
         }
       ],
       "desserts" :[
@@ -43,13 +109,62 @@
           "name": "גלידת מוצ’י",
           "price": 28,
           "description": "כדורי מוצ’י ממולאים בגלידה בטעמים שונים",
-          "image": "././media/dishes/mochi.jpg"
+          "image": "././media/dishes/mochi.jpg",
+          "preferences": [
+          {
+            "title": "טעמים לבחירה",
+            "subtitle": "ניתן לבחור עד 3 טעמים",
+            "options": [
+              "מאצ'ה (תה ירוק)",
+              "וניל",
+              "שוקולד",
+              "מנגו",
+              "פטל",
+              "מלון"
+            ],
+            "numberOfPick": 3
+          },
+          {
+            "title": "כמות כדורים",
+            "options": [
+              "2 כדורים",
+              "3 כדורים",
+              "4 כדורים"
+            ],
+             "numberOfPick": 1,
+             "addedPrice": 7  
+          }
+        ]
         },
         {
           "name": "דוריאקי",
           "price": 24,
           "description": "פנקייק יפני ממולא בממרח שעועית אדומה",
-          "image": "././media/dishes/dorayaki.jpg"
+          "image": "././media/dishes/dorayaki.jpg",
+          "preferences": [
+            {
+              "title": "מילוי לבחירה",
+              "subtitle": "אפשר לבחור רק מילוי אחד",
+              "options": [
+                "ממרח שעועית אדומה (קלאסי)",
+                "שוקולד נוגט",
+                "קרם וניל",
+                "חמאת בוטנים"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "תוספת בצד",
+              "subtitle": "אפשר לבחור רק תוספת אחת (מגיעה עם המנה)",
+              "options": [
+                "גלידת וניל",
+                "קצפת",
+                "סירופ מייפל",
+                "ללא תוספת"
+              ],
+              "numberOfPick": 1
+            }
+          ]
         }
       ]
     }
@@ -70,43 +185,178 @@
         "name": "סלט קפרזה",
         "price": 32,
         "description": "עגבניות שרי, מוצרלה טרייה ובזיליקום עם בלסמי מצומצם",
-        "image": "././media/dishes/caprese.jpg"
+        "image": "././media/dishes/caprese.jpg",
+        "preferences": [
+          {
+            "title": "תוספות לסלט",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "אבוקדו",
+              "אגוזי מלך",
+              "בצל סגול",
+              "עלים ירוקים נוספים"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          },
+          {
+            "title": "רוטב לבחירה",
+            "options": [
+              "בלסמי מצומצם",
+              "ויניגרט הדרים",
+              "שמן זית ולימון",
+              "רוטב פסטו עדין"
+            ],
+            "numberOfPick": 1
+          }
+        ]
       },
       {
         "name": "מרק בצל וטוסט",
         "price": 28,
         "description": "מרק בצל צרפתי עם טוסט גבינה צהובה",
-        "image": "././media/dishes/onionsoup.jpeg"
+        "image": "././media/dishes/onionsoup.jpeg",
+        "preferences": [
+          {
+            "title": "סוג גבינה לטוסט",
+            "options": [
+              "גבינה צהובה",
+              "מוצרלה",
+              "גבינת עיזים",
+              "ללא גבינה"
+            ],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות למרק",
+            "options": [
+              "קרוטונים",
+              "פטריות מוקפצות",
+              "בצל ירוק קצוץ"
+            ],
+            "numberOfPick": 3,
+            "addedPrice": 3
+          }
+        ]
       }
     ],
-    "mainCourses": [
+   "mainCourses": [
       {
         "name": "כריך סלמון מעושן",
         "price": 48,
         "description": "לחם דגנים, גבינת שמנת, סלמון מעושן, בצל סגול ועלי רוקט",
-        "image": "././media/dishes/smokedsalmon.jpg"
+        "image": "././media/dishes/smokedsalmon.jpg",
+        "preferences": [
+          {
+            "title": "בחירת סוג לחם",
+            "options": [
+              "לחם דגנים",
+              "לחם לבן",
+              "לחם שיפון",
+              "לחם ללא גלוטן"
+            ],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות לכריך",
+            "options": [
+              "עגבנייה",
+              "אבוקדו",
+              "ביצה קשה",
+              "מלפפון חמוץ"
+            ],
+            "numberOfPick": 4,
+            "addedPrice": 6
+          }
+        ]
       },
       {
         "name": "שקשוקה קלאסית",
         "price": 42,
         "description": "רוטב עגבניות ביתי, ביצים, פטרוזיליה ולחם טרי בצד",
-        "image": "././media/dishes/shakshuka.jpeg"
+        "image": "././media/dishes/shakshuka.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת רמת עשייה של ביצים",
+            "options": [
+              "נוזלי",
+              "בינוני",
+              "עשוי היטב"
+            ],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות לשקשוקה",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "חציל קלוי",
+              "בולגרית מפוררת",
+              "טחינה בצד",
+              "פטריות מוקפצות"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 5
+          }
+        ]
       }
     ],
-    "desserts": [
-      {
-        "name": "קרואסון שוקולד",
-        "price": 18,
-        "description": "קרואסון חמאה פריך עם מילוי שוקולד עשיר",
-        "image": "././media/dishes/chococroissant.jpg"
-      },
-      {
-        "name": "עוגת גבינה אפויה",
-        "price": 26,
-        "description": "עוגת גבינה קלאסית עם תחתית ביסקוויטים",
-        "image": "././media/dishes/cheesecake.jpeg"
-      }
-    ]
+   "desserts": [
+        {
+          "name": "קרואסון שוקולד",
+          "price": 18,
+          "description": "קרואסון חמאה פריך עם מילוי שוקולד עשיר",
+          "image": "././media/dishes/chococroissant.jpg",
+          "preferences": [
+            {
+              "title": "אפשרויות חימום",
+              "options": [
+                "לא לחמם",
+                "חימום קל",
+                "חם מהתנור"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "תוספות לקרואסון",
+              "options": [
+                "רוטב שוקולד בצד",
+                "כדור גלידת וניל",
+                "אבקת סוכר"
+              ],
+              "numberOfPick": 3,
+              "addedPrice": 5
+            }
+          ]
+        },
+        {
+          "name": "עוגת גבינה אפויה",
+          "price": 26,
+          "description": "עוגת גבינה קלאסית עם תחתית ביסקוויטים",
+          "image": "././media/dishes/cheesecake.jpeg",
+          "preferences": [
+            {
+              "title": "רוטב לצד העוגה",
+              "options": [
+                "ריבת תות",
+                "קרמל מלוח",
+                "שוקולד חם",
+                "ללא רוטב"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "תוספת מעל",
+              "options": [
+                "פירות יער טריים",
+                "שברי ביסקוויטים",
+                "שבבי קוקוס קלוי"
+              ],
+              "numberOfPick": 3,
+              "addedPrice": 4
+            }
+          ]
+        }
+      ]
   }
   },
   {
@@ -120,43 +370,170 @@
     "logo" : "././media/restaurantlogos/burger.jpeg",
     "src": "././media/restaurantcards/burgers.avif",
     "menu" : {
-      "firstCourses" : [
-         {
-        "name": "כנפיים צ'ילי",
-        "price": 52,
-        "description": "כנפיים מושחתות בטירוף ברוטב חמאה וצ'ילי חריף",
-        "image": "././media/dishes/hotwings.jpg"
-       }
+     "firstCourses": [
+        {
+          "name": "כנפיים צ'ילי",
+          "price": 52,
+          "description": "כנפיים מושחתות בטירוף ברוטב חמאה וצ'ילי חריף",
+          "image": "././media/dishes/hotwings.jpg",
+          "preferences": [
+            {
+              "title": "דרגת חריפות",
+              "options": [
+                "קל",
+                "בינוני",
+                "חריף אש"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "רטבים בצד",
+              "subtitle": "ניתן לבחור עד שני רטבים",
+              "options": [
+                "רוטב שום",
+                "רוטב ראנץ׳",
+                "צ'ילי מתוק",
+                "איולי חרדל",
+                "סלסה עגבניות"
+              ],
+              "numberOfPick": 2
+            }
+          ]
+        }
       ],
       "mainCourses": [
-      {
-        "name": "צ'יזבורגר קלאסי",
-        "price": 58,
-        "description": "המבורגר 200 גרם, גבינה צהובה, חסה, עגבנייה, מלפפון חמוץ ורטבים",
-        "image": "././media/dishes/cheeseburger.avif"
-      },
-      {
-        "name": "בורגר צמחוני",
-        "price": 64,
-        "description": "המבורגר עם קציצה צמחונית מקינואה ושעועית עם איולי חרדל ושבבי בצל מקורמל",
-        "image": "././media/dishes/vegiburger.jpg"
-      }
-    ],
+        {
+          "name": "צ'יזבורגר קלאסי",
+          "price": 58,
+          "description": "המבורגר 200 גרם, גבינה צהובה, חסה, עגבנייה, מלפפון חמוץ ורטבים",
+          "image": "././media/dishes/cheeseburger.avif",
+          "preferences": [
+            {
+              "title": "מידת עשייה",
+              "options": [
+                "רייר",
+                "בינוני",
+                "וול דאן"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "בחירת גבינה",
+              "options": [
+                "גבינה צהובה",
+                "צ'דר",
+                "מוצרלה",
+                "ללא גבינה"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "תוספות להמבורגר",
+              "subtitle": "ניתן לבחור עד 3 תוספות",
+              "options": [
+                "בייקון",
+                "בצל מקורמל",
+                "ביצת עין",
+                "גוואקמולי",
+                "ג׳לפיניו",
+                "פטריות מוקפצות"
+              ],
+              "numberOfPick": 3,
+              "addedPrice": 6
+            }
+          ]
+        },
+        {
+          "name": "בורגר צמחוני",
+          "price": 64,
+          "description": "המבורגר עם קציצה צמחונית מקינואה ושעועית עם איולי חרדל ושבבי בצל מקורמל",
+          "image": "././media/dishes/vegiburger.jpg",
+          "preferences": [
+            {
+              "title": "לחמנייה לבחירה",
+              "options": [
+                "קלאסית",
+                "מחיטה מלאה",
+                "ללא גלוטן",
+                "בלי לחמנייה (קערה)"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "תוספות לצמחוני",
+              "subtitle": "ניתן לבחור עד 2 תוספות",
+              "options": [
+                "חציל קלוי",
+                "גבינת פטה",
+                "אבוקדו",
+                "עגבניות מיובשות"
+              ],
+              "numberOfPick": 2,
+              "addedPrice": 5
+            }
+          ]
+        }
+      ],
     "desserts": [
-      {
-        "name": "שייק שוקולד",
-        "price": 24,
-        "description": "שייק שוקולד עשיר עם קצפת וסירופ שוקולד",
-        "image": "././media/dishes/milkshake.jpg"
-      },
-      {
-        "name": "סופלה שוקולד",
-        "price": 29,
-        "description": "עוגת שוקולד חמה עם גלידת וניל בצד",
-        "image": "././media/dishes/chocfondant.jpg"
-      }
-    ]
-
+        {
+          "name": "שייק שוקולד",
+          "price": 24,
+          "description": "שייק שוקולד עשיר עם קצפת וסירופ שוקולד",
+          "image": "././media/dishes/milkshake.jpg",
+          "preferences": [
+            {
+              "title": "תוספות לשייק",
+              "subtitle": "ניתן לבחור עד 2 תוספות",
+              "options": [
+                "שברי עוגיות",
+                "מרשמלו",
+                "כדור גלידה נוסף",
+                "שבבי שוקולד"
+              ],
+              "numberOfPick": 2,
+              "addedPrice": 4
+            },
+            {
+              "title": "סוג חלב",
+              "options": [
+                "חלב רגיל",
+                "חלב שקדים",
+                "חלב סויה",
+                "חלב שיבולת שועל"
+              ],
+              "numberOfPick": 1
+            }
+          ]
+        },
+        {
+          "name": "סופלה שוקולד",
+          "price": 29,
+          "description": "עוגת שוקולד חמה עם גלידה לבחירה בצד",
+          "image": "././media/dishes/chocfondant.jpg",
+          "preferences": [
+            {
+              "title": "בחירת גלידה",
+              "options": [
+                "וניל",
+                "שוקולד",
+                "קרמל מלוח",
+                "בלי גלידה"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "תוספות לסופלה",
+              "options": [
+                "רוטב שוקולד",
+                "פיסטוקים קצוצים",
+                "קוקוס קלוי"
+              ],
+              "numberOfPick": 3,
+              "addedPrice": 5
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -175,13 +552,60 @@
           "name": "כנפיים חריפות",
           "price": 24,
           "description": "6 יח' כנפיים בציפוי קריספי פיקנטי",
-          "image": "././media/dishes/spicywings.jpeg"
+          "image": "././media/dishes/spicywings.jpeg",
+          "preferences": [
+            {
+              "title": "רמת חריפות",
+              "options": [
+                "פיקנטי קל",
+                "חריף רגיל",
+                "חריף מאוד"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "רטבים בצד",
+              "subtitle": "ניתן להוסיף עד 2 רטבים",
+              "options": [
+                "רוטב שום",
+                "צ'ילי מתוק",
+                "מיונז פיקנטי",
+                "רוטב ברביקיו",
+                "קטשופ"
+              ],
+              "numberOfPick": 2
+            }
+          ]
         },
         {
           "name": "צ'יפס",
           "price": 16,
           "description": "מנת צ'יפס קריספי עם תיבול סודי",
-          "image": "././media/dishes/frieskfc.jpeg"
+          "image": "././media/dishes/frieskfc.jpeg",
+          "preferences": [
+            {
+              "title": "תוספות לצ'יפס",
+              "options": [
+                "גבינת פרמזן",
+                "צ'דר נמס",
+                "פפריקה מעושנת",
+                "שום גרוס",
+                "ללא תוספות"
+              ],
+              "numberOfPick": 1,
+              "addedPrice": 3
+            },
+            {
+              "title": "רטב בצד",
+              "options": [
+                "קטשופ",
+                "מיונז",
+                "צ'ילי",
+                "בלי רוטב"
+              ],
+              "numberOfPick": 1
+            }
+          ]
         }
       ],
       "mainCourses": [
@@ -189,13 +613,63 @@
           "name": "באקט עוף קלאסי",
           "price": 69,
           "description": "8 חתיכות עוף מצופה ופריך עם תיבול KFC",
-          "image": "././media/dishes/bucketkfc.jpg"
+          "image": "././media/dishes/bucketkfc.jpg",
+          "preferences": [
+            {
+              "title": "בחירת חלקי עוף",
+              "subtitle": "ניתן לבחור עד 4 סוגים",
+              "options": [
+                "כנפיים",
+                "שוקיים",
+                "חזה עוף",
+                "פולקע",
+                "חתיכות מעורבות"
+              ],
+              "numberOfPick": 4
+            },
+            {
+              "title": "רטבים בצד",
+              "subtitle": "ניתן לבחור עד 3 רטבים",
+              "options": [
+                "רוטב שום",
+                "צ'ילי חריף",
+                "מיונז שום",
+                "קטשופ",
+                "רוטב ברביקיו"
+              ],
+              "numberOfPick": 3
+            }
+          ]
         },
         {
           "name": "סנדוויץ' זינגר",
           "price": 39,
           "description": "חזה עוף קריספי, חסה ומיונז בפיתה חמה",
-          "image": "././media/dishes/zingerkfc.jpeg"
+          "image": "././media/dishes/zingerkfc.jpeg",
+          "preferences": [
+            {
+              "title": "בחירת תוספות לסנדוויץ'",
+              "subtitle": "ניתן לבחור עד 2 תוספות",
+              "options": [
+                "עגבנייה",
+                "בצל סגול",
+                "גבינה צהובה",
+                "רוטב ספייסי",
+                "ללא תוספות"
+              ],
+              "numberOfPick": 2,
+              "addedPrice": 4
+            },
+            {
+              "title": "בחירת לחם",
+              "options": [
+                "פיתה רגילה",
+                "לחמניית המבורגר",
+                "לחם מחיטה מלאה"
+              ],
+              "numberOfPick": 1
+            }
+          ]
         }
       ],
       "desserts": [
@@ -203,13 +677,57 @@
           "name": "פאי תפוחים",
           "price": 12,
           "description": "פאי פריך במילוי תפוחים וקינמון",
-          "image": "././media/dishes/applepie.jpeg"
+          "image": "././media/dishes/applepie.jpeg",
+          "preferences": [
+            {
+              "title": "האם לחמם את הפאי?",
+              "options": [
+                "חימום קל",
+                "חם מהתנור",
+                "לא לחמם"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "תוספות בצד",
+              "options": [
+                "כדור גלידת וניל",
+                "קצפת"
+              ],
+              "numberOfPick": 2,
+              "addedPrice": 4
+            }
+          ]
         },
         {
           "name": "גלידת וניל",
           "price": 10,
           "description": "מנת גלידת וניל רכה בגביע",
-          "image": "././media/dishes/icecream.jpeg"
+          "image": "././media/dishes/icecream.jpeg",
+          "preferences": [
+            {
+              "title": "תוספות לגלידה",
+              "subtitle": "ניתן לבחור עד 2 תוספות",
+              "options": [
+                "סירופ שוקולד",
+                "שברי עוגיות",
+                "קוקוס קלוי",
+                "מרשמלו",
+                "פצפוצי שוקולד"
+              ],
+              "numberOfPick": 2,
+              "addedPrice": 3
+            },
+            {
+              "title": "צורת הגשה",
+              "options": [
+                "גביע",
+                "כוס",
+                "ללא העדפה"
+              ],
+              "numberOfPick": 1
+            }
+          ]
         }
       ]
     }
@@ -230,13 +748,58 @@
         "name": "סלט ישראלי",
         "price": 16,
         "description": "עגבניות, מלפפונים, פטרוזיליה, בצל ולימון",
-        "image": "././media/dishes/israelisalad.jpg"
+        "image": "././media/dishes/israelisalad.jpg",
+        "preferences": [
+          {
+            "title": "תוספות לסלט",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "טחינה מעל",
+              "זעתר",
+              "שמן זית",
+              "סומק"
+            ],
+            "numberOfPick": 2
+          },
+          {
+            "title": "רמת חיתוך",
+            "options": [
+              "קצוץ דק",
+              "רגיל",
+              "חתוך גס"
+            ],
+            "numberOfPick": 1
+          }
+        ]
       },
       {
         "name": "חמוצים ביתיים",
         "price": 10,
         "description": "תערובת חמוצים ישראלית קלאסית",
-        "image": "././media/dishes/pickles.jpeg"
+        "image": "././media/dishes/pickles.jpeg",
+        "preferences": [
+          {
+            "title": "העדפת חמוצים",
+            "subtitle": "ניתן לבחור עד 3 סוגים",
+            "options": [
+              "מלפפון חמוץ",
+              "גזר חריף",
+              "כרוב כבוש",
+              "פלפל חריף",
+              "סלק כבוש"
+            ],
+            "numberOfPick": 3
+          },
+          {
+            "title": "דרגת חמיצות",
+            "options": [
+              "קלה",
+              "בינונית",
+              "חזקה"
+            ],
+            "numberOfPick": 1
+          }
+        ]
       }
     ],
     "mainCourses": [
@@ -244,13 +807,61 @@
         "name": "חומוס מסבחה",
         "price": 28,
         "description": "חומוס חמים עם גרגרים, טחינה ושמן זית",
-        "image": "././media/dishes/hummus.jpeg"
+        "image": "././media/dishes/hummus.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות לחומוס",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "ביצה קשה",
+              "פטריות מוקפצות",
+              "זעתר",
+              "צנוברים קלויים",
+              "חריף ביתי"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          },
+          {
+            "title": "בחירת לחם",
+            "options": [
+              "פיתה רגילה",
+              "פיתה מחיטה מלאה",
+              "לאפה",
+              "ללא לחם"
+            ],
+            "numberOfPick": 1
+          }
+        ]
       },
       {
         "name": "חומוס עם בשר",
         "price": 38,
         "description": "חומוס טרי עם בשר טחון חם מעל",
-        "image": "././media/dishes/meathummus.jpeg"
+        "image": "././media/dishes/meathummus.jpeg",
+        "preferences": [
+          {
+            "title": "דרגת עשיית הבשר",
+            "options": [
+              "עשוי קלות",
+              "בינוני",
+              "מטוגן היטב"
+            ],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות מעל",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "צנוברים",
+              "בצל מטוגן",
+              "ביצה קשה",
+              "פטרוזיליה קצוצה"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 3
+          }
+        ]
       }
     ],
     "desserts": [
@@ -258,13 +869,56 @@
         "name": "מלבי",
         "price": 14,
         "description": "מלבי עם מי ורדים, קוקוס ובוטנים",
-        "image": "././media/dishes/malabi.jpg"
+        "image": "././media/dishes/malabi.jpg",
+        "preferences": [
+          {
+            "title": "תוספות למלבי",
+            "subtitle": "ניתן לבחור עד 3 תוספות",
+            "options": [
+              "קוקוס",
+              "בוטנים",
+              "סירופ רימונים",
+              "פיסטוקים קצוצים",
+              "ללא תוספות"
+            ],
+            "numberOfPick": 3
+          },
+          {
+            "title": "רמת מתיקות",
+            "options": [
+              "מתוק מאוד",
+              "רגיל",
+              "מעודן"
+            ],
+            "numberOfPick": 1
+          }
+        ]
       },
       {
         "name": "בקלאווה",
         "price": 18,
         "description": "מאפה עלים מתוק במילוי אגוזים ודבש",
-        "image": "././media/dishes/baklava.jpeg"
+        "image": "././media/dishes/baklava.jpeg",
+        "preferences": [
+          {
+            "title": "חימום הבקלאווה",
+            "options": [
+              "חימום קל",
+              "חם מהתנור",
+              "לא לחמם"
+            ],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספת בצד",
+            "options": [
+              "כדור גלידת וניל",
+              "קצפת"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          }
+        ]
       }
     ]
     }

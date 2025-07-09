@@ -60,8 +60,8 @@ onMounted(() => {
             {{ restaurantInfo.name }}
           </h2>
           
-          <div class="bg-gray-100 text-[#009DE0] text-xs px-2 py-1 flex rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-[#009DE0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="bg-[#E6F8FA] text-[#48cae4] text-xs px-2 py-1 flex rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 text-[#48cae4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             {{ restaurantInfo.deliveryTime }} דקות

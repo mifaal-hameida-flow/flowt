@@ -64,31 +64,44 @@ const continueProgress = () => {
   if (savedStep !== null) {
     step.value = parseInt(savedStep, 10);
   }
+
   if (savedCard !== null) {
     cardNumber.value = parseInt(savedCard, 10);
   }
-    if (savedRestaurant !== null) {
-    const parsedRestaurant = JSON.parse(savedRestaurant);
-    selectedRestaurant.value = parsedRestaurant;
+
+  if (savedRestaurant !== null) {
+    try {
+      selectedRestaurant.value = JSON.parse(savedRestaurant);
+    } catch (error) {
+      console.error('Error parsing savedRestaurant:', error);
+      selectedRestaurant.value = null;
+    }
   }
-  
+
+  if (savedDish !== null) {
+    try {
+      selectedDish.value = JSON.parse(savedDish);
+    } catch (error) {
+      console.error('Error parsing savedDish:', error);
+      selectedDish.value = null;
+    }
+  }
+
   if (savedName !== null) {
     userName.value = savedName;
   }
 
-   if (savedView !== null) {
+  if (savedView !== null) {
     activeSubView.value = savedView;
   }
 
-  if (savedDish !== null) {
-    selectedDish.value = savedDish;
-  }
-
   showRecoveryPopup.value = false;
+
   setTimeout(() => {
     showLoader.value = false;
   }, 4000);
 };
+
 
 const handleRestaurantSelection = (restaurant) => {
   selectedRestaurant.value = restaurant;
@@ -117,6 +130,11 @@ const currentViewComponent = computed(() => {
   return HomeView;
 });
 
+const transitionName = computed(() => {
+  return step.value === 6 ? 'page-flip' : 'fade-slide';
+});
+
+
 const navigateView = (viewId) => {
   activeSubView.value = viewId; // 'recommendation' or 'self-choice'
   localStorage.setItem('chosenView', activeSubView.value);
@@ -126,6 +144,7 @@ const saveName = (username) => {
   userName.value = username; // 'recommendation' or 'self-choice'
   localStorage.setItem('userName', userName.value);
 }
+
 
 watch([step, showPopup], ([newStep, popupVisible]) => {
   if (newStep === 5 && !popupVisible) {
@@ -171,7 +190,7 @@ onMounted(() => {
   </div>
   
   <div v-if="!showLoader">
-    <Transition name="fade-slide" mode="out-in">
+    <Transition :name="transitionName" mode="out-in">
        <component :is="currentViewComponent" 
         @restaurant-selected="handleRestaurantSelection" 
         @dish-selected="handleDishSelection"
@@ -221,5 +240,34 @@ onMounted(() => {
   opacity: 1;
   transform: translateY(0);
 }
+
+.page-flip-enter-active,
+.page-flip-leave-active {
+  transition: transform 0.6s ease, opacity 0.4s ease;
+  transform-style: preserve-3d;
+  transform-origin: bottom center;
+}
+
+.page-flip-enter-from {
+  transform: rotateX(-90deg);
+  opacity: 0;
+}
+
+.page-flip-enter-to {
+  transform: rotateX(0deg);
+  opacity: 1;
+}
+
+.page-flip-leave-from {
+  transform: rotateX(0deg);
+  opacity: 1;
+}
+
+.page-flip-leave-to {
+  transform: rotateX(-90deg);
+  opacity: 0;
+}
+
+
 
 </style>
