@@ -9,3 +9,6 @@ const tooltipContent = {
 
 
 ////// זה לעמוד dishDetails
+
+
+///// לא לשכוח להעביר את הפרופס וכל זה בהתאמה

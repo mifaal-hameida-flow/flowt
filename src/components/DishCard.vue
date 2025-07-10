@@ -1,17 +1,18 @@
 <script setup>
 import { popupState } from '../stores/popup';
+import { useAppState } from '../stores/appState'; 
+const state = useAppState();
 
 const props = defineProps({
   dish: {
     type: Object,
     required: true
-  },
-  step: Number
+  }
 });
 
 const handleMenuItem = () => {
 
-  if (props.step === 3) {
+  if (state.step === 3) {
     popupState.manualCard = {
           id: 'manual-1',
           title: 'אופס!',

@@ -1,227 +1,70 @@
-
 <script setup>
-import PopupGuide from './components/PopupGuide.vue';
-import PopupGuideContent from './data/PopupGuideContent.json';
-import HomeView from './views/HomeView.vue';
-import Loader from './components/Loader.vue';
-import {ref, onMounted, computed, watch} from 'vue';
-import RestaurantDetailsView from './views/RestaurantDetailsView.vue';
-import DishDetails from './views/DishDetails.vue';
-import { popupState } from './stores/popup';
-import RecommendedView from './views/RecommendedView.vue';
+import PopupGuide from './components/PopupGuide.vue'
+import PopupGuideContent from './data/PopupGuideContent.json'
+import HomeView from './views/HomeView.vue'
+import Loader from './components/Loader.vue'
+import RestaurantDetailsView from './views/RestaurantDetailsView.vue'
+import DishDetails from './views/DishDetails.vue'
+import RecommendedView from './views/RecommendedView.vue'
+import { popupState } from './stores/popup'
+import { computed, onMounted } from 'vue'
+import { useAppState } from './stores/appState'
 
-const step = ref(0);
-const showLoader = ref(true);
-const showRecoveryPopup = ref(false);
-const cardNumber = ref(0);
-const selectedRestaurant = ref(null);
-const showPopup = ref(true);
-const activeSubView = ref(null);
-const startListening = ref(false);
-const userName = ref(false);
-const selectedDish = ref(null);
+const state = useAppState()
 
-const stepInfo = computed(() => {
-  const info = PopupGuideContent[step.value];
-  return info;
-});
-
-const updateCardNumber = (newNumber) => {
-  cardNumber.value = newNumber;
-  localStorage.setItem('cardNumber', newNumber);
-};
-
-const nextStep = () => {
-  step.value++;
-  showPopup.value = true;
-  updateCardNumber(0); // reset card
-  localStorage.setItem('currentStep', step.value); // Save step
-}
-
-const closePopup = () => {
-   showPopup.value = false;
-}
-
-const clearProgress = () => {
-  localStorage.removeItem('currentStep');
-  localStorage.removeItem('userName');
-  localStorage.removeItem('chosenRestaurant');
-  step.value = 0;
-  showRecoveryPopup.value = false;
-  setTimeout(() => {
-      showLoader.value = false;
-    }, 4000);
-};
-
-const continueProgress = () => {
-  const savedStep = localStorage.getItem('currentStep');
-  const savedName = localStorage.getItem('userName');
-  const savedCard = localStorage.getItem('cardNumber');
-  const savedRestaurant = localStorage.getItem('chosenRestaurant');
-  const savedView = localStorage.getItem('chosenView');
-  const savedDish = localStorage.getItem('chosenDish');
-
-  if (savedStep !== null) {
-    step.value = parseInt(savedStep, 10);
-  }
-
-  if (savedCard !== null) {
-    cardNumber.value = parseInt(savedCard, 10);
-  }
-
-  if (savedRestaurant !== null) {
-    try {
-      selectedRestaurant.value = JSON.parse(savedRestaurant);
-    } catch (error) {
-      console.error('Error parsing savedRestaurant:', error);
-      selectedRestaurant.value = null;
-    }
-  }
-
-  if (savedDish !== null) {
-    try {
-      selectedDish.value = JSON.parse(savedDish);
-    } catch (error) {
-      console.error('Error parsing savedDish:', error);
-      selectedDish.value = null;
-    }
-  }
-
-  if (savedName !== null) {
-    userName.value = savedName;
-  }
-
-  if (savedView !== null) {
-    activeSubView.value = savedView;
-  }
-
-  showRecoveryPopup.value = false;
-
-  setTimeout(() => {
-    showLoader.value = false;
-  }, 4000);
-};
-
-
-const handleRestaurantSelection = (restaurant) => {
-  selectedRestaurant.value = restaurant;
-  localStorage.setItem('chosenRestaurant', JSON.stringify(selectedRestaurant.value));
-  if (step.value !== 5) {
-    nextStep();
-  } else {
-    activeSubView.value= 'selfChoice'
-  }
-};
-
-const handleDishSelection = (dish) => {
-  selectedDish.value = dish; // this is an object 
-  localStorage.setItem('chosenDish', JSON.stringify(selectedDish.value));
-  nextStep();
-}
+const stepInfo = computed(() => PopupGuideContent[state.step])
 
 const currentViewComponent = computed(() => {
-  if (step.value >= 2 && step.value < 4 ) return RestaurantDetailsView;
-  if (step.value === 4) return RecommendedView;
-  if (step.value === 5) {
-    return activeSubView.value === 'recommendation' ? RecommendedView : RestaurantDetailsView;
-  }
-  if (step.value === 6) return DishDetails;
-  // DishDetails
-  return HomeView;
-});
+  if (state.step >= 2 && state.step < 4) return RestaurantDetailsView
+  if (state.step === 4) return RecommendedView
+  if (state.step === 5) return state.activeSubView === 'recommendation' ? RecommendedView : RestaurantDetailsView
+  if (state.step === 6) return DishDetails
+  return HomeView
+})
 
-const transitionName = computed(() => {
-  return step.value === 6 ? 'page-flip' : 'fade-slide';
-});
-
-
-const navigateView = (viewId) => {
-  activeSubView.value = viewId; // 'recommendation' or 'self-choice'
-  localStorage.setItem('chosenView', activeSubView.value);
-};
-
-const saveName = (username) => {
-  userName.value = username; // 'recommendation' or 'self-choice'
-  localStorage.setItem('userName', userName.value);
-}
-
-
-watch([step, showPopup], ([newStep, popupVisible]) => {
-  if (newStep === 5 && !popupVisible) {
-    startListening.value = true;
-  }
-}, { immediate: true });
+const transitionName = computed(() => state.step === 6 ? 'page-flip' : 'fade-slide')
 
 onMounted(() => {
-  const savedStep = localStorage.getItem('currentStep');
-  const savedName = localStorage.getItem('userName');
-  const savedCard = localStorage.getItem('cardNumber');
-  const savedRestaurant = localStorage.getItem('chosenRestaurant');
-  const savedView = localStorage.getItem('chosenView');
-  const savedDish = localStorage.getItem('chosenDish');
- 
-  if (savedStep || savedName || savedRestaurant || savedView || savedCard || savedDish
-  ) {
-    showRecoveryPopup.value = true;
-  } else {
-    setTimeout(() => {
-      showLoader.value = false;
-    }, 4000);
+  const hasSavedData = !!localStorage.getItem('appState')
+  if (hasSavedData) {
+    state.showRecoveryPopup = true
   }
-});
-
+  setTimeout(() => {
+      state.showLoader = false
+  }, 4000)
+})
 </script>
 
 <template>
-  <Loader v-if="showLoader && !showRecoveryPopup"/> 
-  <div v-if="showRecoveryPopup" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
+  <Loader v-if="state.showLoader && !state.showRecoveryPopup" />
+
+  <div v-if="state.showRecoveryPopup" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
       <h2 class="text-lg font-bold mb-4">ברוכים השבים!</h2>
       <p class="mb-6">נראה שכבר התחלתם. רוצים להמשיך מאיפה שהפסקתם או להתחיל מההתחלה?</p>
       <div class="flex justify-between gap-4">
-        <button @click="clearProgress" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+        <button @click="state.clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
           התחלה מחדש
         </button>
-        <button @click="continueProgress" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+        <button @click="state.continueProgress()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
           המשך
         </button>
       </div>
     </div>
   </div>
-  
-  <div v-if="!showLoader">
+
+  <div v-else-if="!state.showLoader">
     <Transition :name="transitionName" mode="out-in">
-       <component :is="currentViewComponent" 
-        @restaurant-selected="handleRestaurantSelection" 
-        @dish-selected="handleDishSelection"
-        @next-step="nextStep"
-        :stepNumber="step"
-        :restaurantInfo="selectedRestaurant" 
-        :dishInfo="selectedDish"
-        :popupShowing="showPopup"
-        :shouldListen="startListening" />
+      <component :is="currentViewComponent"/>
     </Transition>
-   
-    <!-- <HomeView v-if="currentViewComponent === HomeView" @restaurant-selected="handleRestaurantSelection" :stepNumber="step"/>
-    <RestaurantDetailsView v-else-if="currentViewComponent === RestaurantDetailsView" :restaurantInfo="selectedRestaurant" :stepNumber="step" :popupShowing="showPopup" @next-step="nextStep"/> -->
+
     <PopupGuide
-       v-if="(showPopup || popupState.isVisible) && stepInfo"
-      :key="step" 
+      v-if="(state.showPopup || popupState.isVisible) && stepInfo"
+      :key="state.step"
       :stepInfo="stepInfo"
-      :initial-card="cardNumber"
-      :restaurantInfo="selectedRestaurant"
-      :card="popupState.manualCard"
-      :name="userName || null"
-      :view="activeSubView || null"
-      @next-step="nextStep"
-      @close-popup="closePopup"
-      @card-number="updateCardNumber"
-      @view="navigateView"
-      @username="saveName"
     />
   </div>
 </template>
-
 
 <style scoped>
 .fade-slide-enter-active,
@@ -267,7 +110,5 @@ onMounted(() => {
   transform: rotateX(-90deg);
   opacity: 0;
 }
-
-
 
 </style>

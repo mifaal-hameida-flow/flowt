@@ -4,16 +4,12 @@ import recommendations from '../data/Recommended.json'
 import TopBar from '../components/TopBar.vue'
 import BottomBar from '../components/BottomBar.vue'
 import { popupState } from '../stores/popup';
-import { ref, toRef, onMounted, onBeforeUnmount, onUnmounted, watch } from 'vue'
+import { toRef, ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { useAppState } from '../stores/appState'; 
 
-const props = defineProps({
-  stepNumber: Number,
-  shouldListen: Boolean,
-  popupShowing: Boolean
-});
-const emit = defineEmits(['restaurant-selected']);
+const state = useAppState();
 const isScrolled = ref(false);
-const shouldListen = toRef(props, 'shouldListen');
+const shouldListen = toRef(state, 'startListening') // make it a ref
 
 const sections = [
   { title: 'הזמנה חוזרת', key: 'recent' },
@@ -79,9 +75,8 @@ const stopListening = () => {
 };
 
 const selectRestaurant = (restaurant) => {
-  console.log(props.stepNumber)
-  if (props.stepNumber !== 4) {
-  emit('restaurant-selected', restaurant);
+  if (state.step !== 4) {
+  state.setRestaurant(restaurant);
   }
 }
 
@@ -124,8 +119,8 @@ onMounted(() => {
         <div class="flex gap-4 overflow-x-auto">
           <RestaurantCard
             v-for="(restaurant, i) in recommendations[section.key]"
-            :key="i"
             :restaurantInfo="restaurant"
+            :key="i"
             @click="selectRestaurant(restaurant)"
           />
         </div>
@@ -134,7 +129,7 @@ onMounted(() => {
 
     <!-- Fixed bars -->
     <TopBar :scrolled="isScrolled" />
-    <BottomBar :step="stepNumber" />
+    <BottomBar/>
   </div>
 </template>
 

@@ -5,11 +5,11 @@ import BottomBar from '../components/BottomBar.vue';
 import TopBar from '../components/TopBar.vue';
 import { popupState } from '../stores/popup';
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
-const emit = defineEmits(['restaurant-selected']);
+import { useAppState } from '../stores/appState'; 
+
+const state = useAppState();
 const isScrolled = ref(false);
-const props = defineProps({
-  stepNumber: Number
-});
+
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 10;
@@ -24,7 +24,7 @@ onBeforeUnmount(() => {
 });
 
 const selectRestaurant = (restaurant) => {
-  emit('restaurant-selected', restaurant);
+  state.setRestaurant(restaurant);
 }
 
 </script>
@@ -42,7 +42,7 @@ const selectRestaurant = (restaurant) => {
                 />
         </div>
         <TopBar :scrolled="isScrolled"/>     
-        <BottomBar :step="stepNumber"/>
+        <BottomBar/>
 
     </div>
 </template>

@@ -4,6 +4,8 @@ import { vTooltip } from 'floating-vue'
 import { defineProps } from 'vue'
 import locationIcon from '../assets/media/topbar/map-location.png'
 import filterIcon from '../assets/media/topbar/filter.png'
+import { useAppState } from '../stores/appState'; 
+const state = useAppState();
 defineProps({ scrolled: Boolean })
 
 const topBarIcons = ref([

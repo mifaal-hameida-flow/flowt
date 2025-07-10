@@ -2,6 +2,9 @@
 import { onMounted, ref } from 'vue';
 import { defineProps } from 'vue';
 import { Truck, Star } from 'lucide-vue-next'; 
+import { useAppState } from '../stores/appState'; 
+const state = useAppState();
+
 const props = defineProps({
   restaurantInfo: Object
 });
@@ -28,16 +31,31 @@ onMounted(() => {
 <template>
   <div class="flex justify-center w-full restaurant-card" dir="rtl">
     <div
-      v-tooltip="restaurantInfo.showTooltip ? {
-      content: 'לפי הנתונים שנאספו עליך נראה<br> שתאהב מאוד את המסעדה הזאת!',
-      triggers: [],
-      shown: showAutoTooltip,
-      html: true
-    } : null"
+    v-tooltip="restaurantInfo.showTooltip ? {
+    content: 'לפי הנתונים שנאספו עליך נראה<br> שתאהב מאוד את המסעדה הזאת!',
+    triggers: ['manual'],
+    placement: 'auto',
+    autoPlacement: true,
+    shown: showAutoTooltip,
+    html: true,
+    popperOptions: {
+      modifiers: [
+        {
+          name: 'offset',
+          options: { offset: [0, 10] }
+        },
+        {
+          name: 'flip',
+          options: {
+            fallbackPlacements: ['top', 'bottom', 'right', 'left'],
+          },
+        }
+      ]
+    }
+  } : null"
       class="bg-white rounded-2xl shadow-md w-80 m-4 overflow-hidden hover:shadow-lg transition-shadow duration-200"
       @click="restaurantInfo.showTooltip && repeatTooltip()"
-      >
-
+    >
       <!-- תמונה -->
       <div class="h-40 w-full overflow-hidden relative">
         <img

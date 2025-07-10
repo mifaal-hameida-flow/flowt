@@ -1,11 +1,9 @@
 <script setup>
 import { popupState } from '../stores/popup'
 import { ref, computed } from 'vue'
+import { useAppState } from '../stores/appState'; 
+const state = useAppState();
 
-const props = defineProps({
-  dishInfo: Object,
-  stepNumber: Number
-})
 const notes = ref('')
 const selectedOptions = ref({})
 
@@ -18,7 +16,7 @@ const handleOptionChange = (prefIndex, option, isSingle) => {
     if (current.includes(option)) {
       selectedOptions.value[prefIndex] = current.filter(o => o !== option)
     } else {
-      if (current.length < props.dishInfo.preferences[prefIndex].numberOfPick) {
+      if (current.length < state.selectedDish.preferences[prefIndex].numberOfPick) {
         selectedOptions.value[prefIndex] = [...current, option]
       }
     }
@@ -28,7 +26,7 @@ const handleOptionChange = (prefIndex, option, isSingle) => {
 // חישוב תוספת מחיר אם יש
 const extraPrice = computed(() => {
   let sum = 0
-  props.dishInfo.preferences?.forEach((pref, index) => {
+  state.selectedDish.preferences?.forEach((pref, index) => {
     if (pref.addedPrice && selectedOptions.value[index]) {
       sum += selectedOptions.value[index].length * pref.addedPrice
     }
@@ -38,7 +36,7 @@ const extraPrice = computed(() => {
 
 // מחיר כולל
 const totalPrice = computed(() => {
-  return (props.dishInfo.price + extraPrice.value) * quantity.value
+  return (state.selectedDish.price + extraPrice.value) * quantity.value
 })
 
 
@@ -55,22 +53,22 @@ const decrease = () => {
   <div class="bg-white min-h-screen flex flex-col">
     <!-- Image -->
     <div class="relative">
-      <img :src="dishInfo.image" alt="Dish Image" class="w-full h-64 object-cover" />
+      <img :src="state.selectedDish.image" alt="Dish Image" class="w-full h-64 object-cover" />
     </div>
 
     <!-- Content -->
     <div class="p-4 flex-1 flex flex-col justify-between">
       <div>
         <!-- Title + Price -->
-        <h1 class="text-2xl font-bold mb-2">{{ dishInfo.name }}</h1>
-        <span class="text-[#00BEE5] text-lg font-semibold mb-2">₪{{ dishInfo.price }}</span>
+        <h1 class="text-2xl font-bold mb-2">{{ state.selectedDish.name }}</h1>
+        <span class="text-[#00BEE5] text-lg font-semibold mb-2">₪{{ state.selectedDish.price }}</span>
         
         <!-- Description -->
-        <p class="text-gray-600 text-sm mt-2 mb-4 whitespace-pre-line">{{ dishInfo.description }}</p>
+        <p class="text-gray-600 text-sm mt-2 mb-4 whitespace-pre-line">{{ state.selectedDish.description }}</p>
         <div class="border-t pt-4 mt-4"></div>
         <!-- Preferences -->
-        <div v-if="dishInfo.preferences" class="space-y-6">
-          <div v-for="(pref, index) in dishInfo.preferences" :key="index">
+        <div v-if="state.selectedDish.preferences" class="space-y-6">
+          <div v-for="(pref, index) in state.selectedDish.preferences" :key="index">
             <h3 class="text-base font-semibold">{{ pref.title }}</h3>
             <p v-if="pref.subtitle" class="text-sm text-gray-500 mb-2">{{ pref.subtitle }}</p>
 
@@ -90,7 +88,6 @@ const decrease = () => {
 
             <!-- צ'קבוקסים (בחירה מרובה) -->
             <div v-else class="space-y-2">
-              <p v-if="dishInfo.subtitle"></p>
               <label
                 v-for="option in pref.options"
                 :key="option"

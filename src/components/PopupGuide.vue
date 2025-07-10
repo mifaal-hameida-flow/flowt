@@ -1,27 +1,23 @@
 <script setup>
 import { ref, onMounted, computed, watch} from 'vue';
 import { popupState } from '../stores/popup';
+import { useAppState } from '../stores/appState'; 
+const state = useAppState();
 
 // Props
 const props = defineProps({
   stepInfo: Object,
-  initialCard: Number,
-  restaurantInfo: Object,
-  card: Object,
-  name: String,
-  view: String
 });
 
-const cardNumber = ref(props.initialCard || 0);
-const emit = defineEmits(['next-step', 'close-popup', 'card-number', 'view', 'username']);
+const cardNumber = ref(state.cardNumber || 0);
 // const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
 const firstCard = computed(() => {
-  if (props.card !== null) return props.card;
+  if (popupState.manualCard !== null) return popupState.manualCard;
   return props.stepInfo?.cards?.[cardNumber.value ?? 0];  // כאן לוודא שיש default
 });
 
 const showPopup = ref(false);
-const chosenView = computed(() => props.view);
+const chosenView = computed(() => state.activeSubView);
 
 const selectedMessages = computed(() => {
   if (!chosenView.value) {
@@ -48,14 +44,14 @@ const handlePopupDisplay = (newCard) => {
   }
 };
 
-watch(() => props.stepInfo, () => {
-  cardNumber.value = props.initialCard || 0;
-  handlePopupDisplay(props.stepInfo?.cards?.[cardNumber.value]);
+watch(() =>  props.stepInfo, () => {
+  cardNumber.value = state.cardNumber || 0;
+  handlePopupDisplay( props.stepInfo?.cards?.[cardNumber.value]);
 }, { immediate: true });
 
 
 // State
-const userName = ref(props.name || '');
+const userName = ref(state.userName || '');
 const isValid = ref(false);
 const showGreeting = ref(false);
 // Regex: Only Hebrew, English letters, spaces (optional)
@@ -67,8 +63,8 @@ const isObject = (val) => val && typeof val === 'object';
 // optionally remove deeply nested values
 const filteredFields = computed(() => {
   const clone = {}
-  for (const key in props.restaurantInfo) {
-    clone[key] = props.restaurantInfo[key]
+  for (const key in state.selectedRestaurant) {
+    clone[key] = state.selectedRestaurant[key]
   }
   return clone
 })
@@ -87,7 +83,7 @@ const handleInput = (event) => {
 
 const confirmName = () => {
   if (isValid.value) {
-    emit('username', userName.value);
+    state.saveName(userName.value);
     showGreeting.value = true;
   }
 };
@@ -101,14 +97,15 @@ const clearInput = () => {
 
 const handleTaskClick = () => {
   // Only auto-advance on step 0
-  if (props.stepInfo.step === 0 || props.stepInfo.step === 2) {
-    emit('next-step');
+  if ( props.stepInfo.step === 0 || props.stepInfo.step === 2) {
+    state.nextStep();
   } else {
-    emit('close-popup');
+    state.closePopup();
     if (props.stepInfo.step === 3 && popupState.manualCard || props.stepInfo.step === 5 && popupState.manualCard) {
       handleManualClose();
     }
   }
+
 };
 
 const handleCard = (event) => {
@@ -117,7 +114,7 @@ const handleCard = (event) => {
  } else {
     cardNumber.value--;
  }
- emit('card-number', cardNumber.value);
+ state.updateCardNumber(cardNumber.value);
 };
 
 const handleManualClose = () => {
@@ -126,12 +123,12 @@ const handleManualClose = () => {
 };
 
 const handleOptionsClick = (button) => {
-  emit('view', button.id);
-  emit('next-step');
+  state.navigateView(button.id);
+  state.nextStep();
 }
 onMounted(() => {
-  if (props.name) {
-    userName.value = props.name;
+  if (state.userName) {
+    userName.value = state.userName;
     showGreeting.value = true;
     isValid.value = true;
   }
