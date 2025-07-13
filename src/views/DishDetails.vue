@@ -253,6 +253,7 @@ onMounted(() => {
                 <input
                   type="radio"
                   :name="'pref_' + index"
+                  class="accent-[#00BEE5]"
                   :value="option"
                   :checked="selectedOptions[index]?.[0] === option"
                   :disabled="state.step === 6 && !allTooltipsSeen"
@@ -276,6 +277,7 @@ onMounted(() => {
               >
                 <input
                   type="checkbox"
+                  class="accent-[#00BEE5]"
                   :value="option"
                   :checked="selectedOptions[index]?.includes(option)"
                   @change="handleOptionChange(index, option, false)"
