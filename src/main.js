@@ -15,5 +15,17 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
 app.use(pinia)
-app.use(FloatingVue)
+
+app.use(FloatingVue, {
+  popperOptions: {
+    modifiers: [
+      {
+        name: 'flip',
+        options: {
+          fallbackPlacements: ['top', 'bottom', 'left', 'right'],
+        },
+      },
+    ],
+  },
+})
 app.mount('#app')

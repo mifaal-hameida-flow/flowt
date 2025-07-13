@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import Recommended from '../data/Recommended.json'
 
 export const useAppState = defineStore('appState', {
   state: () => ({
@@ -10,14 +11,16 @@ export const useAppState = defineStore('appState', {
     selectedRestaurant: null,
     selectedDish: null,
     userName: '',
-    activeSubView: null,
     startListening: false,
+    activeSubView: null,
+    order: []
   }),
   actions: {
     nextStep() {
       this.step++
       this.cardNumber = 0
       this.showPopup = true
+      console.log(this.step)
     },
     clearProgress() {
       this.$reset()
@@ -38,17 +41,22 @@ export const useAppState = defineStore('appState', {
     setRestaurant(restaurant) {
       this.selectedRestaurant = restaurant
       if (this.step !== 5) this.nextStep()
-      else this.activeSubView = 'selfChoice'
     },
     setDish(dish) {
       this.selectedDish = dish
       this.nextStep()
     },
     navigateView(view) {
-      this.activeSubView = view
+      if(view==='recommendation'){
+        this.selectedRestaurant = Recommended.recommended[0]; // קפה איטליה
+      }
+      this.activeSubView=view;
     },
     saveName(name) {
       this.userName = name
+    },
+    addOrder(order) {
+     this.order.push(order);
     }
   },
   persist: true

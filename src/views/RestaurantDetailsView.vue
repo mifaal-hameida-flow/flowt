@@ -33,7 +33,7 @@ const startIdleTimer = () => {
   clearTimeout(idleTimeout);
 
   idleTimeout = setTimeout(() => {
-    if (!popupState.isVisible && !props.popupShowing) {
+    if (!popupState.isVisible && !state.showPopup) {
 
       popupState.manualCard = {
         id: 'idle-step-5',

@@ -7,7 +7,7 @@ import RestaurantDetailsView from './views/RestaurantDetailsView.vue'
 import DishDetails from './views/DishDetails.vue'
 import RecommendedView from './views/RecommendedView.vue'
 import { popupState } from './stores/popup'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { useAppState } from './stores/appState'
 
 const state = useAppState()
@@ -17,12 +17,24 @@ const stepInfo = computed(() => PopupGuideContent[state.step])
 const currentViewComponent = computed(() => {
   if (state.step >= 2 && state.step < 4) return RestaurantDetailsView
   if (state.step === 4) return RecommendedView
-  if (state.step === 5) return state.activeSubView === 'recommendation' ? RecommendedView : RestaurantDetailsView
-  if (state.step === 6) return DishDetails
+  if (state.step === 5) return RestaurantDetailsView
+  if (state.step >= 6) return DishDetails
   return HomeView
 })
 
+console.log(currentViewComponent.value);
+console.log(state.step)
 const transitionName = computed(() => state.step === 6 ? 'page-flip' : 'fade-slide')
+
+watch(
+  [() => state.step, () => state.showPopup],
+  ([newStep, popupVisible]) => {
+    if (newStep === 5 && !popupVisible) {
+      state.startListening = true;
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(() => {
   const hasSavedData = !!localStorage.getItem('appState')

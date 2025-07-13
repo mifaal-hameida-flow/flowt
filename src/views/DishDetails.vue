@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useAppState } from '../stores/appState'; 
 import { vTooltip } from 'floating-vue'
 
@@ -7,6 +7,7 @@ const state = useAppState();
 
 const notes = ref('')
 const selectedOptions = ref({})
+
 
 const tooltipContent = {
   image: 'תמונה היא <strong style="color:#48cae4;">נתון לא מובנה</strong><br> המערכת לא יודעת לקרוא אותה (ללא עיבוד מיוחד), רק להציג',
@@ -39,32 +40,53 @@ const allTooltipsSeen = computed(() =>
   Object.values(seenTooltips.value).every(Boolean)
 )
 
+
 const handleOptionChange = (prefIndex, option, isSingle) => {
-  console.log("ho")
+  const current = selectedOptions.value[prefIndex] || []
+
   if (isSingle) {
-    selectedOptions.value[prefIndex] = [option]
+    selectedOptions.value = {
+      ...selectedOptions.value,
+      [prefIndex]: [option],
+    }
   } else {
-    const current = selectedOptions.value[prefIndex] || []
+    let newArray = []
+
     if (current.includes(option)) {
-      selectedOptions.value[prefIndex] = current.filter(o => o !== option)
+      newArray = current.filter(o => o !== option)
+    } else if (current.length < state.selectedDish.preferences[prefIndex].numberOfPick) {
+      newArray = [...current, option]
     } else {
-      if (current.length < state.selectedDish.preferences[prefIndex].numberOfPick) {
-        selectedOptions.value[prefIndex] = [...current, option]
-      }
+      newArray = current
+    }
+
+    selectedOptions.value = {
+      ...selectedOptions.value,
+      [prefIndex]: newArray
     }
   }
 }
 
-// חישוב תוספת מחיר אם יש
 const extraPrice = computed(() => {
-  let sum = 0
-  state.selectedDish.preferences?.forEach((pref, index) => {
-    if (pref.addedPrice && selectedOptions.value[index]) {
-      sum += selectedOptions.value[index].length * pref.addedPrice
+  let sum = 0;
+  const prefs = state.selectedDish.preferences || [];
+
+  prefs.forEach((pref, index) => {
+    const selected = selectedOptions.value[index];
+
+    // Only apply addedPrice if it's defined and > 0
+    if (pref.addedPrice && Array.isArray(selected)) {
+      selected.forEach(option => {
+        if (option !== 'ללא תוספות') {
+          sum += pref.addedPrice;
+        }
+      });
     }
-  })
-  return sum
-})
+  });
+
+  return sum;
+});
+
 
 // מחיר כולל
 const totalPrice = computed(() => {
@@ -110,6 +132,55 @@ const showTooltipTemporarily = (key) => {
     seenTooltips.value[key] = true;
   }, 3500);
 };
+
+const saveData = () => {
+  const order = {
+    dishId: state.selectedDish.id || state.selectedDish.name,
+    dishName: state.selectedDish.name,
+    quantity,
+    basePrice: state.selectedDish.price,
+    totalPrice: totalPrice.value,
+    preferences: Object.entries(selectedOptions.value).map(([index, options]) => ({
+      title: state.selectedDish.preferences[index].title,
+      selected: options
+    })),
+    notes,
+    timestamp: new Date().toISOString()
+  }
+  state.addOrder(order);
+  state.nextStep();
+}
+
+
+watch(allTooltipsSeen, (val) => {
+  if (val && state.step === 6) {
+    setTimeout(() => {
+      state.nextStep()
+    }, 600) // slight delay before advancing
+  }
+})
+
+onMounted(() => {
+  const existingOrder = state.order.find(order =>
+    order.dishId === state.selectedDish.id || order.dishName === state.selectedDish.name
+  )
+
+  if (existingOrder) {
+    // Restore quantity
+    quantity.value = existingOrder.quantity || 1
+
+    // Restore notes
+    notes.value = existingOrder.notes || ''
+
+    // Restore preferences
+    const restoredOptions = {}
+    existingOrder.preferences.forEach((pref, index) => {
+      restoredOptions[index] = pref.selected
+    })
+    selectedOptions.value = restoredOptions
+  }
+})
+
 </script>
 
 <template>
@@ -222,7 +293,10 @@ const showTooltipTemporarily = (key) => {
                   }"
                 >
                   {{ option }}
-                  <span v-if="pref.addedPrice" class="text-xs text-gray-400">+₪{{ pref.addedPrice }}</span>
+                  <span v-if="pref.addedPrice && option !== 'ללא תוספות'" class="text-xs text-gray-400">
+                    +₪{{ pref.addedPrice }}
+                  </span>
+
                 </span>
               </label>
             </div>
@@ -253,7 +327,7 @@ const showTooltipTemporarily = (key) => {
       </div>
 
       <!-- Footer -->
-      <div class="border-t pt-4 mt-4 sticky bottom-0 bg-white">
+      <div v-if="state.step !== 8" class="border-t pt-4 mt-4 sticky bottom-0 bg-white">
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center space-x-2 m-2.5">
             <button @click="decrease" class="w-8 h-8 rounded-full bg-gray-200 text-lg" :disabled="state.step === 6 && !allTooltipsSeen">−</button>
@@ -263,11 +337,35 @@ const showTooltipTemporarily = (key) => {
           <button
             class="w-full bg-[#00BEE5] text-white py-3 rounded-xl text-lg font-semibold"
             :disabled="state.step === 6 && !allTooltipsSeen"
+            @click.once="saveData"
           >
             הוספה להזמנה - ₪{{ totalPrice.toFixed(2) }}
           </button>
         </div>
       </div>
+      <div class="flex w-full justify-center sticky bottom-2" v-else>
+        <transition name="slide-up">
+        <button
+          v-if="state.step === 8 && !state.showPopup"
+          class="w-[90%] bg-[#00BEE5] text-white py-3 rounded-xl text-lg font-semibold mx-auto max-w-md shadow-lg z-50"
+        >
+          סיום הזמנה
+        </button>
+      </transition>
+      </div>
     </div>
   </div>
 </template>
+<style scoped>
+.slide-up-enter-active {
+  transition: all 0.4s ease-out;
+}
+.slide-up-enter-from {
+  transform: translateY(100%);
+  opacity: 0;
+}
+.slide-up-enter-to {
+  transform: translateY(0%);
+  opacity: 1;
+}
+</style>

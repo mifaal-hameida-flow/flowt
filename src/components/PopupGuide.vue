@@ -28,6 +28,12 @@ const selectedMessages = computed(() => {
   return match ? match[chosenView.value] : [];
 });
 
+const isDatabaseAnimationCard = computed(() => {
+  return props.stepInfo.step === 8 && firstCard.value?.id === 2;
+});
+const animatedRows = ref([]);
+const fullOrderData = computed(() => state.order || []);
+
 const handlePopupDisplay = (newCard) => {
   if (!newCard) {
     showPopup.value = false;
@@ -44,11 +50,29 @@ const handlePopupDisplay = (newCard) => {
   }
 };
 
-watch(() =>  props.stepInfo, () => {
-  cardNumber.value = state.cardNumber || 0;
-  handlePopupDisplay( props.stepInfo?.cards?.[cardNumber.value]);
-}, { immediate: true });
+const animateOrderToTable = async () => {
+  for (let i = 0; i < fullOrderData.value.length; i++) {
+    animatedRows.value.push(fullOrderData.value[i]);
+    await new Promise((resolve) => setTimeout(resolve, 500)); // staggered insert
+  }
+};
 
+const displayedRows = ref([]);
+
+const animateRowsIntoTable = () => {
+  displayedRows.value = [];
+  const fullData = [...state.order];
+  let i = 0;
+
+  const interval = setInterval(() => {
+    if (i < fullData.length) {
+      displayedRows.value.push(fullData[i]);
+      i++;
+    } else {
+      clearInterval(interval);
+    }
+  }, 500); // כל חצי שנייה נכנסת שורה
+};
 
 // State
 const userName = ref(state.userName || '');
@@ -126,6 +150,19 @@ const handleOptionsClick = (button) => {
   state.navigateView(button.id);
   state.nextStep();
 }
+
+watch(() =>  props.stepInfo, () => {
+  cardNumber.value = state.cardNumber || 0;
+  handlePopupDisplay( props.stepInfo?.cards?.[cardNumber.value]);
+}, { immediate: true });
+
+watch(isDatabaseAnimationCard, (isActive) => {
+  if (isActive) {
+    animatedRows.value = [];
+    animateOrderToTable();
+  }
+});
+
 onMounted(() => {
   if (state.userName) {
     userName.value = state.userName;
@@ -138,7 +175,7 @@ onMounted(() => {
   <div v-if="(showPopup || popupState.isVisible) && stepInfo" class="fixed top-0 right-0 z-60 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
   :key="`${stepInfo.step}-${cardNumber}`"
   :class="{ 'fade-enter': firstCard.id === 1 }">
-    <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#E6F8FA] p-4 rounded-xl shadow-lg text-center"
+    <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#E6F8FA] p-4 rounded-xl shadow-lg text-center popup-container"
     :key="`${stepInfo.step}-${cardNumber}`" 
     :class="{ 'animate-zoom': firstCard.id === 1 }">
       
@@ -172,8 +209,56 @@ onMounted(() => {
       <div v-if="firstCard.message" v-for="(paragraph, idx) in firstCard.message" :key="idx" class="mb-3">
         <!-- <p>{{ paragraph }}</p> -->
          <p v-html="paragraph"></p>
+         <!-- Database Animation Table -->
       </div>
 
+      <div v-if="isDatabaseAnimationCard" class="w-full max-w-full mx-auto mt-4 table-scroll-wrapper">
+        <div class="overflow-x-auto w-full">
+          <table class="info-table animate-table">
+            <thead>
+              <tr>
+                <th>מנה</th>
+                <th>כמות</th>
+                <th>סה"כ</th>
+                <th>הערות</th>
+                <th>העדפות</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(row, idx) in animatedRows" :key="idx" class="animate-fade-in">
+                <td>{{ row.dishName }}</td>
+                <td>{{ row.quantity }}</td>
+                <td>{{ row.totalPrice.toFixed(2) }}</td>
+                <td>{{ row.notes || '-' }}</td>
+                <td>
+                  <div v-if="row.preferences">
+                    <div v-for="(value, key) in row.preferences" :key="key" class="whitespace-nowrap">
+                      <strong>{{ key }}:</strong>
+                      <span v-if="Array.isArray(value)">
+                        {{ value.join(', ') }}
+                      </span>
+                      <span v-else>
+                        {{ value }}
+                      </span>
+                    </div>
+                  </div>
+                  <div v-else>-</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div v-if="firstCard.messageTable" class="flex">
+        <div v-for="(table, idx) in firstCard.messageTable" :key="idx" class="flex flex-col items-center pr]-2"
+         :class="{ 'border-r-1 border-[#48cae4]': idx === firstCard.messageTable.length - 1 }">
+          <p class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]">{{ table.title }}</p>
+           <p v-for="message in table.message" v-html="message"></p> 
+        </div>
+      </div>
+      
       <div
         v-if="selectedMessages.length"
         v-for="(paragraph, idx) in selectedMessages"
@@ -304,13 +389,32 @@ input:focus {
   animation: zoomIn 0.4s ease-out;
 }
 
-.info-table {
-  border-collapse: collapse;
-  width: 100%; /* Changed from 70% */
-  min-width: 300px; /* Ensures table doesn’t shrink too much */
-  max-width: 100%;
-  font-size: x-small;
+.direction {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: plaintext; /* Ensures full LTR rendering */
+  font-family: monospace;  /* Optional: for clearer path display */
 }
+
+.color-filter {
+  filter: brightness(116%) hue-rotate(-16deg);
+}
+
+@keyframes fadeInRow {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInRow 0.4s ease-out;
+}
+
 
 .info-table th,
 .info-table td {
@@ -323,15 +427,39 @@ input:focus {
 .info-table th {
   background-color: #b4e1ee57;
 }
-.direction {
-  direction: ltr;
-  text-align: left;
-  unicode-bidi: plaintext; /* Ensures full LTR rendering */
-  font-family: monospace;  /* Optional: for clearer path display */
+
+.overflow-x-auto {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.color-filter {
-  filter: brightness(116%) hue-rotate(-16deg);
+.animate-fade-in {
+  animation: fadeInRow 0.4s ease-out;
 }
+
+.table-scroll-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+   margin-bottom: 0.5rem;
+}
+
+/* Remove or adjust this */
+.info-table {
+  width: 100%;
+  min-width: 600px; /* You can lower this if needed */
+  border-collapse: collapse;
+  font-size: x-small;
+  margin-bottom: 1rem;
+}
+
+/* Optional: Keep the popup from expanding */
+.popup-container {
+  width: 100%;
+  max-width: 90vw;
+  overflow-x: hidden; /* prevent growing beyond screen */
+  box-sizing: border-box;
+}
+
 
 </style>

@@ -21,58 +21,6 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 10;
 };
 
-let idleTimeout = null;
-let isListening = false;
-
-// === Idle Timer Logic ===
-const startIdleTimer = () => {
-  clearTimeout(idleTimeout);
-
-  idleTimeout = setTimeout(() => {
-    if (!popupState.isVisible && !props.popupShowing) {
-
-      popupState.manualCard = {
-        id: 'idle-step-5',
-        title: 'נו למה אתם מחכים?',
-        message: ['בחרו מסעדה ואז מנה שתרצו להזמין 🍽️'],
-        buttonTask: {
-          msg: 'יאללה נזמין אוכל',
-          src: '././media/buttons/order.png'
-        }
-      };
-
-      popupState.isVisible = true;
-    } 
-  }, 5000); // adjust as needed
-};
-
-const resetIdleTimer = () => {
-  clearTimeout(idleTimeout);
-
-  if (popupState.isVisible) {
-    popupState.isVisible = false;
-  }
-
-  startIdleTimer();
-};
-
-const listenToUser = () => {
-  if (!isListening) {
-    window.addEventListener('click', resetIdleTimer);
-    isListening = true;
-  }
-
-  startIdleTimer();
-};
-
-const stopListening = () => {
-  clearTimeout(idleTimeout);
-
-  if (isListening) {
-    window.removeEventListener('click', resetIdleTimer);
-    isListening = false;
-  }
-};
 
 const selectRestaurant = (restaurant) => {
   if (state.step !== 4) {
@@ -80,22 +28,10 @@ const selectRestaurant = (restaurant) => {
   }
 }
 
-watch(shouldListen, (val) => {
-  if (val) {
-    listenToUser();
-  } else {
-    stopListening();
-  }
-}, { immediate: true });
-
-
 // Cleanup
 onBeforeUnmount(() => {
    window.removeEventListener('scroll', handleScroll);
-  stopListening();
 });
-
-
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
