@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted} from 'vue'
 import { useAppState } from '../stores/appState'; 
-import orderHistory from '../data/orderHistory.json'
 import { vTooltip } from 'floating-vue'
 
 const state = useAppState();
