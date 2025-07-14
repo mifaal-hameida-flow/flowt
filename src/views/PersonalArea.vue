@@ -1,7 +1,7 @@
 <script setup>
 import BottomBar from '../components/BottomBar.vue';
 import { useAppState } from '../stores/appState';
-import orderHistory from '../data/orderHistory.json';
+import orderHistory from '../data/OrderHistory.json';
 import { computed } from 'vue';
 
 const state = useAppState();
