@@ -9,11 +9,13 @@ export const useAppState = defineStore('appState', {
     showRecoveryPopup: false,
     cardNumber: 0,
     selectedRestaurant: null,
+    deliveryFee: null,
     selectedDish: null,
     userName: '',
     startListening: false,
     activeSubView: null,
-    order: []
+    currOrder: [],      // נכון - מערך
+    orderHistory: []    // גם נכון
   }),
   actions: {
     nextStep() {
@@ -39,8 +41,16 @@ export const useAppState = defineStore('appState', {
       this.cardNumber = newNumber
     },
     setRestaurant(restaurant) {
-      this.selectedRestaurant = restaurant
-      if (this.step !== 5) this.nextStep()
+      this.selectedRestaurant = restaurant;
+      const priceString = restaurant.deliveryPrice;
+      if (priceString === "חינם") {
+        this.deliveryFee = 0;
+      } else {
+        // Extract numeric value (e.g. from "10.00₪" → 10.00)
+        const numericValue = parseFloat(priceString.replace(/[^\d.]/g, ''));
+        this.deliveryFee = isNaN(numericValue) ? 0 : numericValue;
+      }
+      if (this.step !== 5) this.nextStep();
     },
     setDish(dish) {
       this.selectedDish = dish
@@ -55,9 +65,6 @@ export const useAppState = defineStore('appState', {
     saveName(name) {
       this.userName = name
     },
-    addOrder(order) {
-     this.order.push(order);
-    }
   },
   persist: true
 })

@@ -6,6 +6,7 @@ import Loader from './components/Loader.vue'
 import RestaurantDetailsView from './views/RestaurantDetailsView.vue'
 import DishDetails from './views/DishDetails.vue'
 import RecommendedView from './views/RecommendedView.vue'
+import PersonalArea from './views/PersonalArea.vue'
 import { popupState } from './stores/popup'
 import { computed, onMounted, watch } from 'vue'
 import { useAppState } from './stores/appState'
@@ -18,7 +19,8 @@ const currentViewComponent = computed(() => {
   if (state.step >= 2 && state.step < 4) return RestaurantDetailsView
   if (state.step === 4) return RecommendedView
   if (state.step === 5) return RestaurantDetailsView
-  if (state.step >= 6) return DishDetails
+  if (state.step >= 6 && state.step < 9) return DishDetails
+  if (state.step >= 9) return PersonalArea
   return HomeView
 })
 

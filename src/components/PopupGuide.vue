@@ -32,7 +32,7 @@ const isDatabaseAnimationCard = computed(() => {
   return props.stepInfo.step === 8 && firstCard.value?.id === 2;
 });
 const animatedRows = ref([]);
-const fullOrderData = computed(() => state.order || []);
+const fullOrderData = computed(() => state.currOrder || []);
 
 const handlePopupDisplay = (newCard) => {
   if (!newCard) {
@@ -49,30 +49,27 @@ const handlePopupDisplay = (newCard) => {
     showPopup.value = true;
   }
 };
-
 const animateOrderToTable = async () => {
-  for (let i = 0; i < fullOrderData.value.length; i++) {
-    animatedRows.value.push(fullOrderData.value[i]);
-    await new Promise((resolve) => setTimeout(resolve, 500)); // staggered insert
+  animatedRows.value = []; // reset before animation
+
+  for (const order of fullOrderData.value) {
+    const restaurantName = order.restaurantName?.restaurantName || order.restaurantName; // if it's an object
+
+    for (const dish of order.items) {
+      animatedRows.value.push({
+        dishName: dish.dishName,
+        quantity: dish.quantity,
+        totalPrice: dish.totalPrice,
+        notes: dish.notes,
+        preferences: dish.preferences,
+        restaurantName
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
   }
 };
 
-const displayedRows = ref([]);
-
-const animateRowsIntoTable = () => {
-  displayedRows.value = [];
-  const fullData = [...state.order];
-  let i = 0;
-
-  const interval = setInterval(() => {
-    if (i < fullData.length) {
-      displayedRows.value.push(fullData[i]);
-      i++;
-    } else {
-      clearInterval(interval);
-    }
-  }, 500); // כל חצי שנייה נכנסת שורה
-};
 
 // State
 const userName = ref(state.userName || '');
@@ -216,7 +213,7 @@ onMounted(() => {
         <div class="overflow-x-auto w-full">
           <table class="info-table animate-table">
             <thead>
-              <tr>
+              <tr class="whitespace-nowrap">
                 <th>מנה</th>
                 <th>כמות</th>
                 <th>סה"כ</th>
@@ -228,12 +225,12 @@ onMounted(() => {
               <tr v-for="(row, idx) in animatedRows" :key="idx" class="animate-fade-in">
                 <td>{{ row.dishName }}</td>
                 <td>{{ row.quantity }}</td>
-                <td>{{ row.totalPrice.toFixed(2) }}</td>
+                <td class="whitespace-nowrap">{{ row.totalPrice.toFixed(2) }}</td>
                 <td>{{ row.notes || '-' }}</td>
                 <td>
                   <div v-if="row.preferences">
                     <div v-for="(value, key) in row.preferences" :key="key" class="whitespace-nowrap">
-                      <strong>{{ key }}:</strong>
+                      <strong>{{ key }}: </strong>
                       <span v-if="Array.isArray(value)">
                         {{ value.join(', ') }}
                       </span>
@@ -252,7 +249,7 @@ onMounted(() => {
       </div>
 
       <div v-if="firstCard.messageTable" class="flex">
-        <div v-for="(table, idx) in firstCard.messageTable" :key="idx" class="flex flex-col items-center pr]-2"
+        <div v-for="(table, idx) in firstCard.messageTable" :key="idx" class="flex flex-col items-center pr-1.5"
          :class="{ 'border-r-1 border-[#48cae4]': idx === firstCard.messageTable.length - 1 }">
           <p class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]">{{ table.title }}</p>
            <p v-for="message in table.message" v-html="message"></p> 

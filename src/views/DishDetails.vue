@@ -1,13 +1,14 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted} from 'vue'
 import { useAppState } from '../stores/appState'; 
+import orderHistory from '../data/orderHistory.json'
 import { vTooltip } from 'floating-vue'
 
 const state = useAppState();
 
 const notes = ref('')
 const selectedOptions = ref({})
-
+const finishOrderTooltipShown = ref(false)
 
 const tooltipContent = {
   image: 'תמונה היא <strong style="color:#48cae4;">נתון לא מובנה</strong><br> המערכת לא יודעת לקרוא אותה (ללא עיבוד מיוחד), רק להציג',
@@ -15,7 +16,8 @@ const tooltipContent = {
   price: 'זה <strong style="color:#48cae4;">נתון מובנה</strong> – נשמר בשדה מוגדר – <br>אפשר לחשב ולסנן לפי מחיר',
   description: 'זה <strong style="color:#48cae4;">נתון לא מובנה</strong> –  טקסט חופשי, <br>לא נכנס לשדה מוגדר – אי אפשר לנתח אותו אוטומטית',
   preferences: '<strong style="color:#48cae4;">נתון מובנה</strong> - בחירה מתוך ערכים קבועים<br> (למשל "בלי גבינה", "תוספת זיתים"). <br>המערכת שומרת כל בחירה כשדה ברור.',
-  notes: '<strong style="color:#48cae4;">נתון לא מובנה</strong> – טקסט שהמשתמש כותב חופשי (כמו "בלי חריף בבקשה")<br>.המערכת לא יכולה להבין או לנתח את התוכן הזה לבד.'
+  notes: '<strong style="color:#48cae4;">נתון לא מובנה</strong> – טקסט שהמשתמש כותב חופשי (כמו "בלי חריף בבקשה")<br>.המערכת לא יכולה להבין או לנתח את התוכן הזה לבד.',
+  finishOrder: 'לחצו עליי ותראו איך ההזמנה שלכם נשמרת בהיסטוריית ההזמנות!'
 }
 
 const seenTooltips = ref({
@@ -135,22 +137,38 @@ const showTooltipTemporarily = (key) => {
 
 const saveData = () => {
   const order = {
-    dishId: state.selectedDish.id || state.selectedDish.name,
-    dishName: state.selectedDish.name,
-    quantity,
-    basePrice: state.selectedDish.price,
-    totalPrice: totalPrice.value,
-    preferences: Object.entries(selectedOptions.value).map(([index, options]) => ({
-      title: state.selectedDish.preferences[index].title,
-      selected: options
-    })),
-    notes,
-    timestamp: new Date().toISOString()
-  }
-  state.addOrder(order);
+    restaurantName: state.selectedRestaurant.name,
+    items: [
+      {
+        dishName: state.selectedDish.name,
+        quantity: quantity.value,
+        basePrice: state.selectedDish.price,
+        totalPrice: totalPrice.value,
+        preferences: Object.entries(selectedOptions.value).map(([index, options]) => ({
+          title: state.selectedDish.preferences[index].title,
+          selected: options
+        })),
+        notes: notes.value
+      }
+      ],
+      deliveryFee: state.deliveryFee,
+      orderPrice: Number((totalPrice.value + state.deliveryFee).toFixed(2)),
+      orderDateTime: new Date().toLocaleString('sv-SE', { hour12: false }).replace(' ', 'T')
+    }
+
+  state.currOrder.push(order)
   state.nextStep();
 }
+const showTooltip = () => {
+  finishOrderTooltipShown.value = true;
+}
 
+const finishOrder = () => {
+  // push order to orderHistory.json
+  state.orderHistory.push(...state.currOrder)
+  state.currOrder = [] // אם את רוצה לאפס את ההזמנה הפעילה
+  state.nextStep();
+}
 
 watch(allTooltipsSeen, (val) => {
   if (val && state.step === 6) {
@@ -161,7 +179,7 @@ watch(allTooltipsSeen, (val) => {
 })
 
 onMounted(() => {
-  const existingOrder = state.order.find(order =>
+  const existingOrder = state.currOrder.find(order =>
     order.dishId === state.selectedDish.id || order.dishName === state.selectedDish.name
   )
 
@@ -174,10 +192,16 @@ onMounted(() => {
 
     // Restore preferences
     const restoredOptions = {}
-    existingOrder.preferences.forEach((pref, index) => {
-      restoredOptions[index] = pref.selected
-    })
+    if (existingOrder && Array.isArray(existingOrder.preferences)) {
+        existingOrder.preferences.forEach((pref, index) => {
+        restoredOptions[index] = pref.selected;
+      });
+    }
+
     selectedOptions.value = restoredOptions
+  }
+  if (state.step===8) {
+    showTooltip();
   }
 })
 
@@ -346,11 +370,19 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex w-full justify-center sticky bottom-2" v-else>
-        <transition name="slide-up">
+        <transition name="slide-up" @after-enter="showTooltip">
         <button
           v-if="state.step === 8 && !state.showPopup"
           class="w-[90%] bg-[#00BEE5] text-white py-3 rounded-xl text-lg font-semibold mx-auto max-w-md shadow-lg z-50"
-        >
+          v-tooltip="{
+            content: tooltipContent['finishOrder'],
+            triggers: [],     // empty triggers = manual control
+            shown: finishOrderTooltipShown,
+            placement: 'top',
+            html: true
+          }"
+          @click="finishOrder"
+          >
           סיום הזמנה
         </button>
       </transition>

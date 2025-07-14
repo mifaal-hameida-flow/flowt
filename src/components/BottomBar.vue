@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import likeIcon from '../assets/media/bottombar/like.png'
 import restaurantIcon from '../assets/media/bottombar/restaurant.png'
 import loupeIcon from '../assets/media/bottombar/loupe.png'
@@ -9,7 +9,7 @@ import { popupState } from '../stores/popup';
 import { useAppState } from '../stores/appState'; 
 const state = useAppState();
 
-const props = defineProps({showTooltip: Boolean});
+const props = defineProps({showTooltip: Boolean, active: String});
 
 const bottomBarData = ref([
   { text: "מומלץ עבורך", src: likeIcon, active: false },
@@ -19,6 +19,14 @@ const bottomBarData = ref([
 ])
 
 const tooltips = ref(bottomBarData.value.map(() => false));
+
+// ✅ Watch for active prop changes
+watch(() => props.active, (newVal) => {
+  if (!newVal) return;
+  bottomBarData.value.forEach(item => {
+    item.active = item.text === newVal;
+  });
+}, { immediate: true }); // also run on mount
 
 const showTooltipTemporarily = (index) => {
   tooltips.value[index] = true;
