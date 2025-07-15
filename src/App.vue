@@ -7,6 +7,7 @@ import RestaurantDetailsView from './views/RestaurantDetailsView.vue'
 import DishDetails from './views/DishDetails.vue'
 import RecommendedView from './views/RecommendedView.vue'
 import PersonalArea from './views/PersonalArea.vue'
+import UserProgress from './components/UserProgress.vue'
 import { popupState } from './stores/popup'
 import { computed, onMounted, watch } from 'vue'
 import { useAppState } from './stores/appState'
@@ -68,6 +69,8 @@ onMounted(() => {
   </div>
 
   <div v-else-if="!state.showLoader">
+    <!-- <UserProgress/>  -->
+     <!-- למצוא לזה מקום -->
     <Transition :name="transitionName" mode="out-in">
       <component :is="currentViewComponent"/>
     </Transition>
@@ -77,6 +80,7 @@ onMounted(() => {
       :key="state.step"
       :stepInfo="stepInfo"
     />
+
   </div>
 </template>
 
