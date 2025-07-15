@@ -2,7 +2,7 @@
 import BottomBar from '../components/BottomBar.vue';
 import { useAppState } from '../stores/appState';
 import orderHistory from '../data/OrderHistory.json';
-import { computed } from 'vue';
+import { computed, watch, ref } from 'vue';
 
 const state = useAppState();
 const combinedOrders = [...orderHistory, ...state.orderHistory];
@@ -20,8 +20,18 @@ const formatDateTime = (isoString) => {
     time: date.toLocaleTimeString('he-IL', optionsTime)
   };
 }
-</script>
 
+const showTooltip = ref(true);
+
+watch(() => state.showPopup, (newVal) => {
+  if (newVal === false) {
+    showTooltip.value = false;
+  }
+},  
+{ immediate: true }
+);
+
+</script>
 <template>
   <div class="flex flex-col min-h-screen bg-white">
     <div class="font-bold text-3xl m-5">
@@ -35,16 +45,24 @@ const formatDateTime = (isoString) => {
             v-for="(order, index) in sortedOrders"
             :key="index"
             class="flex justify-between items-center border-b py-4"
-        >
+            >
               <!-- צד ימין: שם המסעדה + שעה ותאריך -->
             <div class="flex flex-col text-right">
-                <div class="font-semibold text-lg leading-tight">
+                <div class="font-semibold text-lg leading-tight"
+                  v-tooltip="index === 0 ? {
+                    content: 'הנה ההזמנה שביצעתם עכשיו –<br> נוספה להיסטוריית ההזמנות שלכם!',
+                    triggers: [],
+                    shown: showTooltip,
+                    placement: 'top',
+                    html: true
+                } : null">
                     {{ order.restaurantName }}
                 </div>
                 <div class="text-sm text-gray-500 mt-1">
                     {{ formatDateTime(order.orderDateTime).time }} ,{{ formatDateTime(order.orderDateTime).date }}
                 </div>
             </div>
+            
             <!-- צד שמאל: המחיר -->
             <div class="text-sm text-gray-500 min-w-[70px] text-left">
                  ₪ {{ order.orderPrice ? Number(order.orderPrice).toFixed(2) : '--' }}
@@ -52,7 +70,7 @@ const formatDateTime = (isoString) => {
 
           
         </div>
-        </div>
+     </div>
 
 
     <BottomBar :active="'אזור אישי'" />

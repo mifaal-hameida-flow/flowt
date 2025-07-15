@@ -14,8 +14,8 @@ export const useAppState = defineStore('appState', {
     userName: '',
     startListening: false,
     activeSubView: null,
-    currOrder: [],      // נכון - מערך
-    orderHistory: []    // גם נכון
+    currOrder: [],      
+    orderHistory: []   
   }),
   actions: {
     nextStep() {

@@ -2,8 +2,11 @@
 import { ref, onMounted, computed, watch} from 'vue';
 import { popupState } from '../stores/popup';
 import { useAppState } from '../stores/appState'; 
+import OrdersTable from '../data/OrdersTable.json'
 const state = useAppState();
-
+const originalOrders = OrdersTable;
+const newOrders = ref([]); // This will hold orders added by סיום הזמנה
+const orders = computed(() => [...originalOrders, ...newOrders.value]); // merged list for display
 // Props
 const props = defineProps({
   stepInfo: Object,
@@ -147,6 +150,28 @@ const handleOptionsClick = (button) => {
   state.navigateView(button.id);
   state.nextStep();
 }
+const userIP = generateFakeIP();
+
+function generateFakeIP() {
+  return Array(4).fill(0).map(() => Math.floor(Math.random() * 256)).join('.');
+}
+
+const completeOrder = () => {
+  const dynamicOrder = state.orderHistory?.[0];
+  if (!dynamicOrder) return;
+  const newOrder = {
+    order_id: `ORD-${Date.now()}`,
+    user_id: `${state.userName || 'guest'}_${userIP || 'unknownIP'}`,
+    restaurant: dynamicOrder.restaurantName?.restaurantName || dynamicOrder.restaurantName || 'לא ידוע',
+    created_at: new Date().toISOString(),
+    items: dynamicOrder.items.map(item => item.dishName),
+    total: dynamicOrder.items.reduce((sum, item) => sum + item.totalPrice, 0),
+    status: 'completed',
+    isNew: true // flag for animation
+  };
+
+  newOrders.value.push(newOrder);
+};
 
 watch(() =>  props.stepInfo, () => {
   cardNumber.value = state.cardNumber || 0;
@@ -247,6 +272,59 @@ onMounted(() => {
         </div>
 
       </div>
+       <div v-if="firstCard.ordersTable" class="w-full overflow-auto max-w-full mb-2 table-scroll-wrapper">
+          <table class="info-table">
+            <thead>
+              <tr class="whitespace-nowrap">
+                <th>מזהה הזמנה</th>
+                <th>מזהה משתמש</th>
+                <th>מסעדה</th>
+                <th>תאריך</th>
+                <th>מנות</th>
+                <th>סה״כ</th>
+                <th>סטטוס</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="order in orders" :key="order.order_id"  :class="['animate-slide-fade-in',{ 'highlight-new-row': order.isNew }]">
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.user_id }}</td>
+                <td>{{ order.restaurant }}</td>
+                <td class="whitespace-nowrap">{{ new Date(order.created_at).toLocaleDateString('he-IL') }}</td>
+                <td class="text-right">
+                  <ul class="list-disc pr-2">
+                    <li v-for="item in order.items" :key="item">{{ item }}</li>
+                  </ul>
+                </td>
+                <td>{{ order.total.toFixed(2) }} ₪</td>
+                <td>
+                  <span :class="{
+                    'text-green-600': order.status === 'completed',
+                    'text-red-600': order.status === 'cancelled',
+                    'text-gray-600': order.status === 'pending'
+                  }">
+                    {{ order.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <div v-if="firstCard.ordersTable">
+            <div v-if="newOrders.length === 0" style="overflow-x: auto; display: flex; justify-content: center; margin-top: 0.5rem;">
+              <button
+                @click="completeOrder"
+                class="bg-[#48cae4] text-white px-4 py-2 rounded-md shadow-sm hover:bg-[#3bb0cc] transition"
+              >
+                סיום הזמנה
+              </button>
+            </div>
+          </div>
+                    <!-- סיום הזמנה button -->
+          
+        
+
 
       <div v-if="firstCard.messageTable" class="flex">
         <div v-for="(table, idx) in firstCard.messageTable" :key="idx" class="flex flex-col items-center pr-1.5"
@@ -443,7 +521,7 @@ input:focus {
 
 /* Remove or adjust this */
 .info-table {
-  width: 100%;
+  width: max-content;
   min-width: 600px; /* You can lower this if needed */
   border-collapse: collapse;
   font-size: x-small;
@@ -456,6 +534,27 @@ input:focus {
   max-width: 90vw;
   overflow-x: hidden; /* prevent growing beyond screen */
   box-sizing: border-box;
+}
+
+/* אנימציית כניסה עם שקיעה מלמטה לעליון + fade-in */
+@keyframes slideFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-fade-in {
+  animation: slideFadeInUp 0.5s ease forwards;
+}
+
+/* צבע רקע צהוב שמישאר (הדגשה קבועה) */
+.highlight-new-row {
+  background-color: #fff3cd;
 }
 
 

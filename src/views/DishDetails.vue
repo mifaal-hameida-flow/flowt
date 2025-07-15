@@ -16,7 +16,7 @@ const tooltipContent = {
   description: 'זה <strong style="color:#48cae4;">נתון לא מובנה</strong> –  טקסט חופשי, <br>לא נכנס לשדה מוגדר – אי אפשר לנתח אותו אוטומטית',
   preferences: '<strong style="color:#48cae4;">נתון מובנה</strong> - בחירה מתוך ערכים קבועים<br> (למשל "בלי גבינה", "תוספת זיתים"). <br>המערכת שומרת כל בחירה כשדה ברור.',
   notes: '<strong style="color:#48cae4;">נתון לא מובנה</strong> – טקסט שהמשתמש כותב חופשי (כמו "בלי חריף בבקשה")<br>.המערכת לא יכולה להבין או לנתח את התוכן הזה לבד.',
-  finishOrder: 'לחצו עליי ותראו איך ההזמנה שלכם נשמרת בהיסטוריית ההזמנות!'
+  finishOrder: 'לחצו עליי ותראו איך ההזמנה שלכם<br> נשמרת בהיסטוריית ההזמנות!'
 }
 
 const seenTooltips = ref({
@@ -372,7 +372,7 @@ onMounted(() => {
         <transition name="slide-up" @after-enter="showTooltip">
         <button
           v-if="state.step === 8 && !state.showPopup"
-          class="w-[90%] bg-[#00BEE5] text-white py-3 rounded-xl text-lg font-semibold mx-auto max-w-md shadow-lg z-50"
+          class="w-[90%] bg-[#00BEE5] text-white py-3 rounded-xl text-lg font-semibold mx-auto max-w-md shadow-lg z-50 flex justify-between"
           v-tooltip="{
             content: tooltipContent['finishOrder'],
             triggers: [],     // empty triggers = manual control
@@ -382,7 +382,8 @@ onMounted(() => {
           }"
           @click="finishOrder"
           >
-          סיום הזמנה
+          <p class="pr-4">סיום הזמנה</p>
+          <p class="pl-4">{{ (totalPrice+state.deliveryFee).toFixed(2) }}</p>
         </button>
       </transition>
       </div>
