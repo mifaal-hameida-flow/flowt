@@ -1,0 +1,1072 @@
+[
+   {
+    "name": "קפה איטליה",
+    "location": "תל אביב",
+    "type": "איטלקי",
+    "showTooltip": true,
+    "deliveryTime": 35,
+    "deliveryPrice": "₪14.00",
+    "rating": 4.6,
+    "priceRange": "₪₪₪",
+    "logo" : "././media/restaurantlogos/italian.jpeg",
+    "src": "././media/restaurantcards/italian.avif",
+    "menu" : {
+     "firstCourses": [
+      {
+        "name": "פוקאצ'ה",
+        "price": 28,
+        "description": "פוקאצ'ת הבית, מגיעה עם שמן זית וחומץ בלסמי",
+        "image": "././media/dishes/focaccia.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות לפוקאצ'ה",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "שום קונפי",
+              "עגבניות מיובשות",
+              "גבינת מוצרלה",
+              "זיתים שחורים"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 5
+          },
+          {
+            "title": "בחירת מטבלים",
+            "options": [
+              "שמן זית ובלסמי",
+              "פסטו בזיליקום",
+              "מטבל עגבניות חריף",
+              "בלי מטבלים"
+            ],
+            "numberOfPick": 1
+          }
+        ]
+      },
+      {
+        "name": "חציל פרמז'ן",
+        "price": 58,
+        "description": "שכבות חציל מבושל ברוטב עגבניות וגבינת פרמז'ן",
+        "image": "././media/dishes/melanzane.jpg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "רוטב פסטו מעל",
+              "שבבי פרמז'ן נוספים",
+              "טיפת שמן כמהין",
+              "ללא תוספות"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 6
+          },
+          {
+            "title": "סוג הגשה",
+            "options": [
+              "מנה אישית",
+              "מנה לשיתוף"
+            ],
+            "numberOfPick": 1
+          }
+        ]
+      }
+    ],
+    "mainCourses": [
+      {
+        "name": "ניוקי ערמונים",
+        "price": 72,
+        "description": "ניוקי תפו״א בעבודת יד ברוטב שמנת ערמונים ופרמז'ן",
+        "image": "././media/dishes/gnocchi.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות מעל",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "שבבי פרמז'ן",
+              "פטריות פורצ׳יני",
+              "כמהין מגוררת",
+              "ללא תוספות"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 7
+          }
+        ]
+      },
+      {
+        "name": "פסטה פפרדלה ראגו",
+        "price": 78,
+        "description": "רצועות פסטה טריות ברוטב ראגו בקר איטי עם עשבי תיבול",
+        "image": "././media/dishes/ragu.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת עשבי תיבול",
+            "subtitle": "ניתן לבחור עד 2 עשבי תיבול",
+            "options": [
+              "בזיליקום טרי",
+              "אורגנו",
+              "פטרוזיליה",
+              "ללא עשבים"
+            ],
+            "numberOfPick": 2
+          },
+          {
+            "title": "תוספות אפשריות",
+            "options": [
+              "פרמז'ן מגורר",
+              "שום קונפי",
+              "רוטב נוסף בצד"
+            ],
+            "numberOfPick": 3,
+            "addedPrice": 5
+          }
+        ]
+      },
+      {
+        "name": "ריזוטו פטריות",
+        "price": 68,
+        "description": "ריזוטו שמנת עם פטריות יער, פרמז'ן ושמן כמהין",
+        "image": "././media/dishes/risotto.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות לריזוטו",
+            "subtitle": "ניתן לבחור עד 2 תוספות",
+            "options": [
+              "פטריות פורצ׳יני",
+              "שמן כמהין נוסף",
+              "עלים ירוקים",
+              "ללא תוספות"
+            ],
+            "numberOfPick": 2,
+            "addedPrice": 6
+          },
+          {
+            "title": "סוג גבינה מעל",
+            "options": [
+              "פרמז'ן",
+              "פטה",
+              "מוצרלה",
+              "ללא גבינה"
+            ],
+            "numberOfPick": 1
+          }
+        ]
+      },
+      {
+        "name": "פיצה מרגריטה",
+        "price": 59,
+        "description": "רוטב עגבניות, מוצרלה טרייה, בזיליקום ושמן זית",
+        "image": "././media/dishes/pizza.jpg",
+        "preferences": [
+          {
+            "title": "תוספות לפיצה",
+            "subtitle": "ניתן לבחור עד 3 תוספות",
+            "options": [
+              "זיתים שחורים",
+              "פטריות טריות",
+              "בצל סגול",
+              "גבינת עיזים",
+              "פלפל קלוי"
+            ],
+            "numberOfPick": 3,
+            "addedPrice": 4
+          },
+          {
+            "title": "רמת אפייה",
+            "options": [
+              "רגילה",
+              "קראסט פריך",
+              "עשויה היטב"
+            ],
+            "numberOfPick": 1
+          }
+        ]
+      }
+    ],
+    "desserts": [
+      {
+        "name": "טירמיסו",
+        "price": 36,
+        "description": "קינוח איטלקי קלאסי עם מסקרפונה, בישקוטים ואספרסו",
+        "image": "././media/dishes/tiramisu.jpeg",
+        "preferences": [
+          {
+            "title": "דרגת מתיקות",
+            "options": [
+              "רגילה",
+              "פחות מתוק",
+              "ללא סוכר (תחליף)"
+            ],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות בצד",
+            "options": [
+              "פירות יער",
+              "שוקולד מריר מגורר",
+              "קצפת"
+            ],
+            "numberOfPick": 3,
+            "addedPrice": 5
+          }
+        ]
+      },
+      {
+        "name": "פנקוטה וניל",
+        "price": 32,
+        "description": "קרם וניל איטלקי עם רוטב פירות יער",
+        "image": "././media/dishes/panna_cotta.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת רוטב",
+            "options": [
+              "פירות יער",
+              "קרמל",
+              "שוקולד",
+              "ללא רוטב"
+            ],
+            "numberOfPick": 2
+          },
+          {
+            "title": "תוספות לפנקוטה",
+            "options": [
+              "שקדים מסוכרים",
+              "נענע טרייה",
+              "קוקוס קלוי"
+            ],
+            "numberOfPick": 3,
+            "addedPrice": 4
+          }
+        ]
+      },
+      {
+        "name": "עוגת שוקולד נמסה",
+        "price": 34,
+        "description": "עוגת שוקולד חמה עם לב נמס וגלידת וניל",
+        "image": "././media/dishes/lava_cake.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת גלידה",
+            "options": [
+              "וניל",
+              "שוקולד",
+              "קרמל מלוח",
+              "ללא גלידה"
+            ],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות לעוגה",
+            "options": [
+              "סירופ שוקולד",
+              "פיסטוקים",
+              "שברי עוגיות"
+            ],
+            "numberOfPick": 3,
+            "addedPrice": 4
+          }
+        ]
+      }
+    ]
+    }
+  },
+{
+  "name": "טנדורי גורמה",
+  "location": "הרצליה",
+  "type": "הודי",
+  "showTooltip": true,
+  "deliveryTime": 45,
+  "deliveryPrice": "₪10.00",
+  "rating": 4.5,
+  "priceRange": "₪₪",
+  "logo": "././media/restaurantlogos/indian.jpeg",
+  "src": "././media/restaurantcards/indian.avif",
+  "menu": {
+    "firstCourses": [
+      {
+        "name": "מרק עדשים הודי",
+        "price": 24,
+        "description": "מרק כתום מסורתי עם תבלינים הודים וקצת חריף",
+        "image": "././media/dishes/indian_lentil_soup.jpeg",
+        "preferences": [
+          {
+            "title": "רמת חריפות",
+            "options": ["עדין", "בינוני", "חריף"],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות בצד",
+            "options": ["נאן קטן", "צ׳טני כוסברה", "ללא תוספת"],
+            "numberOfPick": 1
+          }
+        ]
+      },
+      {
+        "name": "סמוסה ירקות",
+        "price": 22,
+        "description": "כיסוני בצק פריך במילוי תפוחי אדמה, אפונה ותבלינים",
+        "image": "././media/dishes/samosa.jpeg",
+        "preferences": [
+          {
+            "title": "רוטב לצד המנה",
+            "options": ["צ׳אטני תמרהינדי", "צ׳אטני נענע", "חריף הודי", "בלי רוטב"],
+            "numberOfPick": 2
+          }
+        ]
+      }
+    ],
+    "mainCourses": [
+      {
+        "name": "עוף טיקה מסאלה",
+        "price": 52,
+        "description": "נתחי עוף צלויים בטנדור ברוטב מסאלה שמנתי וארומטי",
+        "image": "././media/dishes/tikka_masala.jpeg",
+        "preferences": [
+          {
+            "title": "רמת חריפות",
+            "options": ["עדין", "בינוני", "חריף", "חריף מאוד"],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספת לצד המנה",
+            "options": ["אורז בסמטי", "נאן", "שום נאן", "ללא תוספת"],
+            "numberOfPick": 1
+          }
+        ]
+      },
+      {
+        "name": "פלאק פאניר",
+        "price": 46,
+        "description": "גבינת פאניר ברוטב תרד מתובל עם שמנת וקינמון",
+        "image": "././media/dishes/palak_paneer.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת לחם הודי",
+            "options": ["צ׳פאטי", "נאן שום", "פרתה", "ללא לחם"],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות אפשריות",
+            "options": ["צ׳ילי ירוק", "פאניר נוסף", "שום כתוש", "ללא תוספות"],
+            "numberOfPick": 2,
+            "addedPrice": 6
+          }
+        ]
+      },
+      {
+        "name": "ביריאני ירקות",
+        "price": 48,
+        "description": "תבשיל אורז עם ירקות צבעוניים, קשיו ותבלינים הודים",
+        "image": "././media/dishes/veg_biryani.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות לבחירה",
+            "options": ["ביצה קשה", "יוגורט בצד", "חריף הודי"],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          }
+        ]
+      }
+    ],
+    "desserts": [
+      {
+        "name": "גולאב ג׳אמון",
+        "price": 22,
+        "description": "כדורי סולת מטוגנים בסירופ מתקתק עם הל",
+        "image": "././media/dishes/gulab_jamun.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות",
+            "options": ["קוקוס מגורר", "שברי פיסטוק", "ללא תוספות"],
+            "numberOfPick": 2,
+            "addedPrice": 3
+          }
+        ]
+      },
+      {
+        "name": "קולפי מנגו",
+        "price": 26,
+        "description": "גלידת מנגו הודית בסגנון מסורתי עם הל ושקדים",
+        "image": "././media/dishes/kulfi.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות בצד",
+            "options": ["רוטב מנגו", "פיסטוק קצוץ", "ללא תוספות"],
+            "numberOfPick": 1
+          }
+        ]
+      }
+    ]
+  }
+},
+ {
+    "name": "אוקינוואה",
+    "location": "תל אביב",
+    "type": "אסיאתי",
+    "deliveryTime": 25,
+    "deliveryPrice": "₪10.00",
+    "rating": 4.6,
+    "priceRange": "₪₪",
+    "logo" : "././media/restaurantlogos/asian.jpg",
+    "src": "././media/restaurantcards/asian.avif",
+    "menu" : {
+      "firstCourses" :[
+        {
+          "name": "אדממה",
+          "price": 22,
+          "description": "אדממה מאודה עם מלח ים",
+          "image": "././media/dishes/edemame.jpg",
+          "preferences": [
+            {
+              "title": "שינויים במנה",
+              "options": ["רגיל", "ללא מלח גס", "מלח גס בצד", "תוספת לימון"],
+              "numberOfPick": 3
+            }
+          ]
+        },
+        {
+          "name": "מרק מיסו",
+          "price": 18,
+          "description": "מרק מיסו יפני מסורתי עם טופו ואצות",
+          "image": "././media/dishes/misosoup.jpg",
+          "preferences": [
+            {
+              "title": "שינויים במנה",
+              "options": ["ללא טופו", "ללא אצות", "תוספת ירקות"],
+              "numberOfPick": 3
+            }
+          ]
+        }
+      ],
+      "mainCourses" : [
+        {
+          "name": "מגש סושי",
+          "price": 65,
+          "description": "מבחר רולים טריים וטעימים",
+          "image": "././media/dishes/sushi.jpg",
+           "preferences": [
+            {
+              "title": "בחירת רולים למגש",
+              "subtitle": "ניתן לבחור עד 5 רולים",
+              "options": [
+                "רול סלמון ואבוקדו",
+                "רול טונה פיקנטית",
+                "רול ירקות (צמחוני)",
+                "רול פילדלפיה (סלמון, גבינת שמנת)",
+                "רול טמפורה שרימפס",
+                "רול מנגו ואבוקדו",
+                "רול ספייסי סלמון",
+                "רול אספרגוס ושומשום"
+              ],
+              "numberOfPick": 5
+            },
+            {
+              "title": "רטבים לבחירה",
+              "subtitle": "ניתן לבחור עד 3 רטבים",
+              "options": [
+              "סויה רגילה",
+              "סויה דלת נתרן",
+              "ווסאבי",
+              "טריאקי",
+              "ספייסי מיונז",
+              "ג'ינג'ר כבוש",
+              "צ'ילי מתוק"
+            ],
+            "numberOfPick": 3
+            }
+          ]
+        },
+        {
+          "name": "ראמן שויו",
+          "price": 52,
+          "description": "אטריות ראמן בציר סויה עם עוף וביצה",
+          "image": "././media/dishes/ramen.jpg",
+          "preferences": [
+          {
+            "title": "דרגת חריפות",
+            "options": [
+              "ללא חריף",
+              "חריפות קלה",
+              "חריף בינוני",
+              "חריף מאוד"
+            ],
+             "numberOfPick": 1
+          },
+          {
+            "title": "תוספות לבחירה",
+            "options": [
+              "ביצה חצי רכה נוספת",
+              "תוספת עוף",
+              "בצל ירוק",
+              "נורי (אצת ים)",
+              "תירס"
+            ],
+            "numberOfPick": 5,
+            "addedPrice": 7 }
+          ]
+        }
+      ],
+      "desserts" :[
+        {
+          "name": "גלידת מוצ’י",
+          "price": 28,
+          "description": "כדורי מוצ’י ממולאים בגלידה בטעמים שונים",
+          "image": "././media/dishes/mochi.jpg",
+          "preferences": [
+          {
+            "title": "טעמים לבחירה",
+            "subtitle": "ניתן לבחור עד 3 טעמים",
+            "options": [
+              "מאצ'ה (תה ירוק)",
+              "וניל",
+              "שוקולד",
+              "מנגו",
+              "פטל",
+              "מלון"
+            ],
+            "numberOfPick": 3
+          },
+          {
+            "title": "כמות כדורים",
+            "options": [
+              "2 כדורים",
+              "3 כדורים",
+              "4 כדורים"
+            ],
+             "numberOfPick": 1,
+             "addedPrice": 7  
+          }
+        ]
+        },
+        {
+          "name": "דוריאקי",
+          "price": 24,
+          "description": "פנקייק יפני ממולא בממרח שעועית אדומה",
+          "image": "././media/dishes/dorayaki.jpg",
+          "preferences": [
+            {
+              "title": "מילוי לבחירה",
+              "subtitle": "אפשר לבחור רק מילוי אחד",
+              "options": [
+                "ממרח שעועית אדומה (קלאסי)",
+                "שוקולד נוגט",
+                "קרם וניל",
+                "חמאת בוטנים"
+              ],
+              "numberOfPick": 1
+            },
+            {
+              "title": "תוספת בצד",
+              "subtitle": "אפשר לבחור רק תוספת אחת (מגיעה עם המנה)",
+              "options": [
+                "גלידת וניל",
+                "קצפת",
+                "סירופ מייפל",
+                "ללא תוספות"
+              ],
+              "numberOfPick": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+  "name": "ברלה טרטוריה",
+  "location": "חיפה",
+  "type": "איטלקי",
+  "showTooltip": true,
+  "deliveryTime": 40,
+  "deliveryPrice": "₪8.00",
+  "rating": 4.7,
+  "priceRange": "₪₪₪",
+  "logo": "././media/restaurantlogos/barella.jpeg",
+  "src": "././media/restaurantcards/barella.avif",
+  "menu": {
+    "firstCourses": [
+      {
+        "name": "ברוסקטה עגבניות",
+        "price": 26,
+        "description": "פרוסות בגט קלוי עם עגבניות שרי, בזיליקום ושמן זית",
+        "image": "././media/dishes/bruschetta.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "options": ["גבינת מוצרלה", "חומץ בלסמי מצומצם", "שום קונפי"],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          }
+        ]
+      },
+      {
+        "name": "קרפצ'יו סלק",
+        "price": 32,
+        "description": "פרוסות סלק דקיקות עם גבינת עיזים ושקדים קלויים",
+        "image": "././media/dishes/beet_carpaccio.jpeg",
+        "preferences": [
+          {
+            "title": "החלפת גבינה",
+            "options": ["גבינת פטה", "פרמז'ן", "ללא גבינה"],
+            "numberOfPick": 1
+          }
+        ]
+      }
+    ],
+    "mainCourses": [
+      {
+        "name": "פסטה פפרדלה ראגו",
+        "price": 60,
+        "description": "רצועות פפרדלה טריות עם ראגו בקר איטי ובצל מקורמל",
+        "image": "././media/dishes/pappardelle_ragu.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "options": ["תוספת גבינת פרמזן", "רוטב נוסף בצד", "ללא תוספת"],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          },
+          {
+            "title": "עשבי תיבול",
+            "options": ["בזיליקום טרי", "אורגנו", "פטרוזיליה", "ללא עשבים"],
+            "numberOfPick": 2
+          }
+        ]
+      },
+      {
+        "name": "לזניה גבינות",
+        "price": 58,
+        "description": "שכבות פסטה טרייה עם ריקוטה, מוצרלה ופרמז'ן",
+        "image": "././media/dishes/cheese_lasagna.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות מעל",
+            "options": ["רוטב פסטו", "שום קלוי", "עגבניות מיובשות"],
+            "numberOfPick": 2,
+            "addedPrice": 5
+          }
+        ]
+      },
+      {
+        "name": "ריזוטו כמהין",
+        "price": 68,
+        "description": "ריזוטו שמנת עם פרמז'ן, פטריות כמהין ועלים ירוקים",
+        "image": "././media/dishes/truffle_risotto.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "options": ["כמהין מגוררת", "גבינת מוצרלה", "ללא תוספת"],
+            "numberOfPick": 1,
+            "addedPrice": 6
+          }
+        ]
+      }
+    ],
+    "desserts": [
+      {
+        "name": "קנולי סיציליאני",
+        "price": 30,
+        "description": "גליל בצק פריך ממולא בקרם ריקוטה, שוקולד וקנמון",
+        "image": "././media/dishes/cannoli.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת מילוי",
+            "options": ["קלאסי", "שוקולד", "פיסטוק"],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות מעל",
+            "options": ["אבקת סוכר", "שוקולד מריר מגורר", "פיסטוק גרוס"],
+            "numberOfPick": 2,
+            "addedPrice": 3
+          }
+        ]
+      },
+      {
+        "name": "קרם ברולה וניל",
+        "price": 34,
+        "description": "קינוח צרפתי במרקם חלק עם סוכר מקורמל מלמעלה",
+        "image": "././media/dishes/creme_brulee.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות בצד",
+            "options": ["תותים טריים", "שוקולד לבן", "ללא תוספת"],
+            "numberOfPick": 1
+          }
+        ]
+      }
+    ]
+  }
+},
+{
+  "name": "אולה פיצה",
+  "location": "תל אביב",
+  "type": "פיצריה",
+  "showTooltip": true,
+  "deliveryTime": 30,
+  "deliveryPrice": "₪12.00",
+  "rating": 4.4,
+  "priceRange": "₪₪",
+  "logo": "././media/restaurantlogos/ola.jpeg",
+  "src": "././media/restaurantcards/ola.avif",
+  "menu": {
+    "firstCourses": [
+      {
+        "name": "סלט רוקט ופרמזן",
+        "price": 28,
+        "description": "רוקט, עגבניות שרי, פרמזן מגורר ובלסמי מצומצם",
+        "image": "././media/dishes/rocket_salad.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "options": ["אגוזי מלך", "בצל סגול", "גבינת עיזים"],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          },
+          {
+            "title": "רוטב בצד",
+            "options": ["בלסמי", "שמן זית ולימון", "בלי רוטב"],
+            "numberOfPick": 1
+          }
+        ]
+      },
+      {
+        "name": "חציל קלוי עם טחינה",
+        "price": 26,
+        "description": "חציל קלוי בתנור עם טחינה גולמית, שמן זית ועגבניות קונפי",
+        "image": "././media/dishes/eggplant.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות מעל",
+            "options": ["פטרוזיליה", "בצל פריך", "טחינה ירוקה"],
+            "numberOfPick": 2
+          }
+        ]
+      }
+    ],
+    "mainCourses": [
+      {
+        "name": "פיצה דיאבולה",
+        "price": 44,
+        "description": "רוטב עגבניות, מוצרלה, סלמי פיקנטי ופלפל צ׳ילי",
+        "image": "././media/dishes/diavola_pizza.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "options": ["תוספת גבינה חריפה", "זיתים שחורים", "בלי בצל", "רוטב חריף בצד"],
+            "numberOfPick": 3,
+            "addedPrice": 4
+          },
+          {
+            "title": "רמת חריפות",
+            "options": ["רגילה", "חריף", "חריף מאוד"],
+            "numberOfPick": 1
+          }
+        ]
+      },
+      {
+        "name": "פיצה ארבע גבינות",
+        "price": 52,
+        "description": "שילוב גבינות מוצרלה, ריקוטה, פרמזן וגורגונזולה",
+        "image": "././media/dishes/4cheese_pizza.jpeg",
+        "preferences": [
+          {
+            "title": "הורדת גבינה",
+            "options": ["בלי ריקוטה", "בלי גורגונזולה", "הכול"],
+            "numberOfPick": 2
+          },
+          {
+            "title": "תוספות לבחירה",
+            "options": ["עגבניות מיובשות", "עלי רוקט", "שום קונפי"],
+            "numberOfPick": 2,
+            "addedPrice": 5
+          }
+        ]
+      },
+      {
+        "name": "פיצה מרגריטה",
+        "price": 39,
+        "description": "רוטב עגבניות, מוצרלה טרייה, בזיליקום ושמן זית",
+        "image": "././media/dishes/margherita.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות מעל",
+            "options": ["זיתים ירוקים", "פטריות טריות", "פלפל קלוי", "שום פריך"],
+            "numberOfPick": 3,
+            "addedPrice": 4
+          }
+        ]
+      }
+    ],
+    "desserts": [
+      {
+        "name": "טירמיסו ביתי",
+        "price": 34,
+        "description": "קינוח איטלקי קלאסי עם קרם מסקרפונה, אספרסו וקקאו",
+        "image": "././media/dishes/tiramisu.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות בצד",
+            "options": ["פירות יער", "קצפת", "שוקולד מגורר"],
+            "numberOfPick": 2,
+            "addedPrice": 5
+          }
+        ]
+      },
+      {
+        "name": "פיצה שוקולד",
+        "price": 38,
+        "description": "בסיס פיצה פריך עם נוטלה, שברי עוגיות וקוקוס",
+        "image": "././media/dishes/choco_pizza.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות מעל",
+            "options": ["מרשמלו", "בננות מקורמלות", "סירופ שוקולד"],
+            "numberOfPick": 3,
+            "addedPrice": 6
+          }
+        ]
+      }
+    ]
+  }
+},
+{
+  "name": "מיזו סושי בר",
+  "location": "רמת גן",
+  "type": "יפני",
+  "showTooltip": true,
+  "deliveryTime": 50,
+  "deliveryPrice": "₪9.00",
+  "rating": 4.3,
+  "priceRange": "₪₪₪",
+  "logo": "././media/restaurantlogos/mizu.jpeg",
+  "src": "././media/restaurantcards/mizu.avif",
+  "menu": {
+    "firstCourses": [
+      {
+        "name": "מרק מיסו",
+        "price": 18,
+        "description": "מרק יפני מסורתי עם טופו, אצות וואקמה ובצל ירוק",
+        "image": "././media/dishes/miso_soup.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות למרק",
+            "options": ["פטריות שיטאקה", "נבטים", "חריף", "בלי תוספות"],
+            "numberOfPick": 2,
+            "addedPrice": 3
+          }
+        ]
+      },
+      {
+        "name": "סלט אצות",
+        "price": 24,
+        "description": "סלט אצות יפני עם שומשום, מלפפון ולימון",
+        "image": "././media/dishes/seaweed_salad.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "options": ["אבוקדו", "שומשום שחור", "חריף"],
+            "numberOfPick": 2
+          }
+        ]
+      }
+    ],
+    "mainCourses": [
+      {
+        "name": "קומבינציית סושי זוגית",
+        "price": 68,
+        "description": "24 יחידות סושי מגוונות – מאקי, רול אינסייד אאוט וניגירי",
+        "image": "././media/dishes/sushi_combo.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "options": ["תוספת וואסאבי", "סויה בצד", "ג׳ינג׳ר מוחמץ", "ללא תוספות"],
+            "numberOfPick": 3
+          },
+          {
+            "title": "סוג רולים מועדפים",
+            "options": ["צמחוני", "סלמון", "טונה", "מיקס"],
+            "numberOfPick": 1
+          }
+        ]
+      },
+      {
+        "name": "רול סלמון קראנצ׳י",
+        "price": 38,
+        "description": "סלמון, אבוקדו, בצל ירוק וטמפורה פריכה מעל",
+        "image": "././media/dishes/salmon_crunch.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות לבחירה",
+            "options": ["שבבי טמפורה", "רוטב ספייסי", "שומשום", "ללא תוספת"],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          }
+        ]
+      },
+      {
+        "name": "רול ירקות קלאסי",
+        "price": 32,
+        "description": "מלפפון, גזר, אבוקדו ונבטי חמנייה עם אורז סושי",
+        "image": "././media/dishes/veggie_roll.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות אפשריות",
+            "options": ["גבינת שמנת", "שבבי בצל מטוגן", "סויה מתוקה"],
+            "numberOfPick": 2,
+            "addedPrice": 3
+          }
+        ]
+      }
+    ],
+    "desserts": [
+      {
+        "name": "מוצ'י יפני",
+        "price": 28,
+        "description": "כדורי אורז ממולאים בגלידה – בטעמים משתנים",
+        "image": "././media/dishes/mochi.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת טעמים",
+            "options": ["וניל", "שוקולד", "מאצ׳ה", "מנגו"],
+            "numberOfPick": 2
+          }
+        ]
+      },
+      {
+        "name": "גלידת תה ירוק",
+        "price": 22,
+        "description": "גלידה יפנית מקורית עם אבקת מאצ׳ה",
+        "image": "././media/dishes/green_tea_icecream.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות מעל",
+            "options": ["שברי ביסקוויט", "רוטב שוקולד מריר", "פיסטוקים"],
+            "numberOfPick": 2,
+            "addedPrice": 3
+          }
+        ]
+      }
+    ]
+  }
+},
+{
+  "name": "גריל הבית",
+  "location": "ראשון לציון",
+  "type": "גריל אמריקאי",
+  "showTooltip": true,
+  "deliveryTime": 35,
+  "deliveryPrice": "₪10.00",
+  "rating": 4.6,
+  "priceRange": "₪₪",
+  "logo": "././media/restaurantlogos/grillhouse.jpeg",
+  "src": "././media/restaurantcards/grillhouse.avif",
+  "menu": {
+    "firstCourses": [
+      {
+        "name": "כנפיים ברוטב ברביקיו",
+        "price": 34,
+        "description": "6 כנפיים עסיסיות ברוטב ברביקיו מתקתק עם שומשום",
+        "image": "././media/dishes/bbq_wings.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת רוטב",
+            "options": ["ברביקיו", "צ׳ילי מתוק", "חריף ליים", "בלי רוטב"],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות מעל",
+            "options": ["שום קונפי", "פטרוזיליה", "בצל ירוק"],
+            "numberOfPick": 2
+          }
+        ]
+      },
+      {
+        "name": "חציל קלוי בטחינה",
+        "price": 26,
+        "description": "חציל קלוי בתנור עם טחינה גולמית, סומק ועגבניות קצוצות",
+        "image": "././media/dishes/eggplant_tahini.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות לבחירה",
+            "options": ["שום קונפי", "גרגירי רימון", "בצל פריך"],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          }
+        ]
+      }
+    ],
+    "mainCourses": [
+      {
+        "name": "המבורגר אנגוס 200 גרם",
+        "price": 52,
+        "description": "המבורגר מנתחי אנגוס מובחרים, מוגש בלחמניית בריוש",
+        "image": "././media/dishes/angus_burger.jpeg",
+        "preferences": [
+          {
+            "title": "דרגת עשייה",
+            "options": ["מדיום רייר", "מדיום", "מדיום וול", "וול דאן"],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות אפשריות",
+            "options": ["עגבנייה", "בצל סגול", "עלי חסה", "גבינה צהובה", "ביצת עין"],
+            "numberOfPick": 3,
+            "addedPrice": 5
+          },
+          {
+            "title": "הורדות",
+            "options": ["ללא עגבנייה", "ללא חסה", "ללא רטבים"],
+            "numberOfPick": 2
+          }
+        ]
+      },
+      {
+        "name": "שווארמה פרגית על הגריל",
+        "price": 48,
+        "description": "נתחי פרגית עסיסיים בתיבול ביתי, מוגשים על לאפה או צלחת",
+        "image": "././media/dishes/grilled_chicken.jpeg",
+        "preferences": [
+          {
+            "title": "אופן הגשה",
+            "options": ["בלאפה", "בצלחת עם סלטים", "בפיתה"],
+            "numberOfPick": 1
+          },
+          {
+            "title": "תוספות אפשריות",
+            "options": ["טחינה", "עמבה", "חריף", "סלט עגבניות"],
+            "numberOfPick": 2
+          }
+        ]
+      }
+    ],
+    "desserts": [
+      {
+        "name": "עוגת שוקולד חמה",
+        "price": 32,
+        "description": "עוגת שוקולד חמה מוגשת עם כדור גלידה וניל",
+        "image": "././media/dishes/lava_cake.jpeg",
+        "preferences": [
+          {
+            "title": "תוספות לעוגה",
+            "options": ["סירופ שוקולד", "שברי עוגיות", "פיסטוקים"],
+            "numberOfPick": 2,
+            "addedPrice": 4
+          }
+        ]
+      },
+      {
+        "name": "סופלה אישי",
+        "price": 30,
+        "description": "קינוח שוקולד במרקם עשיר עם לב נוזלי",
+        "image": "././media/dishes/souffle.jpeg",
+        "preferences": [
+          {
+            "title": "בחירת גלידה בצד",
+            "options": ["וניל", "שוקולד", "קרמל מלוח", "ללא גלידה"],
+            "numberOfPick": 1
+          }
+        ]
+      }
+    ]
+  }
+}
+]

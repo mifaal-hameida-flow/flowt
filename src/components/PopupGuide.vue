@@ -3,6 +3,7 @@ import { ref, onMounted, computed, watch} from 'vue';
 import { popupState } from '../stores/popup';
 import { useAppState } from '../stores/appState'; 
 import OrdersTable from '../data/OrdersTable.json'
+import { CheckCircle, XCircle } from 'lucide-vue-next'
 const state = useAppState();
 const originalOrders = OrdersTable;
 const newOrders = ref([]); // This will hold orders added by סיום הזמנה
@@ -121,12 +122,13 @@ const clearInput = () => {
 
 const handleTaskClick = () => {
   // Only auto-advance on step 0
-  if ( props.stepInfo.step === 0 || props.stepInfo.step === 2) {
+  if ( props.stepInfo.step === 0 || props.stepInfo.step === 2 || props.stepInfo.step === 9) {
     state.nextStep();
   } else {
     state.closePopup();
-    if (props.stepInfo.step === 3 && popupState.manualCard || props.stepInfo.step === 5 && popupState.manualCard || popupState.manualCard && popupState.manualCard.id.includes('concept')) {
-      handleManualClose();
+    // if ((props.stepInfo.step === 3 && popupState.manualCard) || (props.stepInfo.step === 5 && popupState.manualCard)|| (popupState.manualCard && popupState.manualCard.id.includes('concept'))) {
+  if (popupState.manualCard) { 
+    handleManualClose();
     }
   }
 
@@ -173,9 +175,11 @@ const completeOrder = () => {
   newOrders.value.push(newOrder);
 };
 
-watch(() =>  props.stepInfo, () => {
+watch(() => props.stepInfo, () => {
+  const cards = props.stepInfo?.cards ?? [];
+  const newCard = cards[cardNumber.value] ?? null;
   cardNumber.value = state.cardNumber || 0;
-  handlePopupDisplay( props.stepInfo?.cards?.[cardNumber.value]);
+  handlePopupDisplay(newCard);
 }, { immediate: true });
 
 watch(isDatabaseAnimationCard, (isActive) => {
@@ -184,6 +188,13 @@ watch(isDatabaseAnimationCard, (isActive) => {
     animateOrderToTable();
   }
 });
+
+watch(() => popupState.manualCard, (newVal) => {
+  if (newVal && props.stepInfo?.step !== 0) {
+    popupState.manualCard = null;
+  }
+});
+
 
 onMounted(() => {
   if (state.userName) {
@@ -205,7 +216,7 @@ onMounted(() => {
       <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]">{{ firstCard.title }}</h2>
 
       <div v-if="firstCard.table" class="w-full overflow-auto max-w-full mb-2">
-        <table class="info-table">
+        <table class="info-table special">
           <thead>
             <tr>
               <th>Field</th>
@@ -321,11 +332,8 @@ onMounted(() => {
               </button>
             </div>
           </div>
-                    <!-- סיום הזמנה button -->
-          
-        
-
-
+         
+        <!-- סיום הזמנה button -->
       <div v-if="firstCard.messageTable" class="flex">
         <div v-for="(table, idx) in firstCard.messageTable" :key="idx" class="flex flex-col items-center pr-1.5"
          :class="{ 'border-r-1 border-[#48cae4]': idx === firstCard.messageTable.length - 1 }">
@@ -392,10 +400,21 @@ onMounted(() => {
                 </button>
 
                 <!-- Validation Message -->
-                <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
+                <!-- <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
                     <span v-if="isValid" class="text-green-600">✔️ שם תקין</span>
                     <span v-else class="text-red-600">❌ שם לא תקין</span>
-                </div>
+                </div> -->
+                
+              <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
+                <template v-if="isValid">
+                  <CheckCircle class="w-4 h-4 text-green-600" />
+                  <span class="text-green-600">שם תקין</span>
+                </template>
+                <template v-else>
+                  <XCircle class="w-4 h-4 text-red-600" />
+                  <span class="text-red-600">שם לא תקין</span>
+                </template>
+              </div>
             </div>
         </div>
         <!-- buttons container -->
@@ -526,6 +545,10 @@ input:focus {
   border-collapse: collapse;
   font-size: x-small;
   margin-bottom: 1rem;
+}
+
+.info-table.special {
+  min-width: unset;
 }
 
 /* Optional: Keep the popup from expanding */

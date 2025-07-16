@@ -2,11 +2,11 @@
 import BottomBar from '../components/BottomBar.vue';
 import { useAppState } from '../stores/appState';
 import orderHistory from '../data/OrderHistory.json';
+import HistoryRestaurants from '../data/HistoryRestaurants.json'
 import { computed, watch, ref } from 'vue';
 
 const state = useAppState();
 const combinedOrders = [...orderHistory, ...state.orderHistory];
-
 const sortedOrders = computed(() => {
   return combinedOrders.slice().sort((a, b) => new Date(b.orderDateTime) - new Date(a.orderDateTime));
 });
@@ -19,6 +19,15 @@ const formatDateTime = (isoString) => {
     date: date.toLocaleDateString('he-IL', optionsDate),
     time: date.toLocaleTimeString('he-IL', optionsTime)
   };
+}
+const goToRestaurant = (restaurantName) => {
+    if (!showTooltip.value) { // אם זה אחרי שהפופאפ נסגר
+      const restaurant = HistoryRestaurants.find(
+      (r) => r.name === restaurantName);
+       if (restaurant) {
+         state.selectedRestaurant = restaurant;
+        }
+    }
 }
 
 const showTooltip = ref(true);
@@ -45,6 +54,7 @@ watch(() => state.showPopup, (newVal) => {
             v-for="(order, index) in sortedOrders"
             :key="index"
             class="flex justify-between items-center border-b py-4"
+            @click="goToRestaurant(order.restaurantName)"
             >
               <!-- צד ימין: שם המסעדה + שעה ותאריך -->
             <div class="flex flex-col text-right">

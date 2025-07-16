@@ -169,6 +169,11 @@ const finishOrder = () => {
   state.nextStep();
 }
 
+const totalTooltips = ref(6);
+const seenCount = computed(() =>
+  Object.values(seenTooltips.value).filter(Boolean).length
+)
+
 watch(allTooltipsSeen, (val) => {
   if (val && state.step === 6) {
     setTimeout(() => {
@@ -209,14 +214,45 @@ onMounted(() => {
 <template>
   <div class="bg-white min-h-screen flex flex-col">
     <!-- Image -->
-    <div class="relative"
+    <!-- <div class="relative"
       :class="{ 'border-2 border-[#00BEE5] rounded-md': visibleTooltips.image }"
     >
       <img :src="state.selectedDish.image" alt="Dish Image" class="w-full h-64 object-cover"
         v-tooltip="getTooltipContent('image')"
         @click.stop="showTooltipTemporarily('image')"
       />
+      <div class="text-sm absolute bottom-0 w-full rounded-2xl text-gray-600 mt-3" v-if="state.step === 6" dir="rtl">
+        <div class="flex justify-center items-center gap-2 bg-white">
+          <span>💡 סיימת</span>
+          <span class="font-semibold text-[#00BEE5]"> {{ seenCount }}/{{ totalTooltips }} </span>
+          <span>מושגים</span>  
+        </div>
+      </div>
+    </div> -->
+    <div class="relative"
+  :class="{ 'border-2 border-[#00BEE5] rounded-md': visibleTooltips.image }"
+>
+  <img
+    :src="state.selectedDish.image"
+    alt="Dish Image"
+    class="w-full h-64 object-cover"
+    v-tooltip="getTooltipContent('image')"
+    @click.stop="showTooltipTemporarily('image')"
+  />
+
+  <!-- Overlay Badge on top of the image -->
+  <div
+    v-if="state.step === 6"
+    class="fixed top-2 left-1/2 transform -translate-x-1/2 text-sm text-gray-700"
+    dir="rtl"
+  >
+    <div class="flex justify-center items-center gap-2 bg-white bg-opacity-90 px-3 py-1 rounded-full shadow-md">
+      <span>💡 סיימת</span>
+      <span class="font-semibold text-[#00BEE5]">{{ seenCount }}/{{ totalTooltips }}</span>
+      <span>מושגים</span>
     </div>
+  </div>
+</div>
 
     <!-- Content -->
     <div class="p-4 flex-1 flex flex-col justify-between">

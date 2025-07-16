@@ -19,6 +19,7 @@ const toggle = () => {
 }
 
 const showManualPopup = (index) => {
+    console.log("hi")    
      popupState.manualCard = {
         id: `manual-concept${index}`,
         title: conceptsArray[index].topic,
