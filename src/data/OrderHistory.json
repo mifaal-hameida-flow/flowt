@@ -102,7 +102,7 @@
     "orderPrice": 115
   },
   {
-    "restaurantName": "ברלה טרטוריה",
+    "restaurantName": "פאפי פיצה",
     "orderDateTime": "2025-07-10T13:15:00",
     "items": [
       {
@@ -246,7 +246,7 @@
     "orderPrice": 73
   },
   {
-    "restaurantName": "גריל הבית",
+    "restaurantName": "גריל בר",
     "orderDateTime": "2025-07-05T20:00:00",
     "items": [
       {

@@ -279,7 +279,7 @@
   "rating": 4.5,
   "priceRange": "₪₪",
   "logo": "././media/restaurantlogos/indian.jpeg",
-  "src": "././media/restaurantcards/indian.avif",
+  "src": "././media/restaurantcards/tandori.jpeg",
   "menu": {
     "firstCourses": [
       {
@@ -356,7 +356,7 @@
         "name": "ביריאני ירקות",
         "price": 48,
         "description": "תבשיל אורז עם ירקות צבעוניים, קשיו ותבלינים הודים",
-        "image": "././media/dishes/veg_biryani.jpeg",
+        "image": "././media/dishes/veg_biryani.jpg",
         "preferences": [
           {
             "title": "תוספות לבחירה",
@@ -571,16 +571,16 @@
     }
   },
   {
-  "name": "ברלה טרטוריה",
-  "location": "חיפה",
+  "name": "פאפי פיצה",
+  "location": "תל אביב",
   "type": "איטלקי",
   "showTooltip": true,
   "deliveryTime": 40,
   "deliveryPrice": "₪8.00",
   "rating": 4.7,
   "priceRange": "₪₪₪",
-  "logo": "././media/restaurantlogos/barella.jpeg",
-  "src": "././media/restaurantcards/barella.avif",
+  "logo": "././media/restaurantlogos/papi.jpeg",
+  "src": "././media/restaurantcards/papi.jpeg",
   "menu": {
     "firstCourses": [
       {
@@ -665,7 +665,7 @@
         "name": "קנולי סיציליאני",
         "price": 30,
         "description": "גליל בצק פריך ממולא בקרם ריקוטה, שוקולד וקנמון",
-        "image": "././media/dishes/cannoli.jpeg",
+        "image": "././media/dishes/cannoli2.jpeg",
         "preferences": [
           {
             "title": "בחירת מילוי",
@@ -705,15 +705,15 @@
   "deliveryPrice": "₪12.00",
   "rating": 4.4,
   "priceRange": "₪₪",
-  "logo": "././media/restaurantlogos/ola.jpeg",
-  "src": "././media/restaurantcards/ola.avif",
+  "logo": "././media/restaurantlogos/olla.jpg",
+  "src": "././media/restaurantcards/pizza.jpeg",
   "menu": {
     "firstCourses": [
       {
         "name": "סלט רוקט ופרמזן",
         "price": 28,
         "description": "רוקט, עגבניות שרי, פרמזן מגורר ובלסמי מצומצם",
-        "image": "././media/dishes/rocket_salad.jpeg",
+        "image": "././media/dishes/rocket-salad.jpg",
         "preferences": [
           {
             "title": "תוספות אפשריות",
@@ -747,7 +747,7 @@
         "name": "פיצה דיאבולה",
         "price": 44,
         "description": "רוטב עגבניות, מוצרלה, סלמי פיקנטי ופלפל צ׳ילי",
-        "image": "././media/dishes/diavola_pizza.jpeg",
+        "image": "././media/dishes/diavola.jpeg",
         "preferences": [
           {
             "title": "תוספות אפשריות",
@@ -766,7 +766,7 @@
         "name": "פיצה ארבע גבינות",
         "price": 52,
         "description": "שילוב גבינות מוצרלה, ריקוטה, פרמזן וגורגונזולה",
-        "image": "././media/dishes/4cheese_pizza.jpeg",
+        "image": "././media/dishes/4cheese.jpg",
         "preferences": [
           {
             "title": "הורדת גבינה",
@@ -785,7 +785,7 @@
         "name": "פיצה מרגריטה",
         "price": 39,
         "description": "רוטב עגבניות, מוצרלה טרייה, בזיליקום ושמן זית",
-        "image": "././media/dishes/margherita.jpeg",
+        "image": "././media/dishes/pizza.jpg",
         "preferences": [
           {
             "title": "תוספות מעל",
@@ -815,7 +815,7 @@
         "name": "פיצה שוקולד",
         "price": 38,
         "description": "בסיס פיצה פריך עם נוטלה, שברי עוגיות וקוקוס",
-        "image": "././media/dishes/choco_pizza.jpeg",
+        "image": "././media/dishes/choco_pizza.jpg",
         "preferences": [
           {
             "title": "תוספות מעל",
@@ -837,15 +837,15 @@
   "deliveryPrice": "₪9.00",
   "rating": 4.3,
   "priceRange": "₪₪₪",
-  "logo": "././media/restaurantlogos/mizu.jpeg",
-  "src": "././media/restaurantcards/mizu.avif",
+  "logo": "././media/restaurantlogos/mizu.png",
+  "src": "././media/restaurantcards/sushi.jpeg",
   "menu": {
     "firstCourses": [
       {
         "name": "מרק מיסו",
         "price": 18,
         "description": "מרק יפני מסורתי עם טופו, אצות וואקמה ובצל ירוק",
-        "image": "././media/dishes/miso_soup.jpeg",
+        "image": "././media/dishes/miso-soup.jpeg",
         "preferences": [
           {
             "title": "תוספות למרק",
@@ -859,7 +859,7 @@
         "name": "סלט אצות",
         "price": 24,
         "description": "סלט אצות יפני עם שומשום, מלפפון ולימון",
-        "image": "././media/dishes/seaweed_salad.jpeg",
+        "image": "././media/dishes/seaweed-salad.jpeg",
         "preferences": [
           {
             "title": "תוספות אפשריות",
@@ -874,7 +874,7 @@
         "name": "קומבינציית סושי זוגית",
         "price": 68,
         "description": "24 יחידות סושי מגוונות – מאקי, רול אינסייד אאוט וניגירי",
-        "image": "././media/dishes/sushi_combo.jpeg",
+        "image": "././media/dishes/sushi-combo.jpeg",
         "preferences": [
           {
             "title": "תוספות אפשריות",
@@ -892,7 +892,7 @@
         "name": "רול סלמון קראנצ׳י",
         "price": 38,
         "description": "סלמון, אבוקדו, בצל ירוק וטמפורה פריכה מעל",
-        "image": "././media/dishes/salmon_crunch.jpeg",
+        "image": "././media/dishes/salmon-sushi.jpeg",
         "preferences": [
           {
             "title": "תוספות לבחירה",
@@ -906,7 +906,7 @@
         "name": "רול ירקות קלאסי",
         "price": 32,
         "description": "מלפפון, גזר, אבוקדו ונבטי חמנייה עם אורז סושי",
-        "image": "././media/dishes/veggie_roll.jpeg",
+        "image": "././media/dishes/veggie-sushi.jpeg",
         "preferences": [
           {
             "title": "תוספות אפשריות",
@@ -935,7 +935,7 @@
         "name": "גלידת תה ירוק",
         "price": 22,
         "description": "גלידה יפנית מקורית עם אבקת מאצ׳ה",
-        "image": "././media/dishes/green_tea_icecream.jpeg",
+        "image": "././media/dishes/greentea-icecream.jpeg",
         "preferences": [
           {
             "title": "תוספות מעל",
@@ -949,7 +949,7 @@
   }
 },
 {
-  "name": "גריל הבית",
+  "name": "גריל בר",
   "location": "ראשון לציון",
   "type": "גריל אמריקאי",
   "showTooltip": true,
@@ -957,15 +957,15 @@
   "deliveryPrice": "₪10.00",
   "rating": 4.6,
   "priceRange": "₪₪",
-  "logo": "././media/restaurantlogos/grillhouse.jpeg",
-  "src": "././media/restaurantcards/grillhouse.avif",
+  "logo": "././media/restaurantlogos/grill.png",
+  "src": "././media/restaurantcards/grill.avif",
   "menu": {
     "firstCourses": [
       {
         "name": "כנפיים ברוטב ברביקיו",
         "price": 34,
         "description": "6 כנפיים עסיסיות ברוטב ברביקיו מתקתק עם שומשום",
-        "image": "././media/dishes/bbq_wings.jpeg",
+        "image": "././media/dishes/bbq-wings.jpeg",
         "preferences": [
           {
             "title": "בחירת רוטב",
@@ -983,7 +983,7 @@
         "name": "חציל קלוי בטחינה",
         "price": 26,
         "description": "חציל קלוי בתנור עם טחינה גולמית, סומק ועגבניות קצוצות",
-        "image": "././media/dishes/eggplant_tahini.jpeg",
+        "image": "././media/dishes/eggplant.jpeg",
         "preferences": [
           {
             "title": "תוספות לבחירה",
@@ -999,7 +999,7 @@
         "name": "המבורגר אנגוס 200 גרם",
         "price": 52,
         "description": "המבורגר מנתחי אנגוס מובחרים, מוגש בלחמניית בריוש",
-        "image": "././media/dishes/angus_burger.jpeg",
+        "image": "././media/dishes/burger.jpeg",
         "preferences": [
           {
             "title": "דרגת עשייה",
@@ -1023,7 +1023,7 @@
         "name": "שווארמה פרגית על הגריל",
         "price": 48,
         "description": "נתחי פרגית עסיסיים בתיבול ביתי, מוגשים על לאפה או צלחת",
-        "image": "././media/dishes/grilled_chicken.jpeg",
+        "image": "././media/dishes/shawarma.avif",
         "preferences": [
           {
             "title": "אופן הגשה",
@@ -1050,19 +1050,6 @@
             "options": ["סירופ שוקולד", "שברי עוגיות", "פיסטוקים"],
             "numberOfPick": 2,
             "addedPrice": 4
-          }
-        ]
-      },
-      {
-        "name": "סופלה אישי",
-        "price": 30,
-        "description": "קינוח שוקולד במרקם עשיר עם לב נוזלי",
-        "image": "././media/dishes/souffle.jpeg",
-        "preferences": [
-          {
-            "title": "בחירת גלידה בצד",
-            "options": ["וניל", "שוקולד", "קרמל מלוח", "ללא גלידה"],
-            "numberOfPick": 1
           }
         ]
       }

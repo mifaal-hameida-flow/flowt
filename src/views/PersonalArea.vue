@@ -25,7 +25,7 @@ const goToRestaurant = (restaurantName) => {
       const restaurant = HistoryRestaurants.find(
       (r) => r.name === restaurantName);
        if (restaurant) {
-         state.selectedRestaurant = restaurant;
+         state.setRestaurant(restaurant);
         }
     }
 }

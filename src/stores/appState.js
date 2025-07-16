@@ -54,7 +54,7 @@ export const useAppState = defineStore('appState', {
     },
     setDish(dish) {
       this.selectedDish = dish
-      this.nextStep()
+      if (this.step !== 10) this.nextStep() // step 10 זה אחרי שבוחרים מסעדה מההיסטוריה
     },
     navigateView(view) {
       if(view==='recommendation'){

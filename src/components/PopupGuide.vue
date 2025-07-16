@@ -122,7 +122,7 @@ const clearInput = () => {
 
 const handleTaskClick = () => {
   // Only auto-advance on step 0
-  if ( props.stepInfo.step === 0 || props.stepInfo.step === 2 || props.stepInfo.step === 9) {
+  if ( props.stepInfo.step === 0 || props.stepInfo.step === 2) {
     state.nextStep();
   } else {
     state.closePopup();
