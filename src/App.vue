@@ -69,12 +69,11 @@ onMounted(() => {
   </div>
 
   <div v-else-if="!state.showLoader">
-    <!-- <UserProgress/>  -->
      <!-- למצוא לזה מקום -->
     <Transition :name="transitionName" mode="out-in">
       <component :is="currentViewComponent"/>
     </Transition>
-
+    <UserProgress/> 
     <PopupGuide
       v-if="(state.showPopup || popupState.isVisible) && stepInfo"
       :key="state.step"

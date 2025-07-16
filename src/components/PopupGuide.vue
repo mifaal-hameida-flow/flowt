@@ -125,7 +125,7 @@ const handleTaskClick = () => {
     state.nextStep();
   } else {
     state.closePopup();
-    if (props.stepInfo.step === 3 && popupState.manualCard || props.stepInfo.step === 5 && popupState.manualCard) {
+    if (props.stepInfo.step === 3 && popupState.manualCard || props.stepInfo.step === 5 && popupState.manualCard || popupState.manualCard && popupState.manualCard.id.includes('concept')) {
       handleManualClose();
     }
   }

@@ -54,13 +54,13 @@ function getTooltipContent(index) {
       </div>
       <p>המיקום שלי</p>
     </div>
-    <div
+    <!-- <div
       v-tooltip="getTooltipContent(1)"
       class="icon-bg ml-2"
       @click="showTooltipTemporarily(1)"
     >
       <img class="w-6 h-6" :src="topBarIcons[1].icon" />
-    </div>
+    </div> -->
   </div>
 </template>
 

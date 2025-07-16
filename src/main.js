@@ -5,6 +5,8 @@ import { createPinia } from 'pinia'
 import FloatingVue from 'floating-vue'
 import 'floating-vue/dist/style.css'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import CircleProgress from 'vue3-circle-progress'
+import 'vue3-circle-progress/dist/circle-progress.css'
 
 const app = createApp(App)
 
@@ -28,4 +30,5 @@ app.use(FloatingVue, {
     ],
   },
 })
+app.component('CircleProgress', CircleProgress)
 app.mount('#app')
