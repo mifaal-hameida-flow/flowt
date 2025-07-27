@@ -21,8 +21,8 @@ const currentViewComponent = computed(() => {
   if (state.step === 4) return RecommendedView
   if (state.step === 5) return RestaurantDetailsView
   if (state.step >= 6 && state.step < 9) return DishDetails
-  if (state.step === 9) return PersonalArea
-  if (state.step >=10) return RestaurantDetailsView
+  if (state.step >= 9) return PersonalArea
+  // if (state.step >=10) return RestaurantDetailsView
   return HomeView
 })
 
@@ -46,6 +46,10 @@ onMounted(() => {
   const hasSavedData = !!localStorage.getItem('appState')
   if (hasSavedData) {
     state.showRecoveryPopup = true
+  }
+  if (state.step === 0) {
+    state.showRecoveryPopup = false
+    state.showLoader = true
   }
   setTimeout(() => {
       state.showLoader = false

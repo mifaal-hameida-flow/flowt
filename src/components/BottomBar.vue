@@ -47,7 +47,7 @@ const handleClick = (event, index) => {
       popupState.manualCard = {
         id: 'manual-1',
         title: 'אופס!',
-        message: ['אי אפשר ללחוץ על זה עכשיו...🫣', 'כנראה שתצטרכו לנסות את האיטלקי קודם'],
+        message: ['אי אפשר ללחוץ על זה עכשיו...🫣', 'כנראה שתצטרכו לנסות את האיטלקי קודם וללמוד מה אפשר להפיק ממידע', ],
         buttonTask: {
           msg: 'הבנתי',
           src: '././media/buttons/knowledge.png'

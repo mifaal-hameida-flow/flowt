@@ -24,8 +24,7 @@ onMounted(() => {
   if (props.restaurantInfo.showTooltip) {
     setTimeout(() => {
       showAutoTooltip.value = true;
-      // Hide it after 3 seconds
-    }, 1200); // Wait 1 second before showing
+    }, 800); 
   }
 });
 </script>

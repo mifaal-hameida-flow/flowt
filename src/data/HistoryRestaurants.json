@@ -278,8 +278,8 @@
   "deliveryPrice": "₪10.00",
   "rating": 4.5,
   "priceRange": "₪₪",
-  "logo": "././media/restaurantlogos/indian.jpeg",
-  "src": "././media/restaurantcards/tandori.jpeg",
+  "logo": "././media/restaurantlogos/tandori.jpeg",
+  "src": "././media/restaurantcards/indian.jpeg",
   "menu": {
     "firstCourses": [
       {
@@ -401,7 +401,7 @@
  {
     "name": "אוקינוואה",
     "location": "תל אביב",
-    "type": "אסיאתי",
+    "type": "אסייתי",
     "deliveryTime": 25,
     "deliveryPrice": "₪10.00",
     "rating": 4.6,
@@ -831,7 +831,7 @@
 {
   "name": "מיזו סושי בר",
   "location": "רמת גן",
-  "type": "יפני",
+  "type": "אסייתי",
   "showTooltip": true,
   "deliveryTime": 50,
   "deliveryPrice": "₪9.00",
@@ -951,7 +951,7 @@
 {
   "name": "גריל בר",
   "location": "ראשון לציון",
-  "type": "גריל אמריקאי",
+  "type": "גריל בשרים, אמריקאי",
   "showTooltip": true,
   "deliveryTime": 35,
   "deliveryPrice": "₪10.00",

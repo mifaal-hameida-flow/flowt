@@ -111,7 +111,7 @@ const tooltipPlacement = {
 }
 
 const getTooltipContent = (key) => {
-  if (state.step === 6 && visibleTooltips.value[key] && !seenTooltips.value[key]) {
+  if (state.step === 6 && visibleTooltips.value[key]) {
     return {
       content: tooltipContent[key],
       shown: true,
@@ -124,19 +124,22 @@ const getTooltipContent = (key) => {
 }
 
 const showTooltipTemporarily = (key) => {
-  if (state.step !== 6 || seenTooltips.value[key]) return;
+  if (state.step !== 6) return;
 
   visibleTooltips.value[key] = true;
-
+  // Hide after 5 seconds
   setTimeout(() => {
+     seenTooltips.value[key] = true;
     visibleTooltips.value[key] = false;
-    seenTooltips.value[key] = true;
-  }, 3500);
+  }, 5000);
 };
+
 
 const saveData = () => {
   const order = {
     restaurantName: state.selectedRestaurant.name,
+    rating: state.selectedRestaurant.rating,
+    type: state.selectedRestaurant.type,
     items: [
       {
         dishName: state.selectedDish.name,
@@ -154,7 +157,6 @@ const saveData = () => {
       orderPrice: Number((totalPrice.value + state.deliveryFee).toFixed(2)),
       orderDateTime: new Date().toLocaleString('sv-SE', { hour12: false }).replace(' ', 'T')
     }
-
   state.currOrder.push(order)
   state.nextStep();
 }
@@ -178,7 +180,7 @@ watch(allTooltipsSeen, (val) => {
   if (val && state.step === 6) {
     setTimeout(() => {
       state.nextStep()
-    }, 600) // slight delay before advancing
+    }, 1500) // slight delay before advancing
   }
 })
 
@@ -213,25 +215,19 @@ onMounted(() => {
 
 <template>
   <div class="bg-white min-h-screen flex flex-col">
-    <!-- Image -->
-    <!-- <div class="relative"
-      :class="{ 'border-2 border-[#00BEE5] rounded-md': visibleTooltips.image }"
-    >
-      <img :src="state.selectedDish.image" alt="Dish Image" class="w-full h-64 object-cover"
-        v-tooltip="getTooltipContent('image')"
-        @click.stop="showTooltipTemporarily('image')"
-      />
-      <div class="text-sm absolute bottom-0 w-full rounded-2xl text-gray-600 mt-3" v-if="state.step === 6" dir="rtl">
-        <div class="flex justify-center items-center gap-2 bg-white">
-          <span>💡 סיימת</span>
-          <span class="font-semibold text-[#00BEE5]"> {{ seenCount }}/{{ totalTooltips }} </span>
-          <span>מושגים</span>  
-        </div>
-      </div>
-    </div> -->
     <div class="relative"
-  :class="{ 'border-2 border-[#00BEE5] rounded-md': visibleTooltips.image }"
->
+    :class="{
+      'border-2 rounded-md': visibleTooltips.image,
+      'border-[#00BEE5]': visibleTooltips.image && !seenTooltips.image,
+      'border-gray-300 opacity-70': visibleTooltips.image && seenTooltips.image
+    }"
+  >
+    <span
+    v-if="seenTooltips.image && state.step === 6"
+    class="absolute top-2 right-2 bg-white bg-opacity-80 text-gray-600 text-xs px-2 py-1 rounded shadow"
+  >
+    👁️ נצפה
+  </span>
   <img
     :src="state.selectedDish.image"
     alt="Dish Image"
@@ -239,6 +235,7 @@ onMounted(() => {
     v-tooltip="getTooltipContent('image')"
     @click.stop="showTooltipTemporarily('image')"
   />
+  
 
   <!-- Overlay Badge on top of the image -->
   <div
@@ -261,28 +258,45 @@ onMounted(() => {
         <h1 class="text-2xl font-bold mb-2"
         >
           <span
-           :class="{ 'border-2 border-[#00BEE5] rounded-md p-1': visibleTooltips.title }"
+        :class="{
+          'border-2 rounded-md p-1': visibleTooltips.title,
+          'border-[#00BEE5]': visibleTooltips.title && !seenTooltips.title,
+          'border-gray-300 opacity-70': visibleTooltips.title && seenTooltips.title
+        }"
+
             v-tooltip="getTooltipContent('title')"
             @click.stop="showTooltipTemporarily('title')"
             class="cursor-pointer"
           >
+          <div v-if="seenTooltips.title && state.step === 6" class="ml-2 font-normal text-xs text-gray-400">👁️ נצפה</div>
             {{ state.selectedDish.name }}
           </span>
         </h1>
         <span class="text-[#00BEE5] text-lg font-semibold mb-2 cursor-pointer"
-          :class="{ 'border-2 border-[#00BEE5] rounded-md p-1': visibleTooltips.price }"
+          :class="{
+          'border-2 rounded-md p-1': visibleTooltips.price,
+          'border-[#00BEE5]': visibleTooltips.price && !seenTooltips.price,
+          'border-gray-300 opacity-70': visibleTooltips.price && seenTooltips.price
+        }"
+
           v-tooltip="getTooltipContent('price')"
           @click.stop="showTooltipTemporarily('price')"
         >
+        <div v-if="seenTooltips.price && state.step === 6" class="ml-2 text-xs font-normal text-gray-400">👁️ נצפה</div>
           ₪{{ state.selectedDish.price }}
         </span>
 
         <!-- Description -->
         <p class="text-gray-600 text-sm mt-2 mb-4 whitespace-pre-line cursor-pointer"
-          :class="{ 'border-2 border-[#00BEE5] rounded-md p-1': visibleTooltips.description }"
+          :class="{
+          'border-2 rounded-md p-1': visibleTooltips.description,
+          'border-[#00BEE5]': visibleTooltips.description && !seenTooltips.description,
+          'border-gray-300 opacity-70': visibleTooltips.description && seenTooltips.description
+        }"
           v-tooltip="getTooltipContent('description')"
           @click.stop="showTooltipTemporarily('description')"
         >
+           <div v-if="seenTooltips.description && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</div>
           {{ state.selectedDish.description }}
         </p>
 
@@ -292,10 +306,13 @@ onMounted(() => {
         <div v-if="state.selectedDish.preferences"
          v-tooltip="getTooltipContent('preferences')"
           :class="{
-            'border-2 border-[#00BEE5] rounded-md p-2': visibleTooltips.preferences
+            'border-2 rounded-md p-2': visibleTooltips.preferences,
+            'border-[#00BEE5]': visibleTooltips.preferences && !seenTooltips.preferences,
+            'border-gray-300 opacity-70': visibleTooltips.preferences && seenTooltips.preferences
           }"
           class="space-y-6"
         >
+          <span v-if="seenTooltips.preferences && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</span>
           <div v-for="(pref, index) in state.selectedDish.preferences" :key="index">
             <h3 class="text-base font-semibold">{{ pref.title }}</h3>
             <p v-if="pref.subtitle" class="text-sm text-gray-500 mb-2">{{ pref.subtitle }}</p>
@@ -365,10 +382,16 @@ onMounted(() => {
         </div>
 
         <div class="mt-4 px-2 relative"
-          :class="{ 'border-2 border-[#00BEE5] rounded-md p-1': visibleTooltips.notes }"
+        :class="{
+          'border-2 rounded-md p-1': visibleTooltips.notes,
+          'border-[#00BEE5]': visibleTooltips.notes && !seenTooltips.notes,
+          'border-gray-300 opacity-70': visibleTooltips.notes && seenTooltips.notes
+        }"
           v-tooltip="getTooltipContent('notes')"
           @click.stop="showTooltipTemporarily('notes')"
         >
+          <span v-if="seenTooltips.notes && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</span>
+
           <label class="block text-sm font-medium text-gray-700 mb-1">הערות למנה (לא חובה):</label>
           <textarea
             v-model="notes"

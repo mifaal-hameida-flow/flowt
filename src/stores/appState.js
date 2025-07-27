@@ -22,7 +22,6 @@ export const useAppState = defineStore('appState', {
       this.step++
       this.cardNumber = 0
       this.showPopup = true
-      console.log(this.step)
     },
     clearProgress() {
       this.$reset()

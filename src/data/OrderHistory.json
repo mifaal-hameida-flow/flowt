@@ -2,6 +2,8 @@
   {
     "restaurantName": "קפה איטליה",
     "orderDateTime": "2025-07-13T19:45:00",
+    "type": "איטלקי",
+    "rating": 5,
     "items": [
       {
         "dishName": "ריזוטו פטריות כמהין",
@@ -35,6 +37,8 @@
   },
   {
     "restaurantName": "טנדורי גורמה",
+    "rating": 3.5,
+    "type": "הודי",
     "orderDateTime": "2025-05-22T21:10:00",
     "items": [
       {
@@ -69,6 +73,8 @@
   },
   {
     "restaurantName": "אוקינוואה",
+    "type": "אסייתי",
+    "rating": 4.6,
     "orderDateTime": "2025-06-11T18:30:00",
     "items": [
       {
@@ -103,6 +109,8 @@
   },
   {
     "restaurantName": "פאפי פיצה",
+    "type": "איטלקי",
+    "rating": 2.8,
     "orderDateTime": "2025-07-10T13:15:00",
     "items": [
       {
@@ -124,6 +132,8 @@
   },
   {
     "restaurantName": "אולה פיצה",
+    "type": "איטלקי",
+    "rating": 2.8,
     "orderDateTime": "2025-06-09T20:20:00",
     "items": [
       {
@@ -158,6 +168,8 @@
   },
   {
     "restaurantName": "קפה איטליה",
+    "type": "איטלקי",
+    "rating": 5,
     "orderDateTime": "2025-05-18T17:00:00",
     "items": [
       {
@@ -192,6 +204,8 @@
   },
   {
     "restaurantName": "מיזו סושי בר",
+    "type": "אסייתי",
+    "rating": 2.5,
     "orderDateTime": "2025-04-02T19:00:00",
     "items": [
       {
@@ -213,6 +227,8 @@
   },
   {
     "restaurantName": "אוקינוואה",
+    "rating": 4.6,
+    "type": "אסייתי",
     "orderDateTime": "2025-04-16T14:45:00",
     "items": [
       {
@@ -247,6 +263,8 @@
   },
   {
     "restaurantName": "גריל בר",
+    "type": "גריל בשרים, אמריקאי",
+    "rating": 4.5,
     "orderDateTime": "2025-07-05T20:00:00",
     "items": [
       {
@@ -281,6 +299,8 @@
   },
   {
     "restaurantName": "אולה פיצה",
+    "type": "איטלקי",
+    "rating": 3.4,
     "orderDateTime": "2025-05-04T19:30:00",
     "items": [
       {

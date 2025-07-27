@@ -81,7 +81,7 @@ const isValid = ref(false);
 const showGreeting = ref(false);
 // Regex: Only Hebrew, English letters, spaces (optional)
 const nameRegex = /^[A-Za-zא-ת\s]+$/;
-
+const dynamicOrder = ref(null);
 const isDev = import.meta.env.DEV;
 const isObject = (val) => val && typeof val === 'object';
 
@@ -135,13 +135,19 @@ const handleTaskClick = () => {
 };
 
 const handleCard = (event) => {
- if (event.currentTarget.alt.includes("next")) {
+  const target = event.target;
+  const isNextText = target.innerText?.trim() === "המשך";
+  const isNextImage = target.tagName === 'IMG' && target.alt.includes("next");
+
+  if (isNextText || isNextImage) {
     cardNumber.value++;
- } else {
+  } else {
     cardNumber.value--;
- }
- state.updateCardNumber(cardNumber.value);
+  }
+
+  state.updateCardNumber(cardNumber.value);
 };
+
 
 const handleManualClose = () => {
   popupState.isVisible = false;
@@ -159,15 +165,15 @@ function generateFakeIP() {
 }
 
 const completeOrder = () => {
-  const dynamicOrder = state.orderHistory?.[0];
-  if (!dynamicOrder) return;
+  dynamicOrder.value = state.orderHistory?.[0];
+  if (!dynamicOrder.value) return;
   const newOrder = {
     order_id: `ORD-${Date.now()}`,
     user_id: `${state.userName || 'guest'}_${userIP || 'unknownIP'}`,
-    restaurant: dynamicOrder.restaurantName?.restaurantName || dynamicOrder.restaurantName || 'לא ידוע',
+    restaurant: dynamicOrder.value.restaurantName?.restaurantName || dynamicOrder.value.restaurantName || 'לא ידוע',
     created_at: new Date().toISOString(),
-    items: dynamicOrder.items.map(item => item.dishName),
-    total: dynamicOrder.items.reduce((sum, item) => sum + item.totalPrice, 0),
+    items: dynamicOrder.value.items.map(item => item.dishName),
+    total: dynamicOrder.value.items.reduce((sum, item) => sum + item.totalPrice, 0),
     status: 'completed',
     isNew: true // flag for animation
   };
@@ -202,6 +208,10 @@ onMounted(() => {
     showGreeting.value = true;
     isValid.value = true;
   }
+
+  if (state.orderHistory) {
+    dynamicOrder.value = state.orderHistory[0];
+  }
 });
 </script>
 <template>
@@ -215,7 +225,7 @@ onMounted(() => {
       <p v-if="firstCard.preTitle" class="mb-3">{{ firstCard.preTitle }}</p>
       <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]">{{ firstCard.title }}</h2>
 
-      <div v-if="firstCard.table" class="w-full overflow-auto max-w-full mb-2">
+      <div v-if="firstCard.table" class="w-full flex justify-center overflow-auto max-w-full mb-2">
         <table class="info-table special">
           <thead>
             <tr>
@@ -419,11 +429,36 @@ onMounted(() => {
         </div>
         <!-- buttons container -->
         <div class="w-full flex items-center">
-            <div class="w-full flex justify-start" v-if="firstCard.buttonBack">
-                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain color-filter" src="/media/buttons/back-arrow.png" alt="back button"/>
+            <!-- Back Button -->
+            <div class="w-full flex justify-start items-center gap-1 mt-2" v-if="firstCard.buttonBack">
+              <img
+                 @click="handleCard"
+                class="h-10 w-10 object-contain color-filter"
+                src="/media/buttons/back-arrow.png"
+                alt="back button"
+              />
+              <div
+                @click="handleCard"
+                class="bg-white px-3 py-1 rounded-lg shadow-sm cursor-pointer"
+              >
+                <span class="text-sm text-[#48cae4]">אחורה</span>
+              </div>
             </div>
-            <div class="w-full flex justify-end" v-if="firstCard.buttonNext">
-                <img @click="handleCard" class="mr-2 h-10 w-10 object-contain color-filter" src="/media/buttons/next-arrow.png" alt="next button"/>
+
+            <!-- Next Button -->
+            <div class="w-full flex justify-end items-center gap-1 mt-2" v-if="firstCard.buttonNext">
+              <div
+                @click="handleCard"
+                class="bg-white px-3 py-1 rounded-lg shadow-sm cursor-pointer"
+              >
+                <span class="text-sm text-[#48cae4]">המשך</span>
+              </div>
+              <img
+                 @click="handleCard"
+                class="h-10 w-10 object-contain color-filter"
+                src="/media/buttons/next-arrow.png"
+                alt="next button"
+              />
             </div>
 
             <div class="w-full flex justify-around" v-if="firstCard.buttonOptions">

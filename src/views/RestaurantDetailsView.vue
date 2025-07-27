@@ -47,7 +47,7 @@ const startIdleTimer = () => {
 
       popupState.isVisible = true;
     } 
-  }, 5000); // adjust as needed
+  }, 60000); // adjust as needed
 };
 
 const resetIdleTimer = () => {
