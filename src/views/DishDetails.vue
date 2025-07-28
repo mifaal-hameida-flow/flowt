@@ -102,12 +102,12 @@ const decrease = () => {
 }
 
 const tooltipPlacement = {
-  image: 'bottom',
-  title: 'bottom',
-  price: 'left',
-  description: 'top',
-  preferences: 'auto-start',
-  notes: 'top'
+  image: 'auto',
+  title: 'auto',
+  price: 'auto',
+  description: 'auto',
+  preferences: 'auto',
+  notes: 'auto'
 }
 
 const getTooltipContent = (key) => {
@@ -166,7 +166,7 @@ const showTooltip = () => {
 
 const finishOrder = () => {
   // push order to orderHistory.json
-  state.orderHistory.push(...state.currOrder)
+  state.currOrderHistory.push(...state.currOrder)
   state.currOrder = [] // אם את רוצה לאפס את ההזמנה הפעילה
   state.nextStep();
 }
@@ -282,7 +282,7 @@ onMounted(() => {
           v-tooltip="getTooltipContent('price')"
           @click.stop="showTooltipTemporarily('price')"
         >
-        <div v-if="seenTooltips.price && state.step === 6" class="ml-2 text-xs font-normal text-gray-400">👁️ נצפה</div>
+        <div v-if="seenTooltips.price && state.step === 6" class="ml-2 text-xs font-normal max-w-12 text-gray-400">👁️ נצפה</div>
           ₪{{ state.selectedDish.price }}
         </span>
 

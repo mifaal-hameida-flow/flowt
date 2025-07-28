@@ -57,7 +57,7 @@ onMounted(() => {
             v-for="(restaurant, i) in recommendations[section.key]"
             :restaurantInfo="restaurant"
             :key="i"
-            @click="selectRestaurant(restaurant)"
+            @click="state.step !== 11 ? selectRestaurant(restaurant): null"
           />
         </div>
       </div>
@@ -65,7 +65,7 @@ onMounted(() => {
 
     <!-- Fixed bars -->
     <TopBar :scrolled="isScrolled" />
-    <BottomBar/>
+    <BottomBar :active="state.step >= 11 ? 'מומלץ עבורך' : null"/>
   </div>
 </template>
 

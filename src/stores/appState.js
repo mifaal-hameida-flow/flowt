@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import Recommended from '../data/Recommended.json'
+import orderHistory from '../data/OrderHistory.json'
+import dayjs from 'dayjs'
 
 export const useAppState = defineStore('appState', {
   state: () => ({
@@ -15,7 +17,20 @@ export const useAppState = defineStore('appState', {
     startListening: false,
     activeSubView: null,
     currOrder: [],      
-    orderHistory: []   
+    currOrderHistory: [],
+    progressBarOpen: false,  
+    selectedFilters: {
+      category: null,
+      rating: null,
+      startDate: null,
+      endDate: null
+    },
+    generatedQueryString: '',
+    graphData: {
+      orderHistoryGroupedByType: [],
+      orderHistoryGroupedByMonth: [],
+      orderHistoryGroupedByRestaurant: []
+    }
   }),
   actions: {
     nextStep() {
@@ -64,6 +79,89 @@ export const useAppState = defineStore('appState', {
     saveName(name) {
       this.userName = name
     },
+    toggleProgress(){
+      this.progressBarOpen = !this.progressBarOpen;
+    },
+   updateFilters(filters) {
+    this.selectedFilters = filters;
+
+    const conditions = [];
+
+    if (filters.selectedCategory) {
+      conditions.push(`'${filters.selectedCategory}' = type`);
+    }
+
+    if (filters.selectedRating) {
+      conditions.push(`rating >= ${filters.selectedRating}`);
+    }
+
+    if (filters.startDate) {
+      const start = new Date(filters.startDate).toISOString().split('T')[0];
+      conditions.push(`orderDateTime >= '${start}'`);
+    }
+
+    if (filters.endDate) {
+      const end = new Date(filters.endDate).toISOString().split('T')[0];
+      conditions.push(`orderDateTime <= '${end}'`);
+    }
+    const whereClause = conditions.length > 0 ? `WHERE\n  ${conditions.join('\n  AND ')}` : '';
+    this.generatedQueryString = `SELECT * FROM Orders\n${whereClause};`;
+  },
+  clearFilters() {
+    this.selectedFilters = {
+      category: null,
+      rating: null,
+      startDate: null,
+      endDate: null
+    };
+  },
+  getOrderStats() {
+    const typeCount = {};
+    const monthCount = {};
+    const restaurantCount = {};
+
+    orderHistory.forEach(order => {
+      // ניתוח לפי סוג אוכל
+      const type = order.type;
+      if (typeCount[type]) {
+        typeCount[type]++;
+      } else {
+        typeCount[type] = 1;
+      }
+
+      // לפי חודש
+      const month = dayjs(order.orderDateTime).format('MM'); // "04"
+      if (monthCount[month]) {
+        monthCount[month]++;
+      } else {
+        monthCount[month] = 1;
+      }
+
+      // לפי מסעדה
+      const restaurant = order.restaurantName;
+      if (restaurantCount[restaurant]) {
+        restaurantCount[restaurant]++;
+      } else {
+        restaurantCount[restaurant] = 1;
+      }
+    });
+
+    // שומרים ב-state להצגה בגרפים
+    this.graphData = {
+      orderHistoryGroupedByType: Object.entries(typeCount).map(([type, count]) => ({
+        סוג: type,
+        "מספר הזמנות": count
+      })),
+      orderHistoryGroupedByMonth: Object.entries(monthCount).map(([month, count]) => ({
+        חודש: month,
+        "מספר הזמנות": count
+      })),
+      orderHistoryGroupedByRestaurant: Object.entries(restaurantCount).map(([name, count]) => ({
+        מסעדה: name,
+        "מספר הזמנות": count
+      }))
+    };
+  }
   },
   persist: true
 })

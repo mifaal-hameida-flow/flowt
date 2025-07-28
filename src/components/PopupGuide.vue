@@ -4,10 +4,32 @@ import { popupState } from '../stores/popup';
 import { useAppState } from '../stores/appState'; 
 import OrdersTable from '../data/OrdersTable.json'
 import { CheckCircle, XCircle } from 'lucide-vue-next'
+import ChartComponent from './ChartComponent.vue';
 const state = useAppState();
 const originalOrders = OrdersTable;
-const newOrders = ref([]); // This will hold orders added by סיום הזמנה
-const orders = computed(() => [...originalOrders, ...newOrders.value]); // merged list for display
+const newOrders = ref([]); 
+const orders = computed(() => [...originalOrders, ...newOrders.value]); 
+const query = computed(() => state.generatedQueryString);
+
+state.getOrderStats();
+const chartData = computed(() => {
+  const chartConfig = firstCard.value?.chart;
+  if (!chartConfig || !chartConfig.dataFrom) return [];
+
+  const rawData = [...(state.graphData[chartConfig.dataFrom] || [])];
+
+  // אם yField הוא מספר וה־xField הוא חודש, מיין לפי מספר
+  rawData.sort((a, b) => {
+    const aX = a[chartConfig.xField];
+    const bX = b[chartConfig.xField];
+    return aX > bX ? 1 : -1;
+  });
+
+  return rawData;
+});
+console.log('גרף לפי סוגי אוכל:', state.graphData.orderHistoryGroupedByType);
+
+
 // Props
 const props = defineProps({
   stepInfo: Object,
@@ -165,7 +187,7 @@ function generateFakeIP() {
 }
 
 const completeOrder = () => {
-  dynamicOrder.value = state.orderHistory?.[0];
+  dynamicOrder.value = state.currOrderHistory?.[0];
   if (!dynamicOrder.value) return;
   const newOrder = {
     order_id: `ORD-${Date.now()}`,
@@ -180,6 +202,7 @@ const completeOrder = () => {
 
   newOrders.value.push(newOrder);
 };
+
 
 watch(() => props.stepInfo, () => {
   const cards = props.stepInfo?.cards ?? [];
@@ -209,8 +232,8 @@ onMounted(() => {
     isValid.value = true;
   }
 
-  if (state.orderHistory) {
-    dynamicOrder.value = state.orderHistory[0];
+  if (state.currOrderHistory) {
+    dynamicOrder.value = state.currOrderHistory[0];
   }
 });
 </script>
@@ -331,6 +354,29 @@ onMounted(() => {
             </tbody>
           </table>
           </div>
+
+          <!-- רלוונטי לגרפים -->
+          <div v-if="firstCard.chart" class="w-full max-w-full my-4">
+            <h3 class="text-md font-bold text-[#48cae4] mb-2 text-center">
+              {{ firstCard.chart.title }}
+            </h3>
+            <ChartComponent
+              :type="firstCard.chart.type"
+              :data="chartData"
+              :xField="firstCard.chart.xField"
+              :yField="firstCard.chart.yField"
+            />
+          </div>
+
+          <!-- רלוונטי לחלק של הדגמת שאילתא -->
+          <div
+            v-if="firstCard.dynamicSql"
+            dir="ltr"
+            class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm text-left whitespace-pre-wrap break-words leading-relaxed"
+          >
+            {{ query }}
+          </div>
+
 
           <div v-if="firstCard.ordersTable">
             <div v-if="newOrders.length === 0" style="overflow-x: auto; display: flex; justify-content: center; margin-top: 0.5rem;">

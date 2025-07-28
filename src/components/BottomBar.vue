@@ -38,16 +38,27 @@ const showTooltipTemporarily = (index) => {
 const handleClick = (event, index) => {
   const label = event.target.innerText || event.target.alt;
 
-  if (state.step === 3) {
+  if (state.step === 3 || state.step === 10) {
     if (label === "מומלץ עבורך") {
       bottomBarData.value.forEach(i => i.active = false);
       bottomBarData.value[0].active = true;
       state.nextStep();
-    } else {
+    } else if (state.step===3) {
       popupState.manualCard = {
         id: 'manual-1',
         title: 'אופס!',
         message: ['אי אפשר ללחוץ על זה עכשיו...🫣', 'כנראה שתצטרכו לנסות את האיטלקי קודם וללמוד מה אפשר להפיק ממידע', ],
+        buttonTask: {
+          msg: 'הבנתי',
+          src: '././media/buttons/knowledge.png'
+        }
+      };
+      popupState.isVisible = true;
+    } else if (state.step === 10 && !state.showPopup) {
+      popupState.manualCard = {
+        id: 'manual-1',
+        title: 'אופס!',
+        message: ['אי אפשר ללחוץ על זה עכשיו...🫣', 'לחצו על "מומלץ עבורך" כדי לראות את הגרפים', ],
         buttonTask: {
           msg: 'הבנתי',
           src: '././media/buttons/knowledge.png'
@@ -83,6 +94,15 @@ const getTooltipContent = (index) => {
     };
   }
 
+  if (state.step === 10 && index === 0 && !state.showPopup) {
+    return {
+      content: 'לחצו עליי כדי להציג את הגרפים',
+      shown: true,
+      triggers: [],
+      placement: 'top',
+    };
+  }
+
   return null;
 };
 
@@ -102,7 +122,7 @@ onMounted(() => {
   <div class="bg-white shadow-top flex justify-around p-4 sticky bottom-0 w-full z-50 " >
     <div v-for="(icon, index) in bottomBarData" :key="index" class="flex flex-col items-center bottom-bar-item"  v-tooltip="getTooltipContent(index)"
         @click="(event) => handleClick(event, index)"
-        :class="state.step === 3 && index === 0 ? 'animate-pulse' : ''">
+        :class="(state.step === 3 && index === 0) || (state.step === 10 && index === 0 && !state.showPopup) ? 'animate-pulse' : ''">
       <img :src="icon.src" :class="['w-8 h-8 mb-1', icon.active && 'active']" :alt=icon.text />
       <div :class="['text-[0.85rem]', icon.active && 'active']">{{ icon.text }}</div>
     </div>

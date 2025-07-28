@@ -3,19 +3,35 @@ import CircleProgress from 'vue3-circle-progress'
 import ConceptsData from '../data/ConceptsData.json'
 import { useAppState } from '../stores/appState'; 
 import { popupState } from '../stores/popup'
+import PopupGuideContent from '../data/PopupGuideContent.json';
 import { ref, computed } from 'vue';
 const state = useAppState();
-const totalSteps = ref(20); // סתם המצאתי
+// const totalSteps = ref(20); 
+function totalCards(PopupGuideContent) {
+  return PopupGuideContent.reduce((total, step) => {
+    return total + (step.cards?.length || 0);
+  }, 0);
+}
 
-const showTopics = ref(false);
-const conceptsArray = ConceptsData;
+const currentCardGlobalIndex = computed(() => {
+  let index = 0;
+  for (let i = 0; i < state.step; i++) {
+    index += PopupGuideContent[i]?.cards?.length || 0;
+  }
+  return index + state.cardNumber;
+});
+
+const totalCardsCount = totalCards(PopupGuideContent);
 
 const progressPercent = computed(() =>
-  Math.min(100, Math.round((state.step / totalSteps.value) * 100))
-)
+  Math.min(100, Math.round((currentCardGlobalIndex.value + 1) / totalCardsCount * 100))
+);
+
+
+const conceptsArray = ConceptsData;
 
 const toggle = () => {
-    showTopics.value = !showTopics.value;
+   state.toggleProgress();
 }
 
 const showManualPopup = (index) => {   
@@ -35,10 +51,10 @@ const showManualPopup = (index) => {
 <template>
   <div class="fixed top-4 left-4 z-50">
     <div class="relative inline-block transition-all duration-500 ease-in-out"
-         :style="{ marginLeft: showTopics ? '150px' : '0px' }">
+         :style="{ marginLeft: state.progressBarOpen ? '150px' : '0px' }">
 
       <!-- עיגול התקדמות -->
-      <div class="relative w-[60px] h-[60px] z-55" @click="toggle">
+      <div class="relative w-[60px] h-[60px] z-65" @click="toggle">
         <CircleProgress
           :percent="progressPercent"
           :size="60"
@@ -53,8 +69,8 @@ const showManualPopup = (index) => {
       <!-- סרגל נושאים מעוצב -->
       <transition name="slide-horizontal">
         <div
-          v-if="showTopics"
-          class="fixed top-0 left-0 h-fit w-58 bg-white shadow-xl p-5 z-40 overflow-auto border-r border-gray-200 rounded-tr-xl rounded-br-xl"
+          v-if="state.progressBarOpen"
+          class="fixed top-0 left-0 h-fit w-58 bg-white shadow-xl p-5 z-60 overflow-auto border-r border-gray-200 rounded-tr-xl rounded-br-xl"
         >
           <h3 class="text-lg pl-2 text-center font-bold my-2 mr-8 border-b pb-2 text-gray-700">סיכום מושגים</h3>
           <ul class="mt-4 space-y-3">
