@@ -27,7 +27,6 @@ const chartData = computed(() => {
 
   return rawData;
 });
-console.log('גרף לפי סוגי אוכל:', state.graphData.orderHistoryGroupedByType);
 
 
 // Props
@@ -111,7 +110,9 @@ const isObject = (val) => val && typeof val === 'object';
 const filteredFields = computed(() => {
   const clone = {}
   for (const key in state.selectedRestaurant) {
-    clone[key] = state.selectedRestaurant[key]
+    if(!['logo', 'src', 'menu'].includes(key)) {
+      clone[key] = state.selectedRestaurant[key]
+    }
   }
   return clone
 })
@@ -260,12 +261,9 @@ onMounted(() => {
             <tr v-for="(value, key) in filteredFields" :key="key">
               <td>{{ key }}</td>
               <td>
-              <span  v-if="!isObject(value)" :class="{ direction: ['logo', 'src'].includes(key) }">
+              <span>
                 {{ value }}
               </span>
-                <span v-else>
-                  [Nested Object]
-                </span>
               </td>
             </tr>
           </tbody>
@@ -625,11 +623,11 @@ input:focus {
   min-width: 600px; /* You can lower this if needed */
   border-collapse: collapse;
   font-size: x-small;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
 }
 
 .info-table.special {
-  min-width: unset;
+  min-width: 15rem;
 }
 
 /* Optional: Keep the popup from expanding */

@@ -224,7 +224,7 @@ onMounted(() => {
   >
     <span
     v-if="seenTooltips.image && state.step === 6"
-    class="absolute top-2 right-2 bg-white bg-opacity-80 text-gray-600 text-xs px-2 py-1 rounded shadow"
+    class="absolute bottom-2 right-2 bg-white bg-opacity-80 text-gray-600 text-xs px-2 py-1 rounded shadow"
   >
     👁️ נצפה
   </span>
@@ -268,8 +268,8 @@ onMounted(() => {
             @click.stop="showTooltipTemporarily('title')"
             class="cursor-pointer"
           >
-          <div v-if="seenTooltips.title && state.step === 6" class="ml-2 font-normal text-xs text-gray-400">👁️ נצפה</div>
             {{ state.selectedDish.name }}
+             <div v-if="seenTooltips.title && state.step === 6" class="ml-2 font-normal text-xs text-gray-400">👁️ נצפה</div>
           </span>
         </h1>
         <span class="text-[#00BEE5] text-lg font-semibold mb-2 cursor-pointer"
@@ -282,9 +282,9 @@ onMounted(() => {
           v-tooltip="getTooltipContent('price')"
           @click.stop="showTooltipTemporarily('price')"
         >
-        <div v-if="seenTooltips.price && state.step === 6" class="ml-2 text-xs font-normal max-w-12 text-gray-400">👁️ נצפה</div>
           ₪{{ state.selectedDish.price }}
         </span>
+        <div v-if="seenTooltips.price && state.step === 6" class="ml-2 text-xs font-normal max-w-12 text-gray-400">👁️ נצפה</div>
 
         <!-- Description -->
         <p class="text-gray-600 text-sm mt-2 mb-4 whitespace-pre-line cursor-pointer"
@@ -296,9 +296,10 @@ onMounted(() => {
           v-tooltip="getTooltipContent('description')"
           @click.stop="showTooltipTemporarily('description')"
         >
-           <div v-if="seenTooltips.description && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</div>
           {{ state.selectedDish.description }}
+          <div v-if="seenTooltips.description && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</div>
         </p>
+        
 
         <div class="border-t pt-4 mt-4"></div>
 
@@ -312,7 +313,7 @@ onMounted(() => {
           }"
           class="space-y-6"
         >
-          <span v-if="seenTooltips.preferences && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</span>
+          
           <div v-for="(pref, index) in state.selectedDish.preferences" :key="index">
             <h3 class="text-base font-semibold">{{ pref.title }}</h3>
             <p v-if="pref.subtitle" class="text-sm text-gray-500 mb-2">{{ pref.subtitle }}</p>
@@ -380,6 +381,7 @@ onMounted(() => {
             </div>
           </div>
         </div>
+        <span v-if="seenTooltips.preferences && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</span>
 
         <div class="mt-4 px-2 relative"
         :class="{
@@ -390,14 +392,14 @@ onMounted(() => {
           v-tooltip="getTooltipContent('notes')"
           @click.stop="showTooltipTemporarily('notes')"
         >
-          <span v-if="seenTooltips.notes && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</span>
 
           <label class="block text-sm font-medium text-gray-700 mb-1">הערות למנה (לא חובה):</label>
           <textarea
+             @click="showTooltipTemporarily('notes')"
             v-model="notes"
             rows="2"
             placeholder="כתבו אם יש משהו שחשוב שנדע 😊"
-            :disabled="state.step === 6 && !allTooltipsSeen"
+            :readonly="state.step === 6 && !allTooltipsSeen"
             class="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#00BEE5]"
           ></textarea>
           <button
@@ -409,6 +411,7 @@ onMounted(() => {
           </button>
         </div>
       </div>
+        <span v-if="seenTooltips.notes && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</span>
 
       <!-- Footer -->
       <div v-if="state.step !== 8" class="border-t pt-4 mt-4 sticky bottom-0 bg-white">
