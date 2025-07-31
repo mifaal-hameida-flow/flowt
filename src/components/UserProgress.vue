@@ -4,8 +4,9 @@ import ConceptsData from '../data/ConceptsData.json'
 import { useAppState } from '../stores/appState'; 
 import { popupState } from '../stores/popup'
 import PopupGuideContent from '../data/PopupGuideContent.json';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 const state = useAppState();
+const animated = ref(0);
 // const totalSteps = ref(20); 
 function totalCards(PopupGuideContent) {
   return PopupGuideContent.reduce((total, step) => {
@@ -27,6 +28,24 @@ const progressPercent = computed(() =>
   Math.min(100, Math.round((currentCardGlobalIndex.value + 1) / totalCardsCount * 100))
 );
 
+watch(progressPercent, (newVal) => {
+  const start = animated.value;
+  const end = newVal;
+  const duration = 500;
+  const startTime = performance.now();
+
+  const animate = (now) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    animated.value = Math.round(start + (end - start) * progress);
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    }
+  };
+
+  requestAnimationFrame(animate);
+}, { immediate: true }); // <== this is key to make `animated` valid on first render
 
 const conceptsArray = ConceptsData;
 
@@ -47,6 +66,8 @@ const showManualPopup = (index) => {
       popupState.isVisible = true;
  }
 
+ 
+
 </script>
 <template>
   <div class="fixed top-4 left-4 z-50">
@@ -55,16 +76,22 @@ const showManualPopup = (index) => {
 
       <!-- עיגול התקדמות -->
       <div class="relative w-[60px] h-[60px] z-65" @click="toggle">
-        <CircleProgress
-          :percent="progressPercent"
-          :size="60"
-          :stroke-width="10"
-          :fill-color="'#48cae4'"
-          :background="'white'"
-          :show-percent="true"
-          animation
-        />
+       <circle-progress
+        :percent="progressPercent"
+        :size="60"
+        :border-width="10"
+        fill-color="#48cae4"
+        background="white"
+        :show-percent="false"
+        :transition="300"
+        @progress="val => animated = val"
+      />
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
+                font-size:12px;">
+      {{ Math.round(animated) }}%
+    </div>
       </div>
+
 
       <!-- סרגל נושאים מעוצב -->
       <transition name="slide-horizontal">
