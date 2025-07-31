@@ -145,7 +145,7 @@ const clearInput = () => {
 
 const handleTaskClick = () => {
   // Only auto-advance on step 0
-  if ( props.stepInfo.step === 0 || props.stepInfo.step === 2) {
+  if ( props.stepInfo.step === 0 || props.stepInfo.step === 2 || props.stepInfo.step === 11) {
     state.nextStep();
   } else {
     state.closePopup();
@@ -247,7 +247,7 @@ onMounted(() => {
     :class="{ 'animate-zoom': firstCard.id === 1 }">
       
       <p v-if="firstCard.preTitle" class="mb-3">{{ firstCard.preTitle }}</p>
-      <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]">{{ firstCard.title }}</h2>
+      <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]" v-html="firstCard.title"></h2>
 
       <div v-if="firstCard.table" class="w-full flex justify-center overflow-auto max-w-full mb-2">
         <table class="info-table special">
