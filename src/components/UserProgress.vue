@@ -4,8 +4,11 @@ import ConceptsData from '../data/ConceptsData.json'
 import { useAppState } from '../stores/appState'; 
 import { popupState } from '../stores/popup'
 import PopupGuideContent from '../data/PopupGuideContent.json';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
+import { storeToRefs } from 'pinia'
 const state = useAppState();
+const justUnlocked = ref(false);
+
 const animated = ref(0);
 // const totalSteps = ref(20); 
 function totalCards(PopupGuideContent) {
@@ -28,7 +31,28 @@ const progressPercent = computed(() =>
   Math.min(100, Math.round((currentCardGlobalIndex.value + 1) / totalCardsCount * 100))
 );
 
-watch(progressPercent, (newVal) => {
+
+const conceptsArray = ConceptsData;
+
+const toggle = () => {
+   state.toggleProgress();
+}
+
+const showManualPopup = async (index) => {
+  await nextTick(); // wait for DOM update
+     popupState.manualCard = {
+        id: `manual-concept${index}`,
+        title: conceptsArray[index].topic,
+        message: conceptsArray[index].text,
+        buttonTask: {
+          msg: 'הבנתי, אפשר לחזור ללומדה',
+          src: '././media/buttons/knowledge.png'
+        }
+      };
+      popupState.isVisible = true;
+ }
+
+ watch(progressPercent, (newVal) => {
   const start = animated.value;
   const end = newVal;
   const duration = 500;
@@ -47,26 +71,30 @@ watch(progressPercent, (newVal) => {
   requestAnimationFrame(animate);
 }, { immediate: true }); // <== this is key to make `animated` valid on first render
 
-const conceptsArray = ConceptsData;
+watch(
+  () => state.step,
+  (newStep) => {
+    const unlocked = conceptsArray.some(concept => concept.afterStep === newStep);
+    if (unlocked) {
+      justUnlocked.value = true;
+      // console.log('Step advanced & concept unlocked at step', newStep);
+    }
+  }
+);
 
-const toggle = () => {
-   state.toggleProgress();
-}
+watch(
+  () => state.showPopup,
+  (popupOpen) => {
+    if (!popupOpen && justUnlocked.value) {
+      // console.log('Popup closed after concept unlock — opening progress bar');
+      if (!state.progressBarOpen) {
+        state.toggleProgress();
+      }
+      justUnlocked.value = false; // reset the flag
+    }
+  }
+);
 
-const showManualPopup = (index) => {   
-     popupState.manualCard = {
-        id: `manual-concept${index}`,
-        title: conceptsArray[index].topic,
-        message: conceptsArray[index].text,
-        buttonTask: {
-          msg: 'הבנתי, אפשר לחזור ללומדה',
-          src: '././media/buttons/knowledge.png'
-        }
-      };
-      popupState.isVisible = true;
- }
-
- 
 
 </script>
 <template>
@@ -105,16 +133,32 @@ const showManualPopup = (index) => {
               v-for="(concept, index) in conceptsArray"
               :key="index"
               class="flex items-center gap-3 p-2 rounded-lg transition-all duration-200"
-              :class="state.step > concept.afterStep
-                ? 'bg-green-50 hover:bg-green-100 text-green-700 cursor-pointer'
-                : 'bg-gray-100 text-gray-400 cursor-not-allowed'"
-              @click="state.step > concept.afterStep && showManualPopup(index)"
+             :class="{
+              'bg-green-50 hover:bg-green-100 text-green-700 cursor-pointer':
+                (state.step === concept.afterStep && !state.showPopup) ||
+                (state.step > concept.afterStep),
+              'bg-gray-100 text-gray-400 cursor-not-allowed': state.step < concept.afterStep
+            }"
+
+                
+             @click="() => {
+                  if  ((state.step === concept.afterStep && !state.showPopup) ||
+                (state.step > concept.afterStep)) {
+                    showManualPopup(index);
+                  }
+                }"
             >
               <div
                 class="w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold"
-                :class="state.step > concept.afterStep ? 'bg-green-400 text-white' : 'bg-gray-300 text-white'"
-              >
-                {{ state.step > concept.afterStep ? '✔' : '?' }}
+                :class="(state.step > concept.afterStep || (state.step === concept.afterStep && !state.showPopup))
+                ? 'bg-green-400 text-white'
+                : 'bg-gray-300 text-white'"
+                >
+                 {{
+                    (state.step > concept.afterStep || (state.step === concept.afterStep && !state.showPopup))
+                      ? '✔'
+                      : '?'
+                  }}
               </div>
               <span class="text-sm font-medium truncate">{{ concept.topic }}</span>
             </li>

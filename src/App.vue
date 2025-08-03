@@ -27,10 +27,13 @@ const currentViewComponent = computed(() => {
   return HomeView
 })
 
-console.log(currentViewComponent.value);
-console.log(state.step)
 const transitionName = computed(() => state.step === 6 ? 'page-flip' : 'fade-slide')
 
+const handleClick = () => {
+  if (state.progressBarOpen) {
+    state.progressBarOpen = false;
+  }
+}
 watch(
   [() => state.step, () => state.showPopup],
   ([newStep, popupVisible]) => {
@@ -42,6 +45,11 @@ watch(
   },
   { immediate: true }
 );
+
+watch(currentViewComponent, () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' }) 
+})
+
 
 onMounted(() => {
   const hasSavedData = !!localStorage.getItem('appState')
@@ -79,7 +87,7 @@ onMounted(() => {
   <div v-else-if="!state.showLoader">
      <!-- למצוא לזה מקום -->
     <Transition :name="transitionName" mode="out-in">
-      <component :is="currentViewComponent"/>
+      <component @click="handleClick" :is="currentViewComponent"/>
     </Transition>
     <UserProgress/> 
     <PopupGuide

@@ -153,7 +153,6 @@ const handleTaskClick = () => {
     handleManualClose();
     }
   }
-
 };
 
 const handleCard = (event) => {
@@ -218,11 +217,12 @@ watch(isDatabaseAnimationCard, (isActive) => {
   }
 });
 
-watch(() => popupState.manualCard, (newVal) => {
-  if (newVal && props.stepInfo?.step !== 0) {
-    popupState.manualCard = null;
-  }
-});
+// watch(() => popupState.manualCard, (newVal) => {
+//   if (newVal && props.stepInfo?.step !== 0) {
+//     popupState.manualCard = null;
+//   }
+// });
+
 
 
 onMounted(() => {
@@ -238,9 +238,10 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div v-if="(showPopup || popupState.isVisible) && stepInfo" class="fixed top-0 right-0 z-60 bg-black/[.75] w-screen h-screen flex justify-center items-center"  
-  :key="`${stepInfo.step}-${cardNumber}`"
-  :class="{ 'fade-enter': firstCard.id === 1 }">
+  <div v-if="popupState.isVisible || (showPopup && stepInfo)"
+  class="fixed top-0 right-0 z-60 bg-black/[.75] w-screen h-screen flex justify-center items-center"
+   :key="`popup-${popupState.manualCard?.id ?? 'default'}`"
+  :class="{ 'fade-enter': firstCard?.id === 1 }">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#E6F8FA] p-4 rounded-xl shadow-lg text-center popup-container"
     :key="`${stepInfo.step}-${cardNumber}`" 
     :class="{ 'animate-zoom': firstCard.id === 1 }">

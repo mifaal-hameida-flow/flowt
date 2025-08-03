@@ -53,7 +53,7 @@ const startIdleTimer = () => {
 const resetIdleTimer = () => {
   clearTimeout(idleTimeout);
 
-  if (popupState.isVisible) {
+  if (popupState.manualCard?.id?.startsWith('idle') && popupState.isVisible) {
     popupState.isVisible = false;
   }
 
