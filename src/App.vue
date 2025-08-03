@@ -50,8 +50,8 @@ watch(currentViewComponent, () => {
   window.scrollTo({ top: 0, behavior: 'smooth' }) 
 })
 
-
 onMounted(() => {
+   document.addEventListener('gesturestart', (e) => e.preventDefault());
   const hasSavedData = !!localStorage.getItem('appState')
   if (hasSavedData) {
     state.showRecoveryPopup = true
