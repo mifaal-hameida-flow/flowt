@@ -121,6 +121,7 @@ watch(() => state.showPopup, (newVal) => {
 
     <div class="flex-grow overflow-auto px-4">
         <div class="text-xl font-bold mb-2 text-right">הזמנות קודמות</div>
+        <div class="text-normal font-bold mb-2 text-right" v-if="filteredOrders.length === 0">לא נמצאו הזמנות מתאימות למסננים שבחרת</div>
 
         <div
             v-for="(order, index) in filteredOrders"

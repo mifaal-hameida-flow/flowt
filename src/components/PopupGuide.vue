@@ -145,7 +145,7 @@ const clearInput = () => {
 
 const handleTaskClick = () => {
   // Only auto-advance on step 0
-  if ( props.stepInfo.step === 0 || props.stepInfo.step === 2 || props.stepInfo.step === 11) {
+ if ( props.stepInfo.step === 0 || props.stepInfo.step === 2 || props.stepInfo.step === 11) {
     state.nextStep();
   } else {
     state.closePopup();
@@ -366,14 +366,16 @@ onMounted(() => {
             />
           </div>
 
-          <!-- רלוונטי לחלק של הדגמת שאילתא -->
-          <div
+          <pre
             v-if="firstCard.dynamicSql"
             dir="ltr"
-            class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm text-left whitespace-pre-wrap break-words leading-relaxed"
+            lang="en"
+            class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm text-left whitespace-pre leading-tight"
           >
             {{ query }}
-          </div>
+          </pre>
+
+
 
 
           <div v-if="firstCard.ordersTable">
@@ -390,9 +392,17 @@ onMounted(() => {
         <!-- סיום הזמנה button -->
       <div v-if="firstCard.messageTable" class="flex">
         <div v-for="(table, idx) in firstCard.messageTable" :key="idx" class="flex flex-col items-center pr-1.5"
-         :class="{ 'border-r-1 border-[#48cae4]': idx === firstCard.messageTable.length - 1 }">
+         >
           <p class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]">{{ table.title }}</p>
-           <p v-for="message in table.message" v-html="message"></p> 
+           <div v-for="(message, index) in table.message" :key="index">
+              <p v-if="message" v-html="message"></p>
+              <div
+                v-else
+                class="w-[2px] bg-[#48cae4] h-full m-2"
+                style="min-height: 10em;"
+              ></div>
+            </div>
+
         </div>
       </div>
       
@@ -452,12 +462,6 @@ onMounted(() => {
                 >
                 ✕
                 </button>
-
-                <!-- Validation Message -->
-                <!-- <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
-                    <span v-if="isValid" class="text-green-600">✔️ שם תקין</span>
-                    <span v-else class="text-red-600">❌ שם לא תקין</span>
-                </div> -->
                 
               <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
                 <template v-if="isValid">

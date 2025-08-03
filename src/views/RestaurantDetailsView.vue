@@ -11,6 +11,7 @@ const state = useAppState();
 const showBottomBar = ref(false);
 const showTooltip = ref(false);
 const shouldListen = toRef(state, 'startListening') // make it a ref
+const reverseLottieRef = ref(null)
 
 watch(
   () => state.showPopup,
@@ -24,6 +25,21 @@ watch(
   { immediate: true }
 );
 
+
+const handleAnimationLoaded = () => {
+  const player = reverseLottieRef.value?.getLottie()
+  if (player) {
+    player.setDirection(-1)
+    player.play()
+
+    const onComplete = () => {
+      player.removeEventListener('complete', onComplete)
+      state.nextStep();
+    }
+
+    player.addEventListener('complete', onComplete)
+  }
+}
 
 let idleTimeout = null;
 let isListening = false;
@@ -123,6 +139,7 @@ const handleDishSelection = (dish) => {
   <div v-if="state.step < 3" class="absolute flex items-center justify-center top-0 w-screen h-screen">
       <DotLottieVue style="height: 850px; width: 850px" autoplay :loop="false" src="https://lottie.host/1610322f-bc11-40b6-854d-2239a01f0699/niGnJbbie4.lottie"/>
   </div>
+
 
  <div v-else class="min-h-screen bg-white">
     <!-- Header Image -->

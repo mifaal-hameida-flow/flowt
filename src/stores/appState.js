@@ -82,15 +82,16 @@ export const useAppState = defineStore('appState', {
     toggleProgress(){
       this.progressBarOpen = !this.progressBarOpen;
     },
-   updateFilters(filters) {
+    updateFilters(filters) {
     this.selectedFilters = filters;
 
     const conditions = [];
+    const LRM = '\u200E'; // Left-to-Right Mark
 
     if (filters.selectedCategory) {
-      conditions.push(`'${filters.selectedCategory}' = type`);
+      conditions.push(`${LRM}type = ${LRM}'${filters.selectedCategory}'`);
     }
-
+    
     if (filters.selectedRating) {
       conditions.push(`rating >= ${filters.selectedRating}`);
     }

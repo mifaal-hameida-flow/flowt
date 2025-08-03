@@ -8,6 +8,7 @@ const state = useAppState();
 const notes = ref('')
 const selectedOptions = ref({})
 const finishOrderTooltipShown = ref(false)
+const tooltipIsActive = ref(false)
 
 const tooltipContent = {
   image: 'תמונה היא <strong style="color:#48cae4;">נתון לא מובנה</strong><br> המערכת לא יודעת לקרוא אותה (ללא עיבוד מיוחד), רק להציג',
@@ -122,18 +123,24 @@ const getTooltipContent = (key) => {
   }
   return null
 }
-
 const showTooltipTemporarily = (key) => {
-  if (state.step !== 6) return;
+  if (state.step !== 6 || tooltipIsActive.value) return;
+
+  tooltipIsActive.value = true;
+
+  // Hide all tooltips
+  Object.keys(visibleTooltips.value).forEach(k => {
+    visibleTooltips.value[k] = false;
+  });
 
   visibleTooltips.value[key] = true;
-  // Hide after 5 seconds
+
   setTimeout(() => {
-     seenTooltips.value[key] = true;
+    seenTooltips.value[key] = true;
     visibleTooltips.value[key] = false;
+    tooltipIsActive.value = false;
   }, 5000);
 };
-
 
 const saveData = () => {
   const order = {
@@ -233,7 +240,7 @@ onMounted(() => {
     alt="Dish Image"
     class="w-full h-64 object-cover"
     v-tooltip="getTooltipContent('image')"
-    @click.stop="showTooltipTemporarily('image')"
+    @click.stop="!tooltipIsActive && showTooltipTemporarily('image')"
   />
   
 
@@ -244,9 +251,9 @@ onMounted(() => {
     dir="rtl"
   >
     <div class="flex justify-center items-center gap-2 bg-white bg-opacity-90 px-3 py-1 rounded-full shadow-md">
-      <span>💡 סיימת</span>
+      <span>💡 עברת על </span>
       <span class="font-semibold text-[#00BEE5]">{{ seenCount }}/{{ totalTooltips }}</span>
-      <span>מושגים</span>
+      <span>חלקים</span>
     </div>
   </div>
 </div>
@@ -265,7 +272,7 @@ onMounted(() => {
         }"
 
             v-tooltip="getTooltipContent('title')"
-            @click.stop="showTooltipTemporarily('title')"
+           @click.stop="!tooltipIsActive && showTooltipTemporarily('title')"
             class="cursor-pointer"
           >
             {{ state.selectedDish.name }}
@@ -280,7 +287,7 @@ onMounted(() => {
         }"
 
           v-tooltip="getTooltipContent('price')"
-          @click.stop="showTooltipTemporarily('price')"
+         @click.stop="!tooltipIsActive && showTooltipTemporarily('price')"
         >
           ₪{{ state.selectedDish.price }}
         </span>
@@ -294,7 +301,7 @@ onMounted(() => {
           'border-gray-300 opacity-70': visibleTooltips.description && seenTooltips.description
         }"
           v-tooltip="getTooltipContent('description')"
-          @click.stop="showTooltipTemporarily('description')"
+         @click.stop="!tooltipIsActive && showTooltipTemporarily('description')"
         >
           {{ state.selectedDish.description }}
           <div v-if="seenTooltips.description && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</div>
@@ -324,7 +331,7 @@ onMounted(() => {
                 v-for="option in pref.options"
                 :key="option"
                 class="flex items-center space-x-2 cursor-pointer"
-                @click.stop="showTooltipTemporarily('preferences')"
+               @click.stop="!tooltipIsActive && showTooltipTemporarily('preferences')"
 
               >
                 <input
@@ -350,7 +357,7 @@ onMounted(() => {
                 v-for="option in pref.options"
                 :key="option"
                 class="flex items-center space-x-2 cursor-pointer"
-                @click.stop="showTooltipTemporarily('preferences')"
+               @click.stop="!tooltipIsActive && showTooltipTemporarily('preferences')"
               >
                 <input
                   type="checkbox"
@@ -390,12 +397,12 @@ onMounted(() => {
           'border-gray-300 opacity-70': visibleTooltips.notes && seenTooltips.notes
         }"
           v-tooltip="getTooltipContent('notes')"
-          @click.stop="showTooltipTemporarily('notes')"
+          @click.stop="!tooltipIsActive && showTooltipTemporarily('notes')"
         >
 
           <label class="block text-sm font-medium text-gray-700 mb-1">הערות למנה (לא חובה):</label>
           <textarea
-             @click="showTooltipTemporarily('notes')"
+            @click.stop="!tooltipIsActive && showTooltipTemporarily('notes')"
             v-model="notes"
             rows="2"
             placeholder="כתבו אם יש משהו שחשוב שנדע 😊"
