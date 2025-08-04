@@ -155,12 +155,12 @@ watch(() => state.showPopup, (newVal) => {
         </div>
      </div>
      <!-- Overlay כהה -->
-    <div v-if="filterPanelOpen" class="fixed inset-0 z-40 bg-black" style="background-color: rgba(0, 0, 0, 0.4);" @click="filterPanelOpen = false"></div>
+    <div v-if="filterPanelOpen" class="fixed inset-0 z-65 bg-black" style="background-color: rgba(0, 0, 0, 0.4);" @click="filterPanelOpen = false"></div>
 
     <transition name="slide-up">
       <div
         v-if="filterPanelOpen"
-        class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-xl p-5 z-55 max-h-[95vh] overflow-y-auto"
+        class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-xl p-5 z-65 max-h-[95vh] overflow-y-auto"
       >
         <!-- כפתור סגירה (איקס) -->
         <div class="flex justify-between items-center mb-4">

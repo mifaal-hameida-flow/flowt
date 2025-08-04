@@ -141,12 +141,16 @@ watch(
             }"
 
                 
-             @click="() => {
-                  if  ((state.step === concept.afterStep && !state.showPopup) ||
-                (state.step > concept.afterStep)) {
-                    showManualPopup(index);
-                  }
-                }"
+          @click="() => {
+  if (
+    !state.showPopup && (
+      (state.step === concept.afterStep) ||
+      (state.step > concept.afterStep)
+    )
+  ) {
+    showManualPopup(index);
+  }
+}"
             >
               <div
                 class="w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold"
