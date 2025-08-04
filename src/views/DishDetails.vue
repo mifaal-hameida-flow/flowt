@@ -276,9 +276,9 @@ onMounted(() => {
             class="cursor-pointer"
           >
             {{ state.selectedDish.name }}
-             <div v-if="seenTooltips.title && state.step === 6" class="ml-2 font-normal text-xs text-gray-400">👁️ נצפה</div>
           </span>
         </h1>
+        <div v-if="seenTooltips.title && state.step === 6" class="ml-2 font-normal mb-2 text-xs text-gray-400">👁️ נצפה</div>
         <span class="text-[#00BEE5] text-lg font-semibold mb-2 cursor-pointer"
           :class="{
           'border-2 rounded-md p-1': visibleTooltips.price,

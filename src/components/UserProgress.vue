@@ -98,7 +98,7 @@ watch(
 
 </script>
 <template>
-  <div class="fixed top-4 left-4 z-50">
+  <div class="fixed top-4 left-4 z-64">
     <div class="relative inline-block transition-all duration-500 ease-in-out"
          :style="{ marginLeft: state.progressBarOpen ? '150px' : '0px' }">
 

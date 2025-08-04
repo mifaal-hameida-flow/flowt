@@ -11,8 +11,7 @@ const props = defineProps({
 });
 
 const handleMenuItem = () => {
-
-  if (state.step === 3) {
+  if (state.step === 3 && state.step3clickable) {
     popupState.manualCard = {
           id: 'manual-1',
           title: 'אופס!',

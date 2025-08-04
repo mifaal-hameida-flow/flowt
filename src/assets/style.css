@@ -16,8 +16,20 @@
 }
 
 .v-popper__popper {
-  z-index: 55 !important; /* or whatever you need */
+  z-index: 65 !important; /* or whatever you need */
   text-align: center;
+}
+
+.shepherd-modal-overlay-container {
+  z-index: 65 !important;
+}
+
+.shepherd-modal-spotlight {
+   z-index: 55 
+}
+/* האלמנט של הטולטיפ */
+.shepherd-element {
+  z-index: 65 !important; /* צריך להיות מעל overlay, אבל מתחת לדברים אחרים אם רוצים */
 }
 
 .shepherd-theme-arrows .shepherd-content {

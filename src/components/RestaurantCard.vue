@@ -32,7 +32,7 @@ onMounted(() => {
 <template>
   <div class="flex justify-center w-full restaurant-card" dir="rtl">
     <div
-    v-tooltip="restaurantInfo.showTooltip ? {
+    v-tooltip="restaurantInfo.showTooltip && state.step !== 4 ? {
     content: 'לפי הנתונים שנאספו עליך נראה<br> שתאהב מאוד את המסעדה הזאת!',
     shown: showAutoTooltip,
     html: true

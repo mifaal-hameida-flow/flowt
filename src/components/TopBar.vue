@@ -41,7 +41,7 @@ function getTooltipContent(index) {
 
 <template>
   <div :class="[
-    'flex justify-between fixed top-0 py-2 bg-white w-full z-50 transition-shadow',
+    'flex justify-between fixed top-0 py-2 bg-white w-full z-60 transition-shadow',
     scrolled ? 'shadow-md' : ''
   ]">
     <div class="flex space-x-1 items-center">

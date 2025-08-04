@@ -150,6 +150,9 @@ const handleTaskClick = () => {
     state.nextStep();
   } else {
     state.closePopup();
+    if (state.step === 3) {
+      state.step3clickable = true;
+    }
   if (popupState.manualCard) { 
     handleManualClose();
     }
@@ -237,12 +240,16 @@ onMounted(() => {
     dynamicOrder.value = state.currOrderHistory[0];
   }
 });
+
 </script>
 <template>
   <div v-if="popupState.isVisible || (showPopup && stepInfo && !firstCard.ignore)"
-  class="fixed top-0 right-0 z-60 bg-black/[.75] w-screen h-screen flex justify-center items-center"
+  class="fixed top-0 right-0 z-61 bg-black/[.75] w-screen h-screen flex justify-center items-center"
    :key="`popup-${popupState.manualCard?.id ?? 'default'}-${firstCard?.id ?? 'manual'}`"
-  :class="{ 'fade-enter': firstCard?.id === 1 || stepInfo.step === 4 && firstCard?.id === 2}">
+    :class="{
+      'fade-enter': firstCard?.id === 1 || (stepInfo.step === 4 && firstCard?.id === 2),
+      'z-65': popupState.isVisible
+    }">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#E6F8FA] p-4 rounded-xl shadow-lg text-center popup-container"
     :key="`${stepInfo.step}-${cardNumber}`" 
     :class="{ 'animate-zoom': firstCard.id === 1 || stepInfo.step === 4 && firstCard?.id === 2}">
@@ -369,15 +376,11 @@ onMounted(() => {
 
           <pre
             v-if="firstCard.dynamicSql"
-            dir="ltr"
-            lang="en"
             class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm text-left whitespace-pre leading-tight"
+            style="unicode-bidi: plaintext; direction: ltr;"
           >
             {{ query }}
           </pre>
-
-
-
 
           <div v-if="firstCard.ordersTable">
             <div v-if="newOrders.length === 0" style="overflow-x: auto; display: flex; justify-content: center; margin-top: 0.5rem;">
@@ -662,6 +665,10 @@ input:focus {
 /* צבע רקע צהוב שמישאר (הדגשה קבועה) */
 .highlight-new-row {
   background-color: #fff3cd;
+}
+
+.z-65 {
+  z-index: 65;
 }
 
 

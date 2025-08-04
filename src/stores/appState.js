@@ -30,7 +30,8 @@ export const useAppState = defineStore('appState', {
       orderHistoryGroupedByType: [],
       orderHistoryGroupedByMonth: [],
       orderHistoryGroupedByRestaurant: []
-    }
+    },
+    step3clickable: false,
   }),
   actions: {
     nextStep() {
@@ -87,9 +88,10 @@ export const useAppState = defineStore('appState', {
 
     const conditions = [];
     const LRM = '\u200E'; // Left-to-Right Mark
+    const RLM = '\u200F'; // Right-to-Left Mark
 
     if (filters.selectedCategory) {
-      conditions.push(`${LRM}type = ${LRM}'${filters.selectedCategory}'`);
+     conditions.push(`type = '${RLM}${filters.selectedCategory}${RLM}'`);
     }
     
     if (filters.selectedRating) {
