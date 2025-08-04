@@ -6,7 +6,8 @@ import BottomBar from '../components/BottomBar.vue'
 import { popupState } from '../stores/popup';
 import { toRef, ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useAppState } from '../stores/appState'; 
-
+import Shepherd from 'shepherd.js'
+import 'shepherd.js/dist/css/shepherd.css'
 const state = useAppState();
 const isScrolled = ref(false);
 const shouldListen = toRef(state, 'startListening') // make it a ref
@@ -35,6 +36,40 @@ onBeforeUnmount(() => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  if(!state.showRecoveryPopup) {
+     const tour = new Shepherd.Tour({
+    defaultStepOptions: {
+      cancelIcon: {
+        enabled: true
+      },
+      classes: 'shepherd-theme-arrows',
+      scrollTo: { behavior: 'smooth', block: 'center' },
+    },
+    useModalOverlay: true
+  })
+
+  tour.addStep({
+    id: 'recommended',
+    text: 'זאת המסעדה שאנחנו חושבים שתאהב הכי הרבה 🍕',
+    attachTo: {
+      element: '.recommended-card',
+      on: 'bottom'
+    },
+    buttons: [
+      {
+        text: 'הבנתי',
+         action: function () {
+          this.complete() // סוגר את הסיור
+          setTimeout( () => {
+             state.cardNumber++ 
+          }, 1000)
+        }
+      }
+    ]
+  })
+
+  tour.start()
+  }
 });
 
 

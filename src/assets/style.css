@@ -20,6 +20,52 @@
   text-align: center;
 }
 
+.shepherd-theme-arrows .shepherd-content {
+  background-color: #000 !important;
+  color: #fff !important;
+  text-align: center;
+  border-radius: 12px !important;
+  font-family: 'Varela Round', sans-serif !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  max-width: none !important;
+  width: fit-content !important;
+  min-width: 250px !important;
+  padding: 1rem !important;
+}
+
+.shepherd-theme-arrows .shepherd-button {
+  background-color: #48cae4 !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  padding: 6px 16px !important;
+  display: block; /* Ensure it can be centered */
+  margin: 1rem auto 0 auto !important; /* Top auto-centering with spacing */
+  transition: background-color 0.3s !important;
+}
+.shepherd-theme-arrows .shepherd-button:hover {
+  background-color: #30bcd3 !important;
+}
+
+.shepherd-theme-arrows .shepherd-header {
+  display: none !important;
+}
+
+.shepherd-theme-arrows .shepherd-text {
+  font-size: 1rem !important;
+  color: #eee !important;
+}
+
+/* אפס גבולות של החץ הדיפולטי */
+.shepherd-arrow::before {
+  border: none !important;
+}
+
+.shepherd-arrow::before {
+  background: #000 !important;
+}
+
+    
 @theme {
    --font-title: 'Heebo' !important;
   --animate-zoomIn: zoomIn 1s ease-out forwards;

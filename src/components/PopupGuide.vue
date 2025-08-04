@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch} from 'vue';
+import { ref, onMounted, computed, watch, toRef} from 'vue';
 import { popupState } from '../stores/popup';
 import { useAppState } from '../stores/appState'; 
 import OrdersTable from '../data/OrdersTable.json'
@@ -34,12 +34,13 @@ const props = defineProps({
   stepInfo: Object,
 });
 
-const cardNumber = ref(state.cardNumber || 0);
-// const firstCard = computed(() => props.stepInfo?.cards?.[cardNumber.value]);
+const cardNumber = toRef(state, 'cardNumber');
+
 const firstCard = computed(() => {
   if (popupState.manualCard !== null) return popupState.manualCard;
-  return props.stepInfo?.cards?.[cardNumber.value ?? 0];  // כאן לוודא שיש default
+  return props.stepInfo?.cards?.[state.cardNumber ?? 0];
 });
+
 
 const showPopup = ref(false);
 const chosenView = computed(() => state.activeSubView);
@@ -238,13 +239,13 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div v-if="popupState.isVisible || (showPopup && stepInfo)"
+  <div v-if="popupState.isVisible || (showPopup && stepInfo && !firstCard.ignore)"
   class="fixed top-0 right-0 z-60 bg-black/[.75] w-screen h-screen flex justify-center items-center"
-   :key="`popup-${popupState.manualCard?.id ?? 'default'}`"
-  :class="{ 'fade-enter': firstCard?.id === 1 }">
+   :key="`popup-${popupState.manualCard?.id ?? 'default'}-${firstCard?.id ?? 'manual'}`"
+  :class="{ 'fade-enter': firstCard?.id === 1 || stepInfo.step === 4 && firstCard?.id === 2}">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#E6F8FA] p-4 rounded-xl shadow-lg text-center popup-container"
     :key="`${stepInfo.step}-${cardNumber}`" 
-    :class="{ 'animate-zoom': firstCard.id === 1 }">
+    :class="{ 'animate-zoom': firstCard.id === 1 || stepInfo.step === 4 && firstCard?.id === 2}">
       
       <p v-if="firstCard.preTitle" class="mb-3">{{ firstCard.preTitle }}</p>
       <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]" v-html="firstCard.title"></h2>

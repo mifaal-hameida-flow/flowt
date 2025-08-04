@@ -37,8 +37,11 @@ onMounted(() => {
     shown: showAutoTooltip,
     html: true
     } : null"
-      class="bg-white rounded-2xl shadow-md w-80 m-4 overflow-hidden hover:shadow-lg transition-shadow duration-200"
-      @click="restaurantInfo.showTooltip && repeatTooltip()"
+      :class="[
+    'bg-white rounded-2xl shadow-md w-80 m-4 overflow-hidden hover:shadow-lg transition-shadow duration-200',
+    restaurantInfo.showTooltip ? 'recommended-card' : ''
+  ]"
+  @click="restaurantInfo.showTooltip && repeatTooltip()"
     >
       <!-- תמונה -->
       <div class="h-40 w-full overflow-hidden relative">
