@@ -16,7 +16,7 @@ const tooltipContent = {
   price: 'זה <strong style="color:#48cae4;">נתון מובנה</strong> – נשמר בשדה מוגדר – <br>אפשר לחשב ולסנן לפי מחיר',
   description: 'זה <strong style="color:#48cae4;">נתון לא מובנה</strong> –  טקסט חופשי, <br>לא נכנס לשדה מוגדר – אי אפשר לנתח אותו אוטומטית',
   preferences: '<strong style="color:#48cae4;">נתון מובנה</strong> - בחירה מתוך ערכים קבועים<br> (למשל "בלי גבינה", "תוספת זיתים"). <br>המערכת שומרת כל בחירה כשדה ברור.',
-  notes: '<strong style="color:#48cae4;">נתון לא מובנה</strong> – טקסט שהמשתמש כותב חופשי (כמו "בלי חריף בבקשה")<br>.המערכת לא יכולה להבין או לנתח את התוכן הזה לבד.',
+  notes: '<strong style="color:#48cae4;">נתון לא מובנה</strong> – טקסט שהמשתמש כותב חופשי (כמו "בלי חריף בבקשה")<br>המערכת לא יכולה להבין או לנתח את התוכן הזה לבד.',
   finishOrder: 'לחצו עליי ותראו איך ההזמנה שלכם<br> נשמרת בהיסטוריית ההזמנות!'
 }
 
@@ -428,9 +428,10 @@ onMounted(() => {
             <span class="font-medium">{{ quantity }}</span>
             <button @click="increase" class="w-8 h-8 rounded-full bg-gray-200 text-lg" :disabled="state.step === 6 && !allTooltipsSeen">+</button>
           </div>
+            <!-- :disabled="state.step === 6 && !allTooltipsSeen && state.cardNumber === 0" -->
           <button
-            class="w-full bg-[#00BEE5] text-white py-3 rounded-xl text-lg font-semibold"
-            :disabled="state.step === 6 && !allTooltipsSeen"
+           class="w-full text-white py-3 rounded-xl text-lg font-semibold bg-[#00BEE5]"
+            :disabled="state.step < 7"
             @click.once="saveData"
           >
             הוספה להזמנה - ₪{{ totalPrice.toFixed(2) }}

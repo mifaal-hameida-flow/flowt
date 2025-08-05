@@ -88,12 +88,13 @@ export const useAppState = defineStore('appState', {
 
     const conditions = [];
     const LRM = '\u200E'; // Left-to-Right Mark
-    const RLM = '\u200F'; // Right-to-Left Mark
+
 
     if (filters.selectedCategory) {
-     conditions.push(`type = '${RLM}${filters.selectedCategory}${RLM}'`);
+      const category = filters.selectedCategory;
+      conditions.push(`type = '${category}'`);
     }
-    
+
     if (filters.selectedRating) {
       conditions.push(`rating >= ${filters.selectedRating}`);
     }
@@ -109,6 +110,8 @@ export const useAppState = defineStore('appState', {
     }
     const whereClause = conditions.length > 0 ? `WHERE\n  ${conditions.join('\n  AND ')}` : '';
     this.generatedQueryString = `SELECT * FROM Orders\n${whereClause};`;
+    console.log([...this.generatedQueryString].map(c => c.charCodeAt(0)));
+
   },
   clearFilters() {
     this.selectedFilters = {

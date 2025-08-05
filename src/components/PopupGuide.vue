@@ -373,14 +373,12 @@ onMounted(() => {
               :yField="firstCard.chart.yField"
             />
           </div>
-
+                
           <pre
             v-if="firstCard.dynamicSql"
-            class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm text-left whitespace-pre leading-tight"
-            style="unicode-bidi: plaintext; direction: ltr;"
-          >
-            {{ query }}
-          </pre>
+            class="bg-gray-900 text-green-400 p-4 rounded-lg text-sm leading-tight sql-snippet"
+            v-text="query"
+          />
 
           <div v-if="firstCard.ordersTable">
             <div v-if="newOrders.length === 0" style="overflow-x: auto; display: flex; justify-content: center; margin-top: 0.5rem;">
@@ -669,6 +667,14 @@ input:focus {
 
 .z-65 {
   z-index: 65;
+}
+
+.sql-snippet {
+  direction: ltr;
+  unicode-bidi: plaintext; /* מפתח! */
+  text-align: left;
+  font-family: monospace;
+  white-space: pre-wrap;
 }
 
 
