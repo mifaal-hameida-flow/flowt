@@ -3,6 +3,9 @@ import BottomBar from '../components/BottomBar.vue';
 import { useAppState } from '../stores/appState';
 import orderHistory from '../data/OrderHistory.json';
 import HistoryRestaurants from '../data/HistoryRestaurants.json'
+import { popupState } from '../stores/popup';
+import Shepherd from 'shepherd.js'
+import 'shepherd.js/dist/css/shepherd.css'
 import { computed, watch, ref } from 'vue';
 
 const state = useAppState();
@@ -77,9 +80,85 @@ function applyFilters() {
   });
   state.nextStep();
 }
+const handleClick = () => {
+  if ((state.step === 9 && !state.showPopup && !showTooltip.value) || state.step === 10) {
+
+
+    if (state.step === 10) {
+      popupState.manualCard = {
+        id: 'manual-2',
+        title: 'אופס!',
+        message: ['אי אפשר ללחוץ על זה עכשיו...🫣', 'לחצו על "מומלץ עבורך" כדי לראות את הגרפים'],
+        buttonTask: {
+          msg: 'הבנתי',
+          src: '././media/buttons/click.png'
+        }
+      };
+    } else {
+      popupState.manualCard = {
+        id: 'manual-1',
+        title: 'אופס!',
+        message: ['אי אפשר ללחוץ על זה עכשיו...🫣', 'לחצו על המסנן כדי להמשיך בלומדה'],
+        buttonTask: {
+          msg: 'הבנתי',
+          src: '././media/buttons/click.png'
+        }
+      };
+    }
+
+    popupState.isVisible = true;
+  }
+}
+
+watch(
+  () => popupState.isVisible,
+  (newVal, oldVal) => {
+    if (oldVal === true && newVal === false && state.step === 10 ) {
+      // מתחילים את הטור אחרי שהפופאפ הידני נסגר
+      startRecommendedTour();
+    }
+  }, { immediate: true }
+);
 
 
 
+const startRecommendedTour = () => {
+  showTooltip.value = false; // 👈 כיבוי הטולטיפ
+  const tour = new Shepherd.Tour({
+    defaultStepOptions: {
+      cancelIcon: {
+        enabled: true
+      },
+      classes: 'shepherd-theme-arrows',
+      scrollTo: { behavior: 'smooth', block: 'center' },
+    },
+    useModalOverlay: true,
+  });
+
+  tour.addStep({
+    id: 'recommended-bar',
+    text: 'לחצו עליי כדי להמשיך לחלק הבא בלומדה',
+    attachTo: {
+      element: '.recommended-bar',
+      on: 'top'
+    },
+    highlightClass: '',
+    scrollTo: false,
+    modalOverlayOpeningPadding: 2,
+    buttons: [],
+  });
+
+  tour.start();
+
+   const target = document.querySelector('.recommended-bar');
+  if (target) {
+    const onClick = () => {
+      tour.complete(); // or tour.hide()
+      target.removeEventListener('click', onClick); // cleanup
+    };
+    target.addEventListener('click', onClick);
+  }
+};
 watch(() => state.showPopup, (newVal) => {
   if (newVal === false) {
     showTooltip.value = false;
@@ -127,8 +206,8 @@ watch(() => state.showPopup, (newVal) => {
             v-for="(order, index) in filteredOrders"
             :key="index"
             class="flex justify-between items-center border-b py-4"
+            @click="handleClick"
             >
-            <!--   @click="goToRestaurant(order.restaurantName)" -->
               <!-- צד ימין: שם המסעדה + שעה ותאריך -->
             <div class="flex flex-col text-right">
                 <div class="font-semibold text-lg leading-tight"
@@ -251,7 +330,7 @@ watch(() => state.showPopup, (newVal) => {
 
 
     
-    <BottomBar :active="'אזור אישי'" />
+    <BottomBar :active="'אזור אישי'" :showTooltip="showTooltip" />
   </div>
 </template>
 

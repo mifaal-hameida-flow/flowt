@@ -110,8 +110,6 @@ export const useAppState = defineStore('appState', {
     }
     const whereClause = conditions.length > 0 ? `WHERE\n  ${conditions.join('\n  AND ')}` : '';
     this.generatedQueryString = `SELECT * FROM Orders\n${whereClause};`;
-    console.log([...this.generatedQueryString].map(c => c.charCodeAt(0)));
-
   },
   clearFilters() {
     this.selectedFilters = {

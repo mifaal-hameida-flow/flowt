@@ -263,17 +263,22 @@ let idleTimer = null;
 const resetIdleTimer = () => {
   if (idleTimer) clearTimeout(idleTimer);
 
+  let timeOfWait = 4000;
   if (state.step === 6 && !allTooltipsSeen.value && !tooltipIsActive.value) {
-    idleTimer = setTimeout(() => {
-      const unseenKeys = Object.keys(seenTooltips.value).filter(key => !seenTooltips.value[key]);
-      if (unseenKeys.length === 0) return;
+    const unseenKeys = Object.keys(seenTooltips.value).filter(key => !seenTooltips.value[key]);
+    
+    if (unseenKeys.length !== 0) {
+      const hasSeenAny = Object.keys(seenTooltips.value).some(key => seenTooltips.value[key]);
+      if (hasSeenAny) timeOfWait = 8000;
 
-      const randomKey = unseenKeys[Math.floor(Math.random() * unseenKeys.length)];
-      startSingleStepTour(randomKey);
-    }, 8000); // 8 secs
-        // }, 40000); // 40 sec
+      idleTimer = setTimeout(() => {
+        const randomKey = unseenKeys[Math.floor(Math.random() * unseenKeys.length)];
+        startSingleStepTour(randomKey);
+      }, timeOfWait);
+    }
   }
 };
+
 
 const userActivityEvents = ['click'];
 

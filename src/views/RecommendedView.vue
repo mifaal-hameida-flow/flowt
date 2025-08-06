@@ -36,8 +36,8 @@ onBeforeUnmount(() => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
-  if(!state.showRecoveryPopup || !state.showPopup) {
-     const tour = new Shepherd.Tour({
+  if((!state.showRecoveryPopup || !state.showPopup) && state.step !== 11) {
+    const tour = new Shepherd.Tour({
     defaultStepOptions: {
       cancelIcon: {
         enabled: true
