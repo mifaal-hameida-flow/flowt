@@ -1,7 +1,9 @@
 <script setup>
-import { ref, computed, watch, onMounted} from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount} from 'vue'
 import { useAppState } from '../stores/appState'; 
 import { vTooltip } from 'floating-vue'
+import Shepherd from 'shepherd.js';
+import 'shepherd.js/dist/css/shepherd.css';
 
 const state = useAppState();
 
@@ -41,6 +43,70 @@ const visibleTooltips = ref({
 const allTooltipsSeen = computed(() =>
   Object.values(seenTooltips.value).every(Boolean)
 )
+
+let tour = null;
+
+const startSingleStepTour = (key) => {
+  if (tooltipIsActive.value || seenTooltips.value[key]) return;
+
+  const element = document.querySelector(`.${key}-part`);
+  if (!element) return;
+
+  if (tour) {
+    tour.cancel();
+    tour = null;
+  }
+
+  tour = new Shepherd.Tour({
+    defaultStepOptions: {
+      cancelIcon: { enabled: false }, // 👈 שורה קריטית
+      classes: 'shepherd-theme-arrows',
+      scrollTo: true,
+      scrollToHandler: (el) => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      },
+      highlightClass: 'highlight-element',
+    },
+    useModalOverlay: true,
+  });
+
+  tour.addStep({
+    id: key,
+    text: '💡 לחצו על האזור המסומן כדי לחשוף את ההסבר',
+    attachTo: {
+      element,
+      on: key === 'price' ? 'bottom' : 'auto',
+    },
+    buttons: [],
+  });
+
+  tour.on('cancel', () => {
+    tooltipIsActive.value = false;
+    resetIdleTimer();
+  });
+
+  tour.on('complete', () => {
+    tooltipIsActive.value = false;
+    resetIdleTimer();
+  });
+
+  tour.start();
+  tooltipIsActive.value = true;
+
+  const handleClick = () => {
+    tour.complete();
+    tour = null;
+
+    setTimeout(() => {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 3);
+
+    showTooltipTemporarily(key);
+    element.removeEventListener('click', handleClick);
+  };
+
+  element.addEventListener('click', handleClick);
+};
 
 
 const handleOptionChange = (prefIndex, option, isSingle) => {
@@ -139,6 +205,7 @@ const showTooltipTemporarily = (key) => {
     seenTooltips.value[key] = true;
     visibleTooltips.value[key] = false;
     tooltipIsActive.value = false;
+    resetIdleTimer(); // 👈 הוספת שורת reset פה
   }, 5000);
 };
 
@@ -191,6 +258,25 @@ watch(allTooltipsSeen, (val) => {
   }
 })
 
+let idleTimer = null;
+
+const resetIdleTimer = () => {
+  if (idleTimer) clearTimeout(idleTimer);
+
+  if (state.step === 6 && !allTooltipsSeen.value && !tooltipIsActive.value) {
+    idleTimer = setTimeout(() => {
+      const unseenKeys = Object.keys(seenTooltips.value).filter(key => !seenTooltips.value[key]);
+      if (unseenKeys.length === 0) return;
+
+      const randomKey = unseenKeys[Math.floor(Math.random() * unseenKeys.length)];
+      startSingleStepTour(randomKey);
+    }, 8000); // 8 secs
+        // }, 40000); // 40 sec
+  }
+};
+
+const userActivityEvents = ['click'];
+
 onMounted(() => {
   const existingOrder = state.currOrder.find(order =>
     order.dishId === state.selectedDish.id || order.dishName === state.selectedDish.name
@@ -216,7 +302,22 @@ onMounted(() => {
   if (state.step===8) {
     showTooltip();
   }
+
+  userActivityEvents.forEach(event =>
+    window.addEventListener(event, resetIdleTimer, { passive: true })
+  );
+
+  resetIdleTimer(); // Start timer
 })
+
+
+onBeforeUnmount(() => {
+  userActivityEvents.forEach(event =>
+    window.removeEventListener(event, resetIdleTimer)
+  );
+
+  if (idleTimer) clearTimeout(idleTimer);
+});
 
 </script>
 
@@ -238,7 +339,7 @@ onMounted(() => {
   <img
     :src="state.selectedDish.image"
     alt="Dish Image"
-    class="w-full h-64 object-cover"
+    class="w-full h-64 object-cover image-part"
     v-tooltip="getTooltipContent('image')"
     @click.stop="!tooltipIsActive && showTooltipTemporarily('image')"
   />
@@ -273,13 +374,13 @@ onMounted(() => {
 
             v-tooltip="getTooltipContent('title')"
            @click.stop="!tooltipIsActive && showTooltipTemporarily('title')"
-            class="cursor-pointer"
+            class="cursor-pointer title-part"
           >
             {{ state.selectedDish.name }}
           </span>
         </h1>
         <div v-if="seenTooltips.title && state.step === 6" class="ml-2 font-normal mb-2 text-xs text-gray-400">👁️ נצפה</div>
-        <span class="text-[#00BEE5] text-lg font-semibold mb-2 cursor-pointer"
+        <span class="text-[#00BEE5] text-lg font-semibold mb-2 cursor-pointer price-part"
           :class="{
           'border-2 rounded-md p-1': visibleTooltips.price,
           'border-[#00BEE5]': visibleTooltips.price && !seenTooltips.price,
@@ -294,7 +395,7 @@ onMounted(() => {
         <div v-if="seenTooltips.price && state.step === 6" class="ml-2 text-xs font-normal max-w-12 text-gray-400">👁️ נצפה</div>
 
         <!-- Description -->
-        <p class="text-gray-600 text-sm mt-2 mb-4 whitespace-pre-line cursor-pointer"
+        <p class="text-gray-600 text-sm mt-2 mb-4 whitespace-pre-line cursor-pointer description-part"
           :class="{
           'border-2 rounded-md p-1': visibleTooltips.description,
           'border-[#00BEE5]': visibleTooltips.description && !seenTooltips.description,
@@ -318,7 +419,7 @@ onMounted(() => {
             'border-[#00BEE5]': visibleTooltips.preferences && !seenTooltips.preferences,
             'border-gray-300 opacity-70': visibleTooltips.preferences && seenTooltips.preferences
           }"
-          class="space-y-6"
+          class="space-y-6 preferences-part"
         >
           
           <div v-for="(pref, index) in state.selectedDish.preferences" :key="index">
@@ -390,7 +491,7 @@ onMounted(() => {
         </div>
         <span v-if="seenTooltips.preferences && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</span>
 
-        <div class="mt-4 px-2 relative"
+        <div class="mt-4 px-2 relative notes-part"
         :class="{
           'border-2 rounded-md p-1': visibleTooltips.notes,
           'border-[#00BEE5]': visibleTooltips.notes && !seenTooltips.notes,
@@ -472,4 +573,19 @@ onMounted(() => {
   transform: translateY(0%);
   opacity: 1;
 }
+
+/* .highlight-element {
+  box-shadow: 0 0 0 4px #00BEE5AA !important;
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+}
+ */
+
+.highlight-element {
+  box-shadow: 0 0 0 4px #00BEE5AA !important;
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+
 </style>

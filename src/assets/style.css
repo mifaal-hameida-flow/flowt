@@ -36,9 +36,9 @@
 .shepherd-element,
 .shepherd-step,
 .shepherd-content {
-  width: auto !important;
-  max-width: 300px !important;
-  display: inline-block !important;
+  width: fit-content !important;
+  /* max-width: 300px !important; */
+  /* display: inline-block !important; */
 }
 .shepherd-element.w-full {
   width: auto !important;
@@ -74,6 +74,11 @@
   padding: 0.25rem !important;
 }
 
+.shepherd-theme-arrows .shepherd-enabled {
+ width: fit-content !important;
+}
+
+
 .shepherd-theme-arrows .shepherd-button {
   background-color: #48cae4 !important;
   color: #fff !important;
@@ -89,6 +94,11 @@
 }
 
 .shepherd-theme-arrows .shepherd-header {
+  display: none !important;
+}
+
+/* ביטול מוחלט של אייקון הסגירה */
+.shepherd-theme-arrows .shepherd-cancel-icon {
   display: none !important;
 }
 
