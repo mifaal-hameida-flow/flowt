@@ -10,6 +10,8 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(['dish-blocked']);
+
 const handleMenuItem = () => {
   if (state.step === 3 && state.step3clickable) {
     popupState.manualCard = {
@@ -22,9 +24,9 @@ const handleMenuItem = () => {
           }
     };
     popupState.isVisible = true;
+    emit('dish-blocked');
   }
 }
-
 </script>
 
 <template>

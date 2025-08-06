@@ -247,12 +247,12 @@ onMounted(() => {
   class="fixed top-0 right-0 z-61 bg-black/[.75] w-screen h-screen flex justify-center items-center"
    :key="`popup-${popupState.manualCard?.id ?? 'default'}-${firstCard?.id ?? 'manual'}`"
     :class="{
-      'fade-enter': firstCard?.id === 1 || (stepInfo.step === 4 && firstCard?.id === 2),
+      'fade-enter': firstCard?.id === 1 || (stepInfo.step === 4 && firstCard?.id === 2) || popupState.isVisible,
       'z-65': popupState.isVisible
     }">
     <div class="flex flex-col mx-8 my-4 items-center justify-center bg-[#E6F8FA] p-4 rounded-xl shadow-lg text-center popup-container"
     :key="`${stepInfo.step}-${cardNumber}`" 
-    :class="{ 'animate-zoom': firstCard.id === 1 || stepInfo.step === 4 && firstCard?.id === 2}">
+    :class="{ 'animate-zoom': firstCard.id === 1 || stepInfo.step === 4 && firstCard?.id === 2 || popupState.isVisible}">
       
       <p v-if="firstCard.preTitle" class="mb-3">{{ firstCard.preTitle }}</p>
       <h2 v-if="firstCard.title" class="text-xl font-bold mb-4 text-[#48cae4] font-title [text-shadow:1px_1px_2px_rgba(0,0,0,0.3)]" v-html="firstCard.title"></h2>

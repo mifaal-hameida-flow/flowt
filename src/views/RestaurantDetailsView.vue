@@ -6,12 +6,15 @@ import { ref, toRef, watch, onUnmounted, onMounted } from 'vue';
 import BottomBar from '../components/BottomBar.vue';
 import { popupState } from '../stores/popup';
 import { useAppState } from '../stores/appState'; 
+import Shepherd from 'shepherd.js'
+import 'shepherd.js/dist/css/shepherd.css'
 const state = useAppState();
 
 const showBottomBar = ref(false);
 const showTooltip = ref(false);
 const shouldListen = toRef(state, 'startListening') // make it a ref
 const reverseLottieRef = ref(null)
+const shouldStartRecommendedTour = ref(false);
 
 watch(
   () => state.showPopup,
@@ -23,6 +26,17 @@ watch(
     }
   },
   { immediate: true }
+);
+
+watch(
+  () => popupState.isVisible,
+  (newVal, oldVal) => {
+    if (oldVal === true && newVal === false && state.step === 3 && shouldStartRecommendedTour.value) {
+      // מתחילים את הטור אחרי שהפופאפ הידני נסגר
+      startRecommendedTour();
+      shouldStartRecommendedTour.value = false;
+    }
+  }, { immediate: true }
 );
 
 
@@ -123,15 +137,61 @@ const translateSection = (section) => {
   return map[section] || section;
 }
 
-const nextStep = () => {
-  state.nextStep();
-}
-
 const handleDishSelection = (dish) => {
   if (state.step !== 3) {
     state.setDish(dish);
   }
 }
+
+const onDishBlocked = () => {
+  // מחכה שה-popup יסגר ואז מפעיל את הטור
+  shouldStartRecommendedTour.value = true;
+};
+
+const startRecommendedTour = () => {
+  showTooltip.value = false; // 👈 כיבוי הטולטיפ
+  const tour = new Shepherd.Tour({
+    defaultStepOptions: {
+      cancelIcon: {
+        enabled: true
+      },
+      classes: 'shepherd-theme-arrows',
+      scrollTo: { behavior: 'smooth', block: 'center' },
+    },
+    useModalOverlay: true,
+  });
+
+  tour.addStep({
+    id: 'recommended-bar',
+    text: 'לחצו עליי כדי להמשיך לחלק הבא בלומדה',
+    attachTo: {
+      element: '.recommended-bar',
+      on: 'top'
+    },
+    highlightClass: '',
+    scrollTo: false,
+    modalOverlayOpeningPadding: 2,
+    buttons: [],
+  });
+
+  tour.start();
+
+   const target = document.querySelector('.recommended-bar');
+  if (target) {
+    const onClick = () => {
+      tour.complete(); // or tour.hide()
+      target.removeEventListener('click', onClick); // cleanup
+    };
+    target.addEventListener('click', onClick);
+  }
+};
+
+onMounted(() => {
+  if (state.step === 10) {
+    showTooltip.value = true;
+  }
+});
+
 
 </script>
 <template>
@@ -204,6 +264,7 @@ const handleDishSelection = (dish) => {
           <DishCard
             v-for="(dish, index) in dishes" :key="index" :dish="dish"
             @click="handleDishSelection(dish)"
+            @dish-blocked="onDishBlocked"
           />
         </div>
       </div>
@@ -215,7 +276,6 @@ const handleDishSelection = (dish) => {
       <BottomBar
         v-if="showBottomBar"
         :show-tooltip="showTooltip" 
-        @next-step="nextStep"
       />
     </transition>
   </div>

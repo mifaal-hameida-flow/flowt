@@ -30,7 +30,36 @@
 /* האלמנט של הטולטיפ */
 .shepherd-element {
   z-index: 65 !important; /* צריך להיות מעל overlay, אבל מתחת לדברים אחרים אם רוצים */
+  opacity: 0.8 !important;
+  border-radius: 12px !important;
 }
+.shepherd-element,
+.shepherd-step,
+.shepherd-content {
+  width: auto !important;
+  max-width: 300px !important;
+  display: inline-block !important;
+}
+.shepherd-element.w-full {
+  width: auto !important;
+}
+.shepherd-step[data-id="recommended-bar"] .shepherd-element {
+  display: inline-block !important;
+   width: fit-content !important;
+  max-width: 300px !important;
+}
+.shepherd-step[data-id="recommended-bar"] .shepherd-content {
+  width: auto !important;
+  max-width: 300px !important;
+}
+
+.shepherd-enabled {
+  border-radius: 12px !important;
+  box-shadow: 0 0 0 8px rgba(72, 202, 228, 0.5); /* soft glow */
+  position: relative;
+  z-index: 70; /* ensure it's on top */
+}
+
 
 .shepherd-theme-arrows .shepherd-content {
   background-color: #000 !important;
@@ -42,7 +71,7 @@
   max-width: none !important;
   width: fit-content !important;
   min-width: 250px !important;
-  padding: 1rem !important;
+  padding: 0.25rem !important;
 }
 
 .shepherd-theme-arrows .shepherd-button {

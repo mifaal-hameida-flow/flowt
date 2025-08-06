@@ -50,7 +50,7 @@ onMounted(() => {
 
   tour.addStep({
     id: 'recommended',
-    text: 'זאת המסעדה שאנחנו חושבים שתאהב הכי הרבה 🍕',
+    text: 'מהנתונים שנאספו עליך, נראה שתאהב מאוד את המסעדה הזאת!🍕',
     attachTo: {
       element: '.recommended-card',
       on: 'bottom'

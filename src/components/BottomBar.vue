@@ -122,7 +122,10 @@ onMounted(() => {
   <div class="bg-white shadow-top flex justify-around p-4 sticky bottom-0 w-full z-60 " >
     <div v-for="(icon, index) in bottomBarData" :key="index" class="flex flex-col items-center bottom-bar-item"  v-tooltip="getTooltipContent(index)"
         @click="(event) => handleClick(event, index)"
-        :class="(state.step === 3 && index === 0) || (state.step === 10 && index === 0 && !state.showPopup) ? 'animate-pulse' : ''">
+          :class="[
+          (state.step === 3 && index === 0) || (state.step === 10 && index === 0 && !state.showPopup) ? 'animate-bounce recommended-bar' : '',
+          icon.active && 'active'
+        ]">
       <img :src="icon.src" :class="['w-8 h-8 mb-1', icon.active && 'active']" :alt=icon.text />
       <div :class="['text-[0.85rem]', icon.active && 'active']">{{ icon.text }}</div>
     </div>
