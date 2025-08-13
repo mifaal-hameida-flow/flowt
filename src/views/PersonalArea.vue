@@ -20,6 +20,7 @@ const endDate = ref(null);
 const filterPanelOpen = ref(false);
 const selectedCategory = ref(null);
 const selectedRating = ref(null);
+const showingFilterTour = ref(null);
 
 const filteredOrders = computed(() => {
   return sortedOrders.value.filter(order => {
@@ -81,7 +82,7 @@ function applyFilters() {
   state.nextStep();
 }
 const handleClick = () => {
-  if ((state.step === 9 && !state.showPopup && !showTooltip.value) || state.step === 10) {
+  if ((state.step === 9 && !state.showPopup && !showTooltip.value) || (state.step === 10 && state.cardNumber > 0)) {
 
 
     if (state.step === 10) {
@@ -94,6 +95,7 @@ const handleClick = () => {
           src: '././media/buttons/click.png'
         }
       };
+      
     } else {
       popupState.manualCard = {
         id: 'manual-1',
@@ -114,12 +116,11 @@ watch(
   () => popupState.isVisible,
   (newVal, oldVal) => {
     if (oldVal === true && newVal === false && state.step === 10 ) {
-      // מתחילים את הטור אחרי שהפופאפ הידני נסגר
+      // מתחילים את הטור אחרי שהפופאפ נסגר
       startRecommendedTour();
     }
   }, { immediate: true }
 );
-
 
 
 const startRecommendedTour = () => {
@@ -159,12 +160,66 @@ const startRecommendedTour = () => {
     target.addEventListener('click', onClick);
   }
 };
+
+const waitForElement = (selector, callback) => {
+  const el = document.querySelector(selector);
+  if (el) return callback(el);
+  setTimeout(() => waitForElement(selector, callback), 100);
+};
+
+const startFilterTour = () => {
+  showingFilterTour.value = true;
+
+  waitForElement('.filter-btn', (target) => {
+    const tour = new Shepherd.Tour({
+      defaultStepOptions: {
+        cancelIcon: { enabled: true },
+        classes: 'shepherd-theme-arrows',
+        scrollTo: { behavior: 'smooth', block: 'center' },
+      },
+      useModalOverlay: true,
+    });
+
+    tour.addStep({
+      id: 'filter-btn',
+      text: 'לחצו עליי כדי להמשיך לחלק הבא בלומדה',
+      attachTo: {
+        element: target,
+        on: 'top'
+      },
+      highlightClass: '',
+      scrollTo: false,
+      modalOverlayOpeningPadding: 2,
+      buttons: [],
+    });
+
+    tour.start();
+
+    const onClick = () => {
+      tour.complete();
+      target.removeEventListener('click', onClick);
+    };
+    target.addEventListener('click', onClick);
+  });
+};
+
+
 watch(() => state.showPopup, (newVal) => {
   if (newVal === false) {
     showTooltip.value = false;
   }
 },  
 { immediate: true }
+);
+
+watch(
+  () => popupState.isVisible,
+  (newVal, oldVal) => {
+    if (oldVal === true && newVal === false && state.step===9 && state.cardNumber===4) {
+      // מתחילים את הטור אחרי שהפופאפ הידני נסגר
+     startFilterTour();
+    }
+  }, { immediate: true }
 );
 
 </script>
@@ -177,13 +232,14 @@ watch(() => state.showPopup, (newVal) => {
       </div>
 
       <button
+        id="filter-btn"
         v-if="state.step === 9 && !state.showPopup"
         @click="filterPanelOpen = !filterPanelOpen"
-        class="flex items-center gap-1 bg-[#48cae4] text-white px-3 py-1.5 rounded-full text-sm shadow-md"
+        class="flex items-center gap-1 bg-[#48cae4] text-white px-3 py-1.5 rounded-full text-sm shadow-md filter-btn"
           v-tooltip="!filterPanelOpen && !state.progressBarOpen ? {
                     content: 'לחצו עליי כדי להתחיל לסנן!',
                     triggers: [],
-                    shown: true,
+                    shown: !showingFilterTour,
                     placement: 'left',
                     html: true
                 } : null"

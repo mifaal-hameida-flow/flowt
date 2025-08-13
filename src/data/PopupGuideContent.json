@@ -526,7 +526,7 @@
         "buttonBack": true,
         "buttonTask": {
           "src": "././media/buttons/knowledge.png",
-          "msg": "הבנתי מגניב"
+          "msg": "הבנתי מגניב!"
         }
       }
     ]
@@ -536,11 +536,22 @@
     "cards": [
       {
         "id": 1,
-         "delay": 2500,
-        "title": "שמעתם פעם על מערכת <img src='public/media/LOGO-FLOW.png'/>?",
+        "delay": 1500,
+        "title": "כמעט סיימנו!",
         "message": [
-          "הסברים על פלואו"
-        ]
+          "כפי שאפשר לראות במדד ההתקדמות שלך למעלה, אנחנו מאוד קרובים לסיום!",
+          "אז מה למדנו בינתיים?"
+        ],
+        "buttonNext": true
+      },
+      {
+        "id": 2,
+        "title": "כותרת 2!",
+        "message": [
+         
+        ],
+        "buttonNext": true,
+        "buttonBack": true
       }
     ]
   }

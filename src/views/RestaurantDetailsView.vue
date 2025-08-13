@@ -186,6 +186,18 @@ const startRecommendedTour = () => {
   }
 };
 
+
+watch(
+  () => popupState.isVisible,
+  (newVal, oldVal) => {
+    if (oldVal === true && newVal === false && state.step === 3 ) {
+      // מתחילים את הטור אחרי שהפופאפ נסגר
+      startRecommendedTour();
+    }
+  }, { immediate: true }
+);
+
+
 onMounted(() => {
   if (state.step === 10) {
     showTooltip.value = true;
