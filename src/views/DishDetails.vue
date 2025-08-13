@@ -267,9 +267,9 @@ const resetIdleTimer = () => {
   if (state.step === 6 && !allTooltipsSeen.value && !tooltipIsActive.value) {
     const unseenKeys = Object.keys(seenTooltips.value).filter(key => !seenTooltips.value[key]);
     
-    if (unseenKeys.length !== 0) {
+    if (unseenKeys.length !== 0 && !state.showPopup) {
       const hasSeenAny = Object.keys(seenTooltips.value).some(key => seenTooltips.value[key]);
-      if (hasSeenAny) timeOfWait = 8000;
+      if (hasSeenAny) timeOfWait = 6500;
 
       idleTimer = setTimeout(() => {
         const randomKey = unseenKeys[Math.floor(Math.random() * unseenKeys.length)];

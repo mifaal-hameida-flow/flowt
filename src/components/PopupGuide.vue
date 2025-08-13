@@ -5,6 +5,7 @@ import { useAppState } from '../stores/appState';
 import OrdersTable from '../data/OrdersTable.json'
 import { CheckCircle, XCircle } from 'lucide-vue-next'
 import ChartComponent from './ChartComponent.vue';
+import QueryResultTable from './QueryResultTable.vue';
 const state = useAppState();
 const originalOrders = OrdersTable;
 const newOrders = ref([]); 
@@ -373,6 +374,10 @@ onMounted(() => {
               :yField="firstCard.chart.yField"
             />
           </div>
+
+          <div v-if="firstCard.dataFrom && firstCard.chart === undefined">
+            <QueryResultTable :data="state.graphData[firstCard.dataFrom]" />
+          </div>
                 
           <pre
             v-if="firstCard.dynamicSql"
@@ -417,66 +422,60 @@ onMounted(() => {
         <!-- <p>{{ paragraph }}</p> -->
         <p v-html="paragraph"></p>
       </div>
+        <div v-if="stepInfo.step === 0" class="w-full flex flex-col items-center">
 
-      <!-- only relevant for the first step -->
-       <div v-if="stepInfo.step === 0" class="w-full flex flex-col items-center">
-                <!-- Button with text and image -->
-            <div v-if="firstCard.buttonTask && showGreeting"
-                class="px-4 py-2 bg-white flex items-center justify-between rounded-lg shadow-sm mt-2"
-                @click="handleTaskClick"
-                >
-                    <p class="text-s text-[#48cae4]">{{ firstCard.buttonTask.msg }}</p>
-                    <img :src="firstCard.buttonTask.src" alt="task image" class="mr-2 h-8 w-8 object-contain" />
-            </div>
-                <!-- Greeting -->
-            <div v-if="showGreeting"
-            class="text-black font-bold mt-2 self-start text-left w-full max-w-xs">
-            בתיאבון, {{ userName }}!
-            </div>
+  <!-- Greeting -->
+  <div v-if="showGreeting"
+       class="text-black font-bold mt-2 self-start text-left w-full max-w-xs">
+    בתיאבון, {{ userName }}!
+  </div>
 
-            <!-- Input Field -->
-            <div v-else-if="!showGreeting" class="relative w-full max-w-xs">
-                <input
-                class="bg-white p-1 pl-2 pr-6 w-full text-sm rounded-sm border"
-                :class="{
-                    'border-green-500': isValid,
-                    'border-red-500': userName && !isValid
-                }"
-                v-if="firstCard.input"
-                v-model="userName"
-                placeholder="הכניסו את שמכם..."
-                @input="handleInput"
-                />
-                <!-- Confirmation Button -->
-                <button
-                v-if="isValid && !showGreeting"
-                @click="confirmName"
-                class="mt-2 bg-[#48cae4] text-white px-4 py-1 rounded text-sm"
-                >
-                אישור
-                </button>
+  <!-- Input Field (נראה רק לפני אישור השם) -->
+  <transition name="fade-slide">
+    <div v-if="firstCard.id === 2 && !showGreeting" class="relative w-full max-w-xs">
+      <input
+        class="bg-white p-1 pl-2 pr-6 w-full text-sm rounded-sm border"
+        :class="{
+          'border-green-500': isValid,
+          'border-red-500': userName && !isValid
+        }"
+        v-model="userName"
+        placeholder="הכניסו את שמכם..."
+        @input="handleInput"
+      />
 
-                <!-- X Clear Button -->
-                <button
-                v-if="userName"
-                @click="clearInput"
-                class="absolute right-1 top-1 text-gray-500 hover:text-red-500 text-sm"
-                >
-                ✕
-                </button>
-                
-              <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
-                <template v-if="isValid">
-                  <CheckCircle class="w-4 h-4 text-green-600" />
-                  <span class="text-green-600">שם תקין</span>
-                </template>
-                <template v-else>
-                  <XCircle class="w-4 h-4 text-red-600" />
-                  <span class="text-red-600">שם לא תקין</span>
-                </template>
-              </div>
-            </div>
-        </div>
+      <button
+        @click="confirmName"
+        :disabled="!isValid"
+        class="mt-2 bg-[#48cae4] text-white px-4 py-1 rounded text-sm disabled:opacity-50"
+      >
+        אישור
+      </button>
+
+      <button
+        v-if="userName"
+        @click="clearInput"
+        class="absolute right-1 top-1 text-gray-500 hover:text-red-500 text-sm"
+      >
+        ✕
+      </button>
+
+      <div class="mt-1 flex items-center justify-center space-x-2 text-sm" v-if="userName">
+        <template v-if="isValid">
+          <CheckCircle class="w-4 h-4 text-green-600" />
+          <span class="text-green-600">שם תקין</span>
+        </template>
+        <template v-else>
+          <XCircle class="w-4 h-4 text-red-600" />
+          <span class="text-red-600">שם לא תקין</span>
+        </template>
+      </div>
+    </div>
+  </transition>
+
+</div>
+
+
         <!-- buttons container -->
         <div class="w-full flex items-center">
             <!-- Back Button -->
@@ -517,6 +516,15 @@ onMounted(() => {
                     <img :src="button.src" alt="task image" class="mr-1 h-6 w-6 object-contain" />
                 </span>
             </div>
+              <!--  step0 --- ButtonTask (נראה רק אחרי אישור השם) -->
+            <transition name="fade-slide">
+              <div v-if="stepInfo.step === 0 && firstCard.id === 2 && showGreeting && firstCard.buttonTask"
+                  class="px-4 py-2 bg-white flex items-center justify-start rounded-lg shadow-sm mt-4 cursor-pointer"
+                  @click="handleTaskClick">
+                <p class="text-sm text-[#48cae4]">{{ firstCard.buttonTask.msg }}</p>
+                <img :src="firstCard.buttonTask.src" alt="task image" class="mr-2 h-8 w-8 object-contain" />
+              </div>
+            </transition>
 
             <div class="w-full flex"  v-if="firstCard.buttonTask && stepInfo.step !== 0"
               :class="{
@@ -675,6 +683,18 @@ input:focus {
   text-align: left;
   font-family: monospace;
   white-space: pre-wrap;
+}
+
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all 0.4s ease;
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 
