@@ -188,7 +188,7 @@ const startFilterTour = () => {
         on: 'top'
       },
       highlightClass: '',
-      scrollTo: false,
+      scrollTo: true,
       modalOverlayOpeningPadding: 2,
       buttons: [],
     });

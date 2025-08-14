@@ -147,12 +147,15 @@ const clearInput = () => {
 
 const handleTaskClick = () => {
   // Only auto-advance on step 0
- if ( props.stepInfo.step === 0 || props.stepInfo.step === 2 || props.stepInfo.step === 11) {
+ if ( props.stepInfo.step === 0 || props.stepInfo.step === 2 || props.stepInfo.step === 11 || props.stepInfo.step === 12) {
     state.nextStep();
   } else {
     state.closePopup();
     if (state.step === 3) {
       state.step3clickable = true;
+    }
+    if (state.step === 13) {
+      state.progressBarOpen = true;
     }
   if (popupState.manualCard) { 
     handleManualClose();
@@ -245,7 +248,10 @@ onMounted(() => {
 </script>
 <template>
   <div v-if="popupState.isVisible || (showPopup && stepInfo && !firstCard.ignore)"
-  class="fixed top-0 right-0 z-61 bg-black/[.75] w-screen h-screen flex justify-center items-center"
+  class="fixed top-0 right-0 z-61 w-screen h-screen flex justify-center items-center"
+  :style="{
+    backgroundColor: state.step === 13 ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0.75)'
+  }"
    :key="`popup-${popupState.manualCard?.id ?? 'default'}-${firstCard?.id ?? 'manual'}`"
     :class="{
       'fade-enter': firstCard?.id === 1 || (stepInfo.step === 4 && firstCard?.id === 2) || popupState.isVisible,

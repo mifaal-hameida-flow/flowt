@@ -16,7 +16,7 @@
 }
 
 .v-popper__popper {
-  z-index: 65 !important; /* or whatever you need */
+  z-index: 60 !important; /* or whatever you need */
   text-align: center;
 }
 

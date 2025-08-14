@@ -11,6 +11,7 @@ import UserProgress from './components/UserProgress.vue'
 import { popupState } from './stores/popup'
 import { computed, onMounted, watch } from 'vue'
 import { useAppState } from './stores/appState'
+import FinishLine from './views/FinishLine.vue'
 
 const state = useAppState()
 
@@ -22,7 +23,8 @@ const currentViewComponent = computed(() => {
   if (state.step === 5) return RestaurantDetailsView
   if (state.step >= 6 && state.step < 9) return DishDetails
   if (state.step >= 9 && state.step < 11) return PersonalArea
-  if (state.step >= 11) return RecommendedView
+  if (state.step >= 11 && state.step < 13) return RecommendedView
+  if (state.step >= 13) return FinishLine
   // if (state.step >=10) return RestaurantDetailsView
   return HomeView
 })

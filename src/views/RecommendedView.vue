@@ -29,15 +29,14 @@ const selectRestaurant = (restaurant) => {
   }
 }
 
-// Cleanup
-onBeforeUnmount(() => {
-   window.removeEventListener('scroll', handleScroll);
-});
+
+let tour; // משתנה גלובלי לקומפוננטה
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
-  if((!state.showRecoveryPopup || !state.showPopup) && state.step !== 11) {
-    const tour = new Shepherd.Tour({
+  if(!state.showRecoveryPopup && state.step !== 11 ) {
+    if(!state.showPopup || state.step === 4) {
+    tour = new Shepherd.Tour({
     defaultStepOptions: {
       cancelIcon: {
         enabled: true
@@ -70,8 +69,16 @@ onMounted(() => {
 
   tour.start()
   }
+ }
 });
 
+// Cleanup
+onBeforeUnmount(() => {
+   window.removeEventListener('scroll', handleScroll);
+    if (tour) {
+    tour.cancel(); // סוגר את הסיור אם הוא פעיל
+  }
+});
 
 </script>
 
