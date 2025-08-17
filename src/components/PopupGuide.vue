@@ -481,6 +481,9 @@ onMounted(() => {
 
 </div>
 
+       <div v-if="firstCard.flowLogo" class="w-[80%]">
+          <img src="/public/media/LOGO-FLOW.png" alt="flow logo">
+      </div>
 
         <!-- buttons container -->
         <div class="w-full flex items-center">
