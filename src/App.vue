@@ -55,22 +55,22 @@ watch(currentViewComponent, () => {
 })
 
 onMounted(async () => {
-    let userId = getUserId()  // למשל מחולל UUID שמור ב-localStorage
+const userId = getUserId()
 
-  // בודקים אם כבר קיימת שורה עם userId הזה
-  const { data: existingRows, error } = await supabase
+  // בודקים אם כבר קיימת שורה
+  const { data: existingRows, error: selectError } = await supabase
     .from('logs')
     .select('user_id')
     .eq('user_id', userId)
-    .limit(1)
-    .single() // מחזיר אובייקט אחד או null
+    .limit(1) // מחזיר מערך ריק אם אין
+  
 
-  if (error && error.code !== 'PGRST116') { // PGRST116 = לא נמצא
-    console.error('Error checking existing user:', error)
+  if (selectError) {
+    console.error('Error checking user:', selectError)
     return
   }
 
-  if (!existingRows) {
+  if (!existingRows || existingRows.length === 0) {
     // משתמש חדש → יוצרים שורה חדשה
     const { data, error: insertError } = await supabase
       .from('logs')
