@@ -14,7 +14,7 @@ import { useAppState } from './stores/appState'
 import FinishLine from './views/FinishLine.vue'
 import { logEvent } from './logger'
 import { getUserId } from './user'
-
+import { supabase } from './supabase'
 const state = useAppState()
 
 const stepInfo = computed(() => PopupGuideContent[state.step])
@@ -54,13 +54,30 @@ watch(currentViewComponent, () => {
   window.scrollTo({ top: 0, behavior: 'smooth' }) 
 })
 
-onMounted(() => {
-  const userId = getUserId()
-    logEvent({
-      userId,
-      route: String(currentViewComponent.value.__name),
-      action: 'session_start'
-    });
+onMounted(async () => {
+    let userId = getUserId()  // למשל מחולל UUID שמור ב-localStorage
+
+  // בודקים אם כבר קיימת שורה עם userId הזה
+  const { data: existingRows, error } = await supabase
+    .from('logs')
+    .select('user_id')
+    .eq('user_id', userId)
+    .limit(1)
+    .single() // מחזיר אובייקט אחד או null
+
+  if (error && error.code !== 'PGRST116') { // PGRST116 = לא נמצא
+    console.error('Error checking existing user:', error)
+    return
+  }
+
+  if (!existingRows) {
+    // משתמש חדש → יוצרים שורה חדשה
+    const { data, error: insertError } = await supabase
+      .from('logs')
+      .insert([{ user_id: userId }])
+
+    if (insertError) console.error('Error creating user row:', insertError)
+  }
   document.addEventListener('gesturestart', (e) => e.preventDefault());
   const hasSavedData = !!localStorage.getItem('appState')
   if (hasSavedData) {
