@@ -54,30 +54,14 @@ watch(currentViewComponent, () => {
   window.scrollTo({ top: 0, behavior: 'smooth' }) 
 })
 
-onMounted(async () => {
-const userId = getUserId()
+onMounted(() => {
+  const userId = getUserId()
+    logEvent({
+      userId,
+      route: String(currentViewComponent.value.__name),
+      action: 'session_start'
+  });
 
-  // בודקים אם כבר קיימת שורה
-  const { data: existingRows, error: selectError } = await supabase
-    .from('logs')
-    .select('user_id')
-    .eq('user_id', userId)
-    .limit(1) // מחזיר מערך ריק אם אין
-  
-
-  if (selectError) {
-    console.error('Error checking user:', selectError)
-    return
-  }
-
-  if (!existingRows || existingRows.length === 0) {
-    // משתמש חדש → יוצרים שורה חדשה
-    const { data, error: insertError } = await supabase
-      .from('logs')
-      .insert([{ user_id: userId }])
-
-    if (insertError) console.error('Error creating user row:', insertError)
-  }
   document.addEventListener('gesturestart', (e) => e.preventDefault());
   const hasSavedData = !!localStorage.getItem('appState')
   if (hasSavedData) {
