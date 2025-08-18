@@ -12,6 +12,8 @@ import { popupState } from './stores/popup'
 import { computed, onMounted, watch } from 'vue'
 import { useAppState } from './stores/appState'
 import FinishLine from './views/FinishLine.vue'
+import { logEvent } from './logger'
+import { getUserId } from './user'
 
 const state = useAppState()
 
@@ -53,7 +55,13 @@ watch(currentViewComponent, () => {
 })
 
 onMounted(() => {
-   document.addEventListener('gesturestart', (e) => e.preventDefault());
+  const userId = getUserId()
+    logEvent({
+      userId,
+      route: this.$route.fullPath,
+      action: 'session_start'
+    });
+  document.addEventListener('gesturestart', (e) => e.preventDefault());
   const hasSavedData = !!localStorage.getItem('appState')
   if (hasSavedData) {
     state.showRecoveryPopup = true
