@@ -58,7 +58,7 @@ onMounted(() => {
   const userId = getUserId()
     logEvent({
       userId,
-      route: String(currentViewComponent.value),
+      route: String(currentViewComponent.value.__name),
       action: 'session_start'
     });
   document.addEventListener('gesturestart', (e) => e.preventDefault());
