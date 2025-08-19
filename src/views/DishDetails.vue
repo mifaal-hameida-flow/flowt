@@ -535,8 +535,12 @@ onBeforeUnmount(() => {
             <button @click="increase" class="w-8 h-8 rounded-full bg-gray-200 text-lg" :disabled="state.step === 6 && !allTooltipsSeen">+</button>
           </div>
             <!-- :disabled="state.step === 6 && !allTooltipsSeen && state.cardNumber === 0" -->
-          <button
-           class="w-full text-white py-3 rounded-xl text-lg font-semibold bg-[#00BEE5]"
+         <button
+            class="w-full py-3 rounded-xl text-lg font-semibold transition-colors duration-200"
+            :class="{
+              'bg-[#00BEE5] text-white cursor-pointer': state.step >= 7,
+              'bg-gray-400 text-gray-200 cursor-not-allowed': state.step < 7
+            }"
             :disabled="state.step < 7"
             @click.once="saveData"
           >

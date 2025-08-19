@@ -1,36 +1,19 @@
 <script setup>
 import PopupGuide from './components/PopupGuide.vue'
 import PopupGuideContent from './data/PopupGuideContent.json'
-import HomeView from './views/HomeView.vue'
 import Loader from './components/Loader.vue'
-import RestaurantDetailsView from './views/RestaurantDetailsView.vue'
-import DishDetails from './views/DishDetails.vue'
-import RecommendedView from './views/RecommendedView.vue'
-import PersonalArea from './views/PersonalArea.vue'
 import UserProgress from './components/UserProgress.vue'
 import { popupState } from './stores/popup'
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted, watch, nextTick } from 'vue'
 import { useAppState } from './stores/appState'
-import FinishLine from './views/FinishLine.vue'
 import { logEvent } from './logger'
 import { getUserId } from './user'
 import { supabase } from './supabase'
+import { getCurrentViewComponent } from './viewsMap'
 const state = useAppState()
-
+const userId = getUserId()
 const stepInfo = computed(() => PopupGuideContent[state.step])
-
-const currentViewComponent = computed(() => {
-  if (state.step >= 2 && state.step < 4) return RestaurantDetailsView
-  if (state.step === 4) return RecommendedView
-  if (state.step === 5) return RestaurantDetailsView
-  if (state.step >= 6 && state.step < 9) return DishDetails
-  if (state.step >= 9 && state.step < 11) return PersonalArea
-  if (state.step >= 11 && state.step < 13) return RecommendedView
-  if (state.step >= 13) return FinishLine
-  // if (state.step >=10) return RestaurantDetailsView
-  return HomeView
-})
-
+const currentViewComponent = computed(() => getCurrentViewComponent(state.step))
 const transitionName = computed(() => state.step === 6 ? 'page-flip' : 'fade-slide')
 
 const handleClick = () => {
@@ -38,6 +21,27 @@ const handleClick = () => {
     state.progressBarOpen = false;
   }
 }
+
+const handleRestart = () => {
+  state.clearProgress()
+  logEvent({
+    userId,
+    route: 'HomeView',
+    action: 'session_restart',
+    stepNumber: 0
+  })
+}
+
+const handleContinue = () => {
+  state.continueProgress()
+  logEvent({
+    userId,
+    route: String(currentViewComponent.value.__name),
+    action: 'session_continue',
+    stepNumber: state.step
+  })
+}
+
 watch(
   [() => state.step, () => state.showPopup],
   ([newStep, popupVisible]) => {
@@ -55,17 +59,26 @@ watch(currentViewComponent, () => {
 })
 
 onMounted(() => {
-  const userId = getUserId()
-    logEvent({
-      userId,
-      route: String(currentViewComponent.value.__name),
-      action: 'session_start'
-  });
-
   document.addEventListener('gesturestart', (e) => e.preventDefault());
   const hasSavedData = !!localStorage.getItem('appState')
   if (hasSavedData) {
     state.showRecoveryPopup = true
+    if (state.step === 0) {
+      logEvent({
+        userId,
+        route: 'HomeView',
+        action: 'session_start',
+        stepNumber: 0
+     });
+    }
+  }
+  else {
+     logEvent({
+      userId,
+      route: String(currentViewComponent.value.__name),
+      action: 'session_start',
+      step_number: state.step
+  });
   }
   if (state.step === 0) {
     state.showRecoveryPopup = false
@@ -85,10 +98,10 @@ onMounted(() => {
       <h2 class="text-lg font-bold mb-4">ברוכים השבים!</h2>
       <p class="mb-6">נראה שכבר התחלתם. רוצים להמשיך מאיפה שהפסקתם או להתחיל מההתחלה?</p>
       <div class="flex justify-between gap-4">
-        <button @click="state.clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+        <button @click="handleRestart" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
           התחלה מחדש
         </button>
-        <button @click="state.continueProgress()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+        <button @click="handleContinue" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
           המשך
         </button>
       </div>

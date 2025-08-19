@@ -324,7 +324,6 @@
       "id": 2,
       "title": "Orders – טבלת ההזמנות",
       "ordersTable": true,
-      "buttonNext": true,
       "buttonBack": true
       },
       {

@@ -2,6 +2,9 @@ import { defineStore } from 'pinia'
 import Recommended from '../data/Recommended.json'
 import orderHistory from '../data/OrderHistory.json'
 import dayjs from 'dayjs'
+import { logEvent } from '../logger'
+import { getUserId } from '../user'
+import { getCurrentViewComponent } from '../viewsMap'
 
 export const useAppState = defineStore('appState', {
   state: () => ({
@@ -38,6 +41,16 @@ export const useAppState = defineStore('appState', {
       this.step++
       this.cardNumber = 0
       this.showPopup = true
+      const userId = getUserId()
+      const component = getCurrentViewComponent(this.step)
+      logEvent({
+        userId,
+        action: 'enter_step',
+        route: component.__name,
+        stepNumber: this.step,
+        timestamp: new Date().toISOString(),
+        metadata: { /* anything else you want */ }
+      })
     },
     clearProgress() {
       this.$reset()

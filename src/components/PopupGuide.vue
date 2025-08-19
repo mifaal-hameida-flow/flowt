@@ -6,11 +6,17 @@ import OrdersTable from '../data/OrdersTable.json'
 import { CheckCircle, XCircle } from 'lucide-vue-next'
 import ChartComponent from './ChartComponent.vue';
 import QueryResultTable from './QueryResultTable.vue';
+import { logEvent } from '../logger';
+import { getUserId } from '../user';
+import { getCurrentViewComponent } from '../viewsMap';
+
 const state = useAppState();
 const originalOrders = OrdersTable;
 const newOrders = ref([]); 
 const orders = computed(() => [...originalOrders, ...newOrders.value]); 
 const query = computed(() => state.generatedQueryString);
+const userId = getUserId();
+const component = getCurrentViewComponent(state.step);
 
 state.getOrderStats();
 const chartData = computed(() => {
@@ -206,7 +212,6 @@ const completeOrder = () => {
     status: 'completed',
     isNew: true // flag for animation
   };
-
   newOrders.value.push(newOrder);
 };
 
@@ -224,14 +229,6 @@ watch(isDatabaseAnimationCard, (isActive) => {
     animateOrderToTable();
   }
 });
-
-// watch(() => popupState.manualCard, (newVal) => {
-//   if (newVal && props.stepInfo?.step !== 0) {
-//     popupState.manualCard = null;
-//   }
-// });
-
-
 
 onMounted(() => {
   if (state.userName) {
@@ -504,7 +501,7 @@ onMounted(() => {
             </div>
 
             <!-- Next Button -->
-            <div class="w-full flex justify-end items-center gap-1 mt-2" v-if="firstCard.buttonNext">
+            <div class="w-full flex justify-end items-center gap-1 mt-2" v-if="firstCard.buttonNext || (state.step === 9 && state.cardNumber === 1 && newOrders.length !== 0)">
               <div
                 @click="handleCard"
                 class="bg-white px-3 py-1 rounded-lg shadow-sm cursor-pointer"

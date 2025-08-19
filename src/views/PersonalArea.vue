@@ -176,6 +176,9 @@ const startFilterTour = () => {
         cancelIcon: { enabled: true },
         classes: 'shepherd-theme-arrows',
         scrollTo: { behavior: 'smooth', block: 'center' },
+        scrollToHandler: (el) => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       },
       useModalOverlay: true,
     });
