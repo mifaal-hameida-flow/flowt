@@ -5,10 +5,14 @@ import { useAppState } from '../stores/appState';
 import { popupState } from '../stores/popup'
 import PopupGuideContent from '../data/PopupGuideContent.json';
 import { ref, computed, watch, nextTick } from 'vue';
-import { storeToRefs } from 'pinia'
+import { logEvent } from '../logger'
+import { getUserId } from '../user'
+import { getCurrentViewComponent } from '../viewsMap'
+
 const state = useAppState();
 const justUnlocked = ref(false);
-
+const userId = getUserId()
+const component = getCurrentViewComponent(state.step)
 const animated = ref(0);
 // const totalSteps = ref(20); 
 function totalCards(PopupGuideContent) {
@@ -35,6 +39,13 @@ const progressPercent = computed(() =>
 const conceptsArray = ConceptsData;
 
 const toggle = () => {
+  logEvent({
+    userId,
+    action: 'toggle_progBar',
+    route: component.__name,
+    stepNumber: state.step,
+    metadata: { from: state.progressBarOpen, to: !state.progressBarOpen, isAuto: false }
+  })
    state.toggleProgress();
 }
 
@@ -50,7 +61,14 @@ const showManualPopup = async (index) => {
         }
       };
       popupState.isVisible = true;
- }
+      logEvent({
+        userId,
+        action: 'opened_sumCard',
+        route: component.__name,
+        stepNumber: state.step,
+        metadata: { concept: conceptsArray[index].topic}
+      })
+  }
 
  watch(progressPercent, (newVal) => {
   const start = animated.value;
@@ -88,6 +106,13 @@ watch(
     if (!popupOpen && justUnlocked.value) {
       // console.log('Popup closed after concept unlock — opening progress bar');
       if (!state.progressBarOpen) {
+         logEvent({
+          userId,
+          action: 'toggle_progBar',
+          route: component.__name,
+          stepNumber: state.step,
+          metadata: { isAuto: true }
+        })
         state.toggleProgress();
       }
       justUnlocked.value = false; // reset the flag
@@ -139,19 +164,16 @@ watch(
                 (state.step > concept.afterStep),
               'bg-gray-100 text-gray-400 cursor-not-allowed': state.step < concept.afterStep
             }"
-
-                
-          @click="() => {
-  if (
-    !state.showPopup && (
-      (state.step === concept.afterStep) ||
-      (state.step > concept.afterStep)
-    )
-  ) {
-    showManualPopup(index);
-  }
-}"
-            >
+            @click="() => {
+              if (
+                !state.showPopup && (
+                  (state.step === concept.afterStep) ||
+                  (state.step > concept.afterStep)
+                )
+              ) {
+                showManualPopup(index);
+              }
+            }">
               <div
                 class="w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold"
                 :class="(state.step > concept.afterStep || (state.step === concept.afterStep && !state.showPopup))

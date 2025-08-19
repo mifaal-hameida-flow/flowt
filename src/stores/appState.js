@@ -48,7 +48,6 @@ export const useAppState = defineStore('appState', {
         action: 'enter_step',
         route: component.__name,
         stepNumber: this.step,
-        timestamp: new Date().toISOString(),
         metadata: { /* anything else you want */ }
       })
     },
@@ -69,6 +68,15 @@ export const useAppState = defineStore('appState', {
       this.cardNumber = newNumber
     },
     setRestaurant(restaurant) {
+      const userId = getUserId()
+      const component = getCurrentViewComponent(this.step)
+      logEvent({
+        userId,
+        action: 'picked_restaurant',
+        route: component.__name,
+        stepNumber: this.step,
+        metadata: { restaurant: restaurant }
+      })
       this.selectedRestaurant = restaurant;
       const priceString = restaurant.deliveryPrice;
       if (priceString === "חינם") {
@@ -81,15 +89,47 @@ export const useAppState = defineStore('appState', {
       if (this.step !== 5) this.nextStep();
     },
     setDish(dish) {
+       const userId = getUserId()
+      const component = getCurrentViewComponent(this.step)
+      logEvent({
+        userId,
+        action: 'picked_dish',
+        route: component.__name,
+        stepNumber: this.step,
+        metadata: {dish: dish }
+      })
       this.selectedDish = dish
       if (this.step !== 10) this.nextStep() // step 10 זה אחרי שבוחרים מסעדה מההיסטוריה
     },
-    navigateView(view) {
-      if(view==='recommendation'){
-        this.selectedRestaurant = Recommended.recommended[0]; // קפה איטליה
+  navigateView(view) {
+    let choiceType = 'personalized'; // ברירת מחדל
+    const userId = getUserId()
+    const component = getCurrentViewComponent(this.step)
+    if(view === 'recommendation'){
+      this.selectedRestaurant = Recommended.recommended[0]; // קפה איטליה
+      choiceType = 'recommended';
+     
+      logEvent({
+        userId,
+        action: 'picked_restaurant',
+        route: component.__name,
+        stepNumber: this.step,
+        metadata: { restaurant: this.selectedRestaurant }
+      });
+    }
+
+    this.activeSubView = view;
+
+    logEvent({
+      userId,
+      action: 'recommended_personalized',
+      route: component.__name,
+      stepNumber: this.step,
+      metadata: { 
+        choice: choiceType // "recommended" או "personalized"
       }
-      this.activeSubView=view;
-    },
+    });
+  },
     saveName(name) {
       this.userName = name
     },

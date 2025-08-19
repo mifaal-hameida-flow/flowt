@@ -57,9 +57,18 @@ const startSingleStepTour = (key) => {
     tour = null;
   }
 
+  //  logEvent({
+  //   userId,
+  //   action: 'auto_guide',
+  //   route: component.__name,
+  //   stepNumber: state.step,
+  //   metadata: {  }
+  // })
+  // אני צריכה לסדר את העניין הזה פה עם האם זה אוטומטי או לא
+
   tour = new Shepherd.Tour({
     defaultStepOptions: {
-      cancelIcon: { enabled: false }, // 👈 שורה קריטית
+      cancelIcon: { enabled: false }, 
       classes: 'shepherd-theme-arrows',
       scrollTo: true,
       scrollToHandler: (el) => {
