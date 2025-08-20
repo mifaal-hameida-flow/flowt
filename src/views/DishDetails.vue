@@ -4,9 +4,12 @@ import { useAppState } from '../stores/appState';
 import { vTooltip } from 'floating-vue'
 import Shepherd from 'shepherd.js';
 import 'shepherd.js/dist/css/shepherd.css';
-
+import { logEvent } from '../logger';
+import { getUserId } from '../user';
+import { getCurrentViewComponent } from '../viewsMap';
 const state = useAppState();
-
+const userId = getUserId();
+const component = getCurrentViewComponent(state.step);
 const notes = ref('')
 const selectedOptions = ref({})
 const finishOrderTooltipShown = ref(false)
@@ -44,6 +47,20 @@ const allTooltipsSeen = computed(() =>
   Object.values(seenTooltips.value).every(Boolean)
 )
 
+const logElementClick = (elementKey, source = "manual") => {
+  logEvent({
+    userId,
+    action: "element_click",
+    route: component.__name,
+    stepNumber: state.step,
+    metadata: {
+      element: elementKey,
+      source // "manual" או "auto"
+    }
+  });
+};
+
+
 let tour = null;
 
 const startSingleStepTour = (key) => {
@@ -57,14 +74,13 @@ const startSingleStepTour = (key) => {
     tour = null;
   }
 
-  //  logEvent({
-  //   userId,
-  //   action: 'auto_guide',
-  //   route: component.__name,
-  //   stepNumber: state.step,
-  //   metadata: {  }
-  // })
-  // אני צריכה לסדר את העניין הזה פה עם האם זה אוטומטי או לא
+   logEvent({
+    userId,
+    action: 'auto_tour_used',
+    route: component.__name,
+    stepNumber: state.step,
+    metadata: { highlightedElement: key }
+  })
 
   tour = new Shepherd.Tour({
     defaultStepOptions: {
@@ -111,6 +127,7 @@ const startSingleStepTour = (key) => {
     }, 3);
 
     showTooltipTemporarily(key);
+    logElementClick(key, "auto");
     element.removeEventListener('click', handleClick);
   };
 
@@ -141,6 +158,29 @@ const handleOptionChange = (prefIndex, option, isSingle) => {
       ...selectedOptions.value,
       [prefIndex]: newArray
     }
+  }
+
+  logEvent({
+    userId,
+    action: "preference_change",
+    route: component.__name,
+    stepNumber: state.step,
+    metadata: {
+      preferenceTitle: state.selectedDish.preferences[prefIndex].title,
+      selectedOptions: selectedOptions.value[prefIndex]
+    }
+  })
+}
+
+const logNotesChange = (value) => {
+  if (value.trim()) {
+    logEvent({
+      userId,
+      action: "notes_change",
+      route: component.__name,
+      stepNumber: state.step,
+      metadata: { notes: value }
+    })
   }
 }
 
@@ -267,6 +307,17 @@ watch(allTooltipsSeen, (val) => {
   }
 })
 
+let notesTimeout = null
+
+watch(notes, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    if (notesTimeout) clearTimeout(notesTimeout)
+    notesTimeout = setTimeout(() => {
+      logNotesChange(newVal)
+    }, 2000) // ⏱️ 2 שניות אחרי שהפסיק לכתוב
+  }
+})
+
 let idleTimer = null;
 
 const resetIdleTimer = () => {
@@ -355,7 +406,7 @@ onBeforeUnmount(() => {
     alt="Dish Image"
     class="w-full h-64 object-cover image-part"
     v-tooltip="getTooltipContent('image')"
-    @click.stop="!tooltipIsActive && showTooltipTemporarily('image')"
+    @click.stop="!tooltipIsActive && (showTooltipTemporarily('image'), logElementClick('image', 'manual'))"
   />
   
 
@@ -387,7 +438,7 @@ onBeforeUnmount(() => {
         }"
 
             v-tooltip="getTooltipContent('title')"
-           @click.stop="!tooltipIsActive && showTooltipTemporarily('title')"
+           @click.stop="!tooltipIsActive && (showTooltipTemporarily('title'), logElementClick('title', 'manual'))"
             class="cursor-pointer title-part"
           >
             {{ state.selectedDish.name }}
@@ -402,7 +453,7 @@ onBeforeUnmount(() => {
         }"
 
           v-tooltip="getTooltipContent('price')"
-         @click.stop="!tooltipIsActive && showTooltipTemporarily('price')"
+         @click.stop="!tooltipIsActive && (showTooltipTemporarily('price'), logElementClick('price', 'manual'))"
         >
           ₪{{ state.selectedDish.price }}
         </span>
@@ -416,7 +467,7 @@ onBeforeUnmount(() => {
           'border-gray-300 opacity-70': visibleTooltips.description && seenTooltips.description
         }"
           v-tooltip="getTooltipContent('description')"
-         @click.stop="!tooltipIsActive && showTooltipTemporarily('description')"
+         @click.stop="!tooltipIsActive && (showTooltipTemporarily('description'), logElementClick('description', 'manual'))"
         >
           {{ state.selectedDish.description }}
           <div v-if="seenTooltips.description && state.step === 6" class="ml-2 text-xs text-gray-400">👁️ נצפה</div>
@@ -446,7 +497,7 @@ onBeforeUnmount(() => {
                 v-for="option in pref.options"
                 :key="option"
                 class="flex items-center space-x-2 cursor-pointer"
-               @click.stop="!tooltipIsActive && showTooltipTemporarily('preferences')"
+               @click.stop="!tooltipIsActive && (showTooltipTemporarily('preferences'), logElementClick('preferences', 'manual'))"
 
               >
                 <input
@@ -472,7 +523,7 @@ onBeforeUnmount(() => {
                 v-for="option in pref.options"
                 :key="option"
                 class="flex items-center space-x-2 cursor-pointer"
-               @click.stop="!tooltipIsActive && showTooltipTemporarily('preferences')"
+               @click.stop="!tooltipIsActive && (showTooltipTemporarily('preferences'), logElementClick('preferences', 'manual'))"
               >
                 <input
                   type="checkbox"
@@ -512,12 +563,13 @@ onBeforeUnmount(() => {
           'border-gray-300 opacity-70': visibleTooltips.notes && seenTooltips.notes
         }"
           v-tooltip="getTooltipContent('notes')"
-          @click.stop="!tooltipIsActive && showTooltipTemporarily('notes')"
+          @click.stop="!tooltipIsActive && (showTooltipTemporarily('notes'), logElementClick('notes', 'manual'))"
         >
 
           <label class="block text-sm font-medium text-gray-700 mb-1">הערות למנה (לא חובה):</label>
           <textarea
-            @click.stop="!tooltipIsActive && showTooltipTemporarily('notes')"
+            @click.stop="!tooltipIsActive && (showTooltipTemporarily('notes'), logElementClick('notes', 'manual'))"
+             @blur="logNotesChange(notes)" 
             v-model="notes"
             rows="2"
             placeholder="כתבו אם יש משהו שחשוב שנדע 😊"
