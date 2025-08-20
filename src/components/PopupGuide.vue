@@ -141,6 +141,13 @@ const confirmName = () => {
   if (isValid.value) {
     state.saveName(userName.value);
     showGreeting.value = true;
+    logEvent({
+    userId,
+    action: "saved_name",
+    route: component.__name,
+    stepNumber: state.step,
+    userName: userName.value
+  })
   }
 };
 

@@ -1,7 +1,7 @@
 // logger.js
 import { supabase } from './supabase'
 // const israelDate = new Date().toLocaleString('sv-SE', { timeZone: 'Asia/Jerusalem' });
-export async function logEvent({ userId, route, action, stepNumber = null, metadata = {} }) {
+export async function logEvent({ userId, route, action, stepNumber = null, metadata = {}, userName}) {
   const { data, error } = await supabase
     .from('logs')
     .insert([{
@@ -9,7 +9,8 @@ export async function logEvent({ userId, route, action, stepNumber = null, metad
       route,
       action,
       step_number: stepNumber,
-      metadata
+      metadata,
+      user_name: userName
     }])
 
 //   if (error) {
