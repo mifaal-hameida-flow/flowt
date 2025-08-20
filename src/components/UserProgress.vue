@@ -111,7 +111,7 @@ watch(
           action: 'toggle_progBar',
           route: component.__name,
           stepNumber: state.step,
-          metadata: { isAuto: true }
+          metadata: { isAuto: true, from: false, to: true }
         })
         state.toggleProgress();
       }

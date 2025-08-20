@@ -19,6 +19,13 @@ const transitionName = computed(() => state.step === 6 ? 'page-flip' : 'fade-sli
 const handleClick = () => {
   if (state.progressBarOpen) {
     state.progressBarOpen = false;
+    logEvent({
+      userId,
+      action: 'toggle_progBar',
+      route:  String(currentViewComponent.value.__name),
+      stepNumber: state.step,
+      metadata: { isAuto: true, from: true, to: false }
+    })
   }
 }
 
@@ -38,7 +45,8 @@ const handleContinue = () => {
     userId,
     route: String(currentViewComponent.value.__name),
     action: 'session_continue',
-    stepNumber: state.step
+    stepNumber: state.step,
+    userName: state.userName
   })
 }
 

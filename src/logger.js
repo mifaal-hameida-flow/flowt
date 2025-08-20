@@ -13,9 +13,9 @@ export async function logEvent({ userId, route, action, stepNumber = null, metad
       user_name: userName
     }])
 
-  if (error) {
-    console.error('❌ Error logging event:', error)
-  } else {
-    console.log('✅ Event logged:', data)
-  }
+//   if (error) {
+//     console.error('❌ Error logging event:', error)
+//   } else {
+//     console.log('✅ Event logged:', data)
+//   }
 }
