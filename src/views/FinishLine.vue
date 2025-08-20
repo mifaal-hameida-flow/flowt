@@ -1,6 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-
+import { ref, onMounted, watch } from 'vue'
+import { useAppState } from '../stores/appState'; 
+import { logEvent } from '../logger';
+import { getUserId } from '../user';
+import { getCurrentViewComponent } from '../viewsMap';
+const state = useAppState();
+const userId = getUserId();
+const component = getCurrentViewComponent(state.step);
 // Confetti array
 const confettiArray = ref([])
 
@@ -47,6 +53,24 @@ const animateConfetti = () => {
   })
   requestAnimationFrame(animateConfetti)
 }
+
+
+watch(() => state.showPopup, (newVal) => {
+  if (newVal === false) {
+    logEvent({
+    userId,
+    action: "session_end",
+    route: component.__name,
+    stepNumber: state.step,
+    metadata: {
+      message: "the user has finished all steps and popups"
+    }
+  });
+  }
+},  
+{ immediate: true }
+);
+
 
 onMounted(() => {
   generateConfetti()

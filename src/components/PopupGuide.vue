@@ -6,17 +6,17 @@ import OrdersTable from '../data/OrdersTable.json'
 import { CheckCircle, XCircle } from 'lucide-vue-next'
 import ChartComponent from './ChartComponent.vue';
 import QueryResultTable from './QueryResultTable.vue';
-import { logEvent } from '../logger';
-import { getUserId } from '../user';
-import { getCurrentViewComponent } from '../viewsMap';
+// import { logEvent } from '../logger';
+// import { getUserId } from '../user';
+// import { getCurrentViewComponent } from '../viewsMap';
 
 const state = useAppState();
 const originalOrders = OrdersTable;
 const newOrders = ref([]); 
 const orders = computed(() => [...originalOrders, ...newOrders.value]); 
 const query = computed(() => state.generatedQueryString);
-const userId = getUserId();
-const component = getCurrentViewComponent(state.step);
+// const userId = getUserId();
+// const component = getCurrentViewComponent(state.step);
 
 state.getOrderStats();
 const chartData = computed(() => {
@@ -141,13 +141,6 @@ const confirmName = () => {
   if (isValid.value) {
     state.saveName(userName.value);
     showGreeting.value = true;
-    logEvent({
-    userId,
-    action: "saved_name",
-    route: component.__name,
-    stepNumber: state.step,
-    userName: userName.value
-  })
   }
 };
 

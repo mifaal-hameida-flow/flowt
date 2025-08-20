@@ -132,6 +132,15 @@ export const useAppState = defineStore('appState', {
   },
     saveName(name) {
       this.userName = name
+      const userId = getUserId()
+      const component = getCurrentViewComponent(this.step)
+      logEvent({
+        userId,
+        action: "saved_name",
+        route: component.__name,
+        stepNumber: this.step,
+        userName:  this.userName
+      })
     },
     toggleProgress(){
       this.progressBarOpen = !this.progressBarOpen;
