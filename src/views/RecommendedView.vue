@@ -1,0 +1,123 @@
+<script setup>
+import RestaurantCard from '../components/RestaurantCard.vue'
+import recommendations from '../data/Recommended.json'
+import TopBar from '../components/TopBar.vue'
+import BottomBar from '../components/BottomBar.vue'
+import { popupState } from '../stores/popup';
+import { toRef, ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { useAppState } from '../stores/appState'; 
+import Shepherd from 'shepherd.js'
+import 'shepherd.js/dist/css/shepherd.css'
+const state = useAppState();
+const isScrolled = ref(false);
+const shouldListen = toRef(state, 'startListening') // make it a ref
+
+const sections = [
+  { title: 'הזמנה חוזרת', key: 'recent' },
+  { title: 'מומלץ עבורך', key: 'recommended' },
+  { title: 'פופולרי עכשיו', key: 'popular' }
+]
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 10;
+};
+
+
+const selectRestaurant = (restaurant) => {
+  if (state.step !== 4) {
+  state.setRestaurant(restaurant);
+  }
+}
+
+
+let tour; // משתנה גלובלי לקומפוננטה
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+  if(!state.showRecoveryPopup && state.step !== 11 ) {
+    if(!state.showPopup || state.step === 4) {
+    tour = new Shepherd.Tour({
+    defaultStepOptions: {
+      cancelIcon: {
+        enabled: true
+      },
+      classes: 'shepherd-theme-arrows',
+      scrollTo: { behavior: 'smooth', block: 'center' },
+    },
+    useModalOverlay: true
+  })
+
+  tour.addStep({
+    id: 'recommended',
+    text: 'מהנתונים שנאספו עליך, נראה שתאהב מאוד את המסעדה הזאת!🍕',
+    attachTo: {
+      element: '.recommended-card',
+      on: 'bottom'
+    },
+    buttons: [
+      {
+        text: 'הבנתי',
+         action: function () {
+          this.complete() // סוגר את הסיור
+          setTimeout( () => {
+             state.cardNumber++ 
+          }, 1000)
+        }
+      }
+    ]
+  })
+
+  tour.start()
+  }
+ }
+});
+
+// Cleanup
+onBeforeUnmount(() => {
+   window.removeEventListener('scroll', handleScroll);
+    if (tour) {
+    tour.cancel(); // סוגר את הסיור אם הוא פעיל
+  }
+});
+
+</script>
+
+<template>
+  <div class="bg-white w-screen min-h-screen flex flex-col relative pt-16">
+    <!-- Main scrollable content -->
+    <div class="flex-1 overflow-y-auto px-4 space-y-3">
+      <h1 class="font-bold text-2xl mr-3">המלצות</h1>
+
+      <div v-for="section in sections" :key="section.key">
+        <div class="flex justify-between items-center">
+          <h2 class="mr-4 mb-1 text-xl">{{ section.title }}</h2>
+          <div class="bg-[#E6F8FA] p-1 px-2 rounded-sm text-xs text-[#48cae4]">גללו להמשך</div>
+        </div>
+
+        <div class="flex gap-4 overflow-x-auto">
+          <RestaurantCard
+            v-for="(restaurant, i) in recommendations[section.key]"
+            :restaurantInfo="restaurant"
+            :key="i"
+            @click="state.step !== 11 ? selectRestaurant(restaurant): null"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Fixed bars -->
+    <TopBar :scrolled="isScrolled" />
+    <BottomBar :active="state.step >= 11 ? 'מומלץ עבורך' : null"/>
+  </div>
+</template>
+
+<style scoped>
+/* Add to global CSS or <style scoped> */
+::-webkit-scrollbar {
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 4px;
+}
+</style>

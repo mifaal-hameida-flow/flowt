@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Varela Round';
+  src: url(./fonts/VarelaRound-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Heebo';
+  src: url(./fonts/Heebo-ExtraBold.ttf);
+}
+
+* {
+  font-family: 'Varela Round';
+  direction: rtl;
+}
+
+.v-popper__popper {
+  z-index: 60 !important; /* or whatever you need */
+  text-align: center;
+}
+
+.shepherd-modal-overlay-container {
+  z-index: 65 !important;
+}
+
+.shepherd-modal-spotlight {
+   z-index: 55 
+}
+/* האלמנט של הטולטיפ */
+.shepherd-element {
+  z-index: 65 !important; /* צריך להיות מעל overlay, אבל מתחת לדברים אחרים אם רוצים */
+  opacity: 0.8 !important;
+  border-radius: 12px !important;
+}
+.shepherd-element,
+.shepherd-step,
+.shepherd-content {
+  width: fit-content !important;
+  /* max-width: 300px !important; */
+  /* display: inline-block !important; */
+}
+.shepherd-element.w-full {
+  width: auto !important;
+}
+.shepherd-step[data-id="recommended-bar"] .shepherd-element {
+  display: inline-block !important;
+   width: fit-content !important;
+  max-width: 300px !important;
+}
+.shepherd-step[data-id="recommended-bar"] .shepherd-content {
+  width: auto !important;
+  max-width: 300px !important;
+}
+
+.shepherd-enabled {
+  border-radius: 12px !important;
+  box-shadow: 0 0 0 8px rgba(72, 202, 228, 0.5); /* soft glow */
+  position: relative;
+  z-index: 70; /* ensure it's on top */
+}
+
+
+.shepherd-theme-arrows .shepherd-content {
+  background-color: #000 !important;
+  color: #fff !important;
+  text-align: center;
+  border-radius: 12px !important;
+  font-family: 'Varela Round', sans-serif !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  max-width: none !important;
+  width: fit-content !important;
+  min-width: 250px !important;
+  padding: 0.25rem !important;
+}
+
+.shepherd-theme-arrows .shepherd-enabled {
+ width: fit-content !important;
+}
+
+
+.shepherd-theme-arrows .shepherd-button {
+  background-color: #48cae4 !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  padding: 6px 16px !important;
+  display: block; /* Ensure it can be centered */
+  margin: 1rem auto 0 auto !important; /* Top auto-centering with spacing */
+  transition: background-color 0.3s !important;
+}
+.shepherd-theme-arrows .shepherd-button:hover {
+  background-color: #30bcd3 !important;
+}
+
+.shepherd-theme-arrows .shepherd-header {
+  display: none !important;
+}
+
+/* ביטול מוחלט של אייקון הסגירה */
+.shepherd-theme-arrows .shepherd-cancel-icon {
+  display: none !important;
+}
+
+.shepherd-theme-arrows .shepherd-text {
+  font-size: 1rem !important;
+  color: #eee !important;
+}
+
+/* אפס גבולות של החץ הדיפולטי */
+.shepherd-arrow::before {
+  border: none !important;
+}
+
+.shepherd-arrow::before {
+  background: #000 !important;
+}
+
+    
+input, textarea, select {
+  font-size: 16px;
+}
+
+@theme {
+   --font-title: 'Heebo' !important;
+  --animate-zoomIn: zoomIn 1s ease-out forwards;
+  @keyframes zoomIn {
+    0%
+    {
+      transform: scale(0); opacity: '0';
+    }
+    100% {
+      transform: scale(1); opacity: '1';
+    }
+  }
+}
+
+
+.link {
+  color: blue !important;      /* ensures blue color */
+  text-decoration: underline;  /* adds the underline */
+  cursor: pointer;             /* shows hand cursor on hover */
+}
+
+.link:hover {
+  color: darkblue;             /* optional: darker shade on hover */
+  text-decoration: none;       /* optional: removes underline on hover */
+}
