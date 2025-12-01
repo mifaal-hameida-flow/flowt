@@ -10,6 +10,7 @@ import { logEvent } from './logger'
 import { getUserId } from './user'
 import { supabase } from './supabase'
 import { getCurrentViewComponent } from './viewsMap'
+
 const state = useAppState()
 const userId = getUserId()
 const stepInfo = computed(() => PopupGuideContent[state.step])
